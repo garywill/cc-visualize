@@ -45,6 +45,5 @@
 
 ## 其他相关
 
-工具推荐：可以快速在不同的词典中查字的工具：[大术专搜](https://acsearch.ga)（[主站](https://acsearch.ga) [备用站](http://acsearch.tk)）（[源代码](https://github.com/garywill/bigSearch)）
-
-收集的汉字资源、字体、阅读器 等：见[`resource`分支]()
+1. 其他工具推荐：可以快速在不同的词典中查字的工具：[大术专搜](https://acsearch.ga)（[主站](https://acsearch.ga) [备用站](http://acsearch.tk)）（[源代码](https://github.com/garywill/bigSearch)）
+2. 收集的汉字资源、字体、阅读器 等：见[`resource`分支](https://github.com/garywill/cc-visualize/tree/resource)
