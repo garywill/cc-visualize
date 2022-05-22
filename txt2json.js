@@ -13,6 +13,7 @@ var JPV="";
 
 var map = {}; // 主 繁与简对应表
 var map2 = {}; // 加上变体之后的map(中华字不与外国变体字主动关联)
+var map3 = {}; // 所有关联,包括自身
 
 
 
@@ -60,12 +61,39 @@ function afterLoadText()
     mapTnS(TS, "TS");
     console.log("完成map");
     
-    map2 = Object.assign({}, map);
+//     map2 = Object.assign({}, map);
+    map2 = JSON.parse(JSON.stringify(map));
     
     checkVariants(HKV, "HK");
     checkVariants(TWV, "TW");
     checkVariants(JPV, "JP");
     console.log("完成map2");
+    
+//     map3 = Object.assign({}, map2);
+    map3 = JSON.parse(JSON.stringify(map2));
+    
+    finishMap3();
+    console.log("完成map3");
+}
+
+//============ map3 所需函数 ==============================
+function finishMap3() {
+    var all_chars = Object.keys(map2);
+    
+    for (char of all_chars)
+    {
+        var newSet = new Set(map2[char].rel);
+        newSet.add(char);
+        newSet = new Set(getAllRel(newSet, map2));
+        for (write_char of newSet) 
+        {
+            createKey(write_char, map3);
+            map3[write_char]['rel'] = [...newSet];
+        }
+//         if (newSet.has("发"))
+//             console.log(newSet);
+    }
+    
 }
 //==========================================
 function checkVariants(txtStream, zone)
