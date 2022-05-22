@@ -257,13 +257,13 @@ function updateCharRel(char, updatedRelSet)
     var newSet = new Set(updatedRelSet);
     newSet.delete(char);
     
-    if ( map[char]['rel'].length)
-    {
-        var oldr = map[char]['rel'].sort().toString();
-        var newr = [...newSet].sort().toString();
-        if (oldr != newr)
-            console.log(`${char} 字已设置过关联关系{${oldr}}，现又更新关联成为{${newr}}`);
-    }
+//     if ( map[char]['rel'].length)
+//     {
+//         var oldr = map[char]['rel'].sort().toString();
+//         var newr = [...newSet].sort().toString();
+//         if (oldr != newr)
+//             console.log(`${char} 字已设置过关联关系{${oldr}}，现又更新关联成为{${newr}}`);
+//     }
     
     map[char]['rel'] = [...newSet];
 }
