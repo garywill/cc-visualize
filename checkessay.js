@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         const container = document.getElementById("div_result")
         container.innerHTML = "";
         
-        const essay = document.getElementById("essay").value.split('');
+        const essay = Array.from(document.getElementById("essay").value);
         
         for ( var pos = 0; pos < essay.length; pos++) // 原文一字一循环
         {
