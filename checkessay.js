@@ -27,34 +27,34 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 div_origChar.className = "div_orig_char";
                 div_origChar.textContent = essayChar;
                 
-                if (map2[essayChar] && map2[essayChar]['isSimp'] && map2[essayChar]['isTrad'])
+                if (opencc.map2[essayChar] && opencc.map2[essayChar]['isSimp'] && opencc.map2[essayChar]['isTrad'])
                     div_origChar.className += " simp-n-trad";
-                else if (map2[essayChar] && map2[essayChar]['isSimp'])
+                else if (opencc.map2[essayChar] && opencc.map2[essayChar]['isSimp'])
                     div_origChar.className += " simp";
-                else if (map2[essayChar] && map2[essayChar]['isTrad'])
+                else if (opencc.map2[essayChar] && opencc.map2[essayChar]['isTrad'])
                     div_origChar.className += " trad";
-                else if (map2[essayChar] && map2[essayChar]['isVari_JP'])
+                else if (opencc.map2[essayChar] && opencc.map2[essayChar]['isVari_JP'])
                     div_origChar.className += " jp";
                 
                 div_essayChar.appendChild(div_origChar);
                 
-                if (map2[essayChar] && map2[essayChar]['rel']) //有关联字
+                if (opencc.map2[essayChar] && opencc.map2[essayChar]['rel']) //有关联字
                 {
                     div_essayChar.className += " div_essay_char_haverel";
                     
-                    map2[essayChar]['rel'].forEach( function(relChar) {
+                    opencc.map2[essayChar]['rel'].forEach( function(relChar) {
                         
                         var div_oneRelChar = document.createElement("div");
                         div_oneRelChar.className = "div_one_rel_char";
                         div_oneRelChar.textContent = relChar;
                         
-                        if (map2[relChar] && map2[relChar]['isSimp'] && map2[relChar]['isTrad'])
+                        if (opencc.map2[relChar] && opencc.map2[relChar]['isSimp'] && opencc.map2[relChar]['isTrad'])
                             div_oneRelChar.className += " simp-n-trad";
-                        else if (map2[relChar] && map2[relChar]['isSimp'])
+                        else if (opencc.map2[relChar] && opencc.map2[relChar]['isSimp'])
                             div_oneRelChar.className += " simp";
-                        else if (map2[relChar] && map2[relChar]['isTrad'])
+                        else if (opencc.map2[relChar] && opencc.map2[relChar]['isTrad'])
                             div_oneRelChar.className += " trad";
-                        else if (map2[relChar] && map2[relChar]['isVari_JP'])
+                        else if (opencc.map2[relChar] && opencc.map2[relChar]['isVari_JP'])
                             div_oneRelChar.className += " jp";
                         
                         div_essayChar.appendChild(div_oneRelChar);
@@ -64,10 +64,10 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 var tip = "";
                 tip += essayChar + "（" + getCharPropStr(essayChar) + "）";
                 
-                if (map2[essayChar] && map2[essayChar]['rel']) //有关联字
+                if (opencc.map2[essayChar] && opencc.map2[essayChar]['rel']) //有关联字
                 {
                     tip += "\n\n关联字\n";
-                    map2[essayChar]['rel'].forEach( function(relChar) {
+                    opencc.map2[essayChar]['rel'].forEach( function(relChar) {
                         tip += relChar + "（" + getCharPropStr(relChar) + "）\n";
                     });
                 }
@@ -83,18 +83,18 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
 function getCharPropStr(char) {
     var prop = "";
-    if (map2[char])
+    if (opencc.map2[char])
     {
         
-        if (map2[char]['isSimp'])
+        if (opencc.map2[char]['isSimp'])
             prop += "简";
-        if (map2[char]['isTrad'])
+        if (opencc.map2[char]['isTrad'])
             prop += "繁";
-        if (map2[char]['isVari_HK'])
+        if (opencc.map2[char]['isVari_HK'])
             prop += "港";
-        if (map2[char]['isVari_TW'])
+        if (opencc.map2[char]['isVari_TW'])
             prop += "台";
-        if (map2[char]['isVari_JP'])
+        if (opencc.map2[char]['isVari_JP'])
             prop += "日";
     }
     return prop;
