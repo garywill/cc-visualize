@@ -96,13 +96,13 @@ function finishMap3() {
     
 }
 //==========================================
-function checkVariants(txtStream, zone)
 //============ map2 所需函数 ==============================
 
 //参数：
 //     txtStream:   openCC数据文本文件的内容
 //                  其中一行为，例如：  A<tab>B<space>C<space>D
 //参数zone: HK/TW/JP
+function checkVariants(txtStream, zone)
 {
     var lines = txtStream.split('\n');
     var candi = [];
@@ -175,7 +175,6 @@ function addVariantRel(variChars, relToAddArr)
     });
 }
 //=================================
-function mapTnS(txtStream, ToS)
 //============= map 所需函数 及 通用函数 ====================
 
 //参数：
@@ -183,6 +182,7 @@ function mapTnS(txtStream, ToS)
 //                  其中一行为，例如：  A<tab>B<space>C<space>D
 //     ToS:         是[繁-简]还是[简-繁]
 //仅作用于map表
+function mapTnS(txtStream, ToS)
 {
     var lines = txtStream.split('\n');
 
