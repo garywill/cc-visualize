@@ -129,7 +129,7 @@ function checkVariants(txtStream, zone)
         {
             if ( haveTSRelation(char, left) )
             {
-                console.log(`正在处理${zone}变体关系，${char} 与 ${left} 已有繁简关系，故不判断为变体`);
+//                 console.log(`正在处理${zone}变体关系，${char} 与 ${left} 已有繁简关系，故不判断为变体`);
                 candi_filtered.delete( char );
             }
         }
