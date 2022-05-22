@@ -12,7 +12,7 @@ var TWV="";
 var JPV="";
 
 var map = {}; // 主 繁与简对应表
-var map2 = {}; // 加上变体之后的map
+var map2 = {}; // 加上变体之后的map(中华字不与外国变体字主动关联)
 
 
 
@@ -58,15 +58,23 @@ function afterLoadText()
 {
     mapTnS(ST, "ST");
     mapTnS(TS, "TS");
+    console.log("完成map");
     
     map2 = Object.assign({}, map);
     
     checkVariants(HKV, "HK");
     checkVariants(TWV, "TW");
     checkVariants(JPV, "JP");
+    console.log("完成map2");
 }
 //==========================================
 function checkVariants(txtStream, zone)
+//============ map2 所需函数 ==============================
+
+//参数：
+//     txtStream:   openCC数据文本文件的内容
+//                  其中一行为，例如：  A<tab>B<space>C<space>D
+//参数zone: HK/TW/JP
 {
     var lines = txtStream.split('\n');
     var candi = [];
@@ -112,6 +120,9 @@ function checkVariants(txtStream, zone)
         addVariantRel( [...candi_filtered], allRel );
     });  
 }
+
+//把一个或多个字设置为表中的变体字
+//参数可以是字符串（单个字），也可以是数组（一个元素是一个字）
 function addVariantRel(variChars, relToAddArr)
 {
     if ( typeof(variChars) == "string" )
@@ -137,6 +148,13 @@ function addVariantRel(variChars, relToAddArr)
 }
 //=================================
 function mapTnS(txtStream, ToS)
+//============= map 所需函数 及 通用函数 ====================
+
+//参数：
+//     txtStream:   openCC数据文本文件的内容
+//                  其中一行为，例如：  A<tab>B<space>C<space>D
+//     ToS:         是[繁-简]还是[简-繁]
+//仅作用于map表
 {
     var lines = txtStream.split('\n');
 
@@ -157,6 +175,9 @@ function mapTnS(txtStream, ToS)
     });   
 }
 
+//参数char可以是字符串（单个字），也可以是数组（一个元素是一个字）
+//参数mapObj指定要从哪一个表中读取
+//把输入的一个或多个字的目前表中已知的关联字都找出来
 function getAllRel(chars, mapObj=map)
 {
     if ( typeof(chars) === "string" )
@@ -178,6 +199,8 @@ function getAllRel(chars, mapObj=map)
     return [...set];
 }
 
+//参数可以是字符串（单个字），也可以是数组（一个元素是一个字）
+//仅作用于map表
 function addTSRelation(simpChars, tradChars)
 {
     // 单个字的输入转为数组
@@ -220,6 +243,7 @@ function addTSRelation(simpChars, tradChars)
     
 }
 
+//并集
 function unionSet(setA, setB) {
     let _union = new Set(setA);
     for (let elem of setB) {
@@ -244,6 +268,7 @@ function updateCharRel(char, updatedRelSet)
     map[char]['rel'] = [...newSet];
 }
 
+//如果某表中还没有这个字的索引，为它创建一个新的（空内容但有基本结构的）
 function createKey( key , mapObj=map)
 {
     if ( mapObj[key] === undefined)
@@ -255,6 +280,7 @@ function createKey( key , mapObj=map)
     }
 }
 
+//检查两个字有无繁简关系。仅读map表
 function haveTSRelation(char1, char2) //前提是建立繁简map rel关系时每两两都关系了
 {
     if ( map[char1] === undefined || map[char2] === undefined)
