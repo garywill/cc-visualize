@@ -6,6 +6,9 @@
         <script type="text/javascript" src="txt2json.js"></script>
         <script type="text/javascript" src="checkessay.js"></script>
         <style>
+            .serif {
+                font-family: 'serif';
+            }
             #essay {
                 font-size: 17px;
             }
@@ -63,10 +66,10 @@
             <textarea id="gen_json" style="width:100%; height: 200px;"></textarea>
         </div>
         <div>
-            在此输入文章:
-            <button id="btn_checkessay">检查</button>
+            <h4>在此输入文章:</h4>
+            <button id="btn_checkessay">确定，检查每个汉字繁简关联等关系</button>
             <br>
-            <textarea id="essay" style="width:100%; height: 200px;">
+            <textarea class="serif" id="essay" style="width:100%; height: 200px;">
 例：如下小说、古文及古诗取自网络，可见网络来源含有错字
 
 《連城訣》
@@ -93,7 +96,7 @@
 
         </div>
         
-        <div id="div_result">
+        <div class="serif" id="div_result">
             
         </div>
     </body>
