@@ -1,8 +1,22 @@
-# 汉字所有关联字可视化
+## 全文每个汉字关联字可视化
+ 
+![Screenshot](Screenshot.png)
+ 
+颜色含意：
 
-也可以称为：
+- 绿色：既是繁体也是简体
+- 蓝色：繁体
+- 黄色：简体
+  > 受openCC有时某一边数据遗漏影响，被认作简体的字，不一定仅是简体字。（按理说，繁体亦然）
+- 红色：非中华变体（日本）
 
-#### 全文汉字关联字关系可视化 / 全文繁简对应可视化工具 / 一简多繁检查器 / 汉字变体关系查看工具 /  汉文全文错字异体字人工检查器 / 汉字所有关联字检索表
+ 
+> 也可以称为：
+> 全文汉字关联字关系可视化 / 全文繁简对应可视化工具 / 一简多繁检查器 / 汉字变体关系查看工具 /  汉文全文错字异体字人工检查器 / 汉字所有关联字检索表
+ 
+只做了单字，没有做词语
+
+## 原理
 
 首先，基于[OpenCC](https://github.com/BYVoid/OpenCC)的数据，创建了一个JSON格式的“汉字所有关联字检索表”。
 
@@ -25,25 +39,7 @@
 "髪": { "rel": [ "髮", "发", "發" ], "isVari_JP": true },
 ```
 
-## 全文每个汉字关联字可视化
-
-颜色含意：
-
-- 绿色：既是繁体也是简体
-
-- 蓝色：繁体
-
-- 黄色：简体
-  
-  > 受openCC有时某一边数据遗漏影响，被认作简体的字，不一定仅是简体字。（按理说，繁体亦然）
-
-- 红色：非中华变体（日本）
-
-![Screenshot](Screenshot.png)
-
-目前只做了单字，没有做地区词语
-
 ## 其他相关
 
-1. 其他工具推荐：可以快速在不同的词典中查字的工具：[大术专搜](https://acsearch.ga)（[主站](https://acsearch.ga) [备用站](http://acsearch.tk)）（[源代码](https://github.com/garywill/bigSearch)）
+1. 其他工具推荐：可以快速在不同的词典中查字的工具：[大术专搜](https://github.com/garywill/BigSearch)（[网页版主站](https://acsearch.ga) [备用站](http://acsearch.tk)）（[源代码](https://github.com/garywill/BigSearch)）
 2. [收集的汉字资源、字体、阅读器 等](https://gitlab.com/garywill/cc-resources/-/releases)
