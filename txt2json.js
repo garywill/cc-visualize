@@ -50,7 +50,6 @@ async function onLoad()
     delete TWV;
     delete JPV;
     
-    document.getElementById("gen_json").textContent = JSON.stringify(map2, null, 2);
 }
 
 onLoad();
@@ -59,6 +58,7 @@ function afterLoadText()
 {
     mapTnS(ST, "ST");
     mapTnS(TS, "TS");
+    document.getElementById("gen_json_map1").textContent = JSON.stringify(map, null, 2); 
     console.log("完成map");
     
 //     map2 = Object.assign({}, map);
@@ -67,12 +67,15 @@ function afterLoadText()
     checkVariants(HKV, "HK");
     checkVariants(TWV, "TW");
     checkVariants(JPV, "JP");
+    document.getElementById("gen_json_map2").textContent = JSON.stringify(map2, null, 2); 
     console.log("完成map2");
     
 //     map3 = Object.assign({}, map2);
     map3 = JSON.parse(JSON.stringify(map2));
     
     finishMap3();
+    document.getElementById("gen_json_map3").textContent = JSON.stringify(map3, null, 2); 
+     
     console.log("完成map3");
 }
 
