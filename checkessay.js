@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         container.innerHTML = "";
         
         const essay = Array.from(document.getElementById("essay").value);
-        var allDf = document.createDocumentFragment();
+//         var allDf = document.createDocumentFragment();
         
         for ( var pos = 0; pos < essay.length; pos++) // 原文一字一循环
         {
@@ -87,10 +87,10 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 
                 div_essayChar.title = tip;
                 
-                allDf.appendChild(div_essayChar);
+                container.appendChild(div_essayChar);
             }
         }
-        container.appendChild(allDf);
+//         container.appendChild(allDf);
     }
 
 });
