@@ -25,7 +25,7 @@ async function start()
             delete cObj['isChi'];
     }
     summary_map = sortMapObj(summary_map);
-    fs.writeFileSync("map.js" , ( "summary_map = \n" + JSON.stringify(summary_map) + "\n;" )
+    fs.writeFileSync("summary-data-map.js" , ( "summary_map = \n" + JSON.stringify(summary_map) + "\n;" )
         .replaceAll("},", "},\n")
     );
 }
