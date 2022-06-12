@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 var div_essayChar = document.createElement("div");
                 div_essayChar.className = "div_essay_char";
                 
-                var div_origChar = document.createElement("div");
+                var div_origChar = document.createElement("ruby");
                 div_origChar.className = "div_orig_char";
                 div_origChar.textContent = essayChar;
                 
@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 
                 div_essayChar.appendChild(div_origChar);
                 
+                var ruby_rt = document.createElement("rt");
                 if (opencc.map2[essayChar] && opencc.map2[essayChar]['rel']) //有关联字
                 {
                     div_essayChar.className += " div_essay_char_haverel";
@@ -57,8 +58,9 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                         else if (opencc.map2[relChar] && opencc.map2[relChar]['isVari_JP'])
                             div_oneRelChar.className += " jp";
                         
-                        div_essayChar.appendChild(div_oneRelChar);
+                        ruby_rt.appendChild(div_oneRelChar);
                     });
+                    div_origChar.appendChild(ruby_rt);
                 }
                 
                 var tip = "";

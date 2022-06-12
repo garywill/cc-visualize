@@ -14,47 +14,61 @@
             }
             
             #div_result {
-                font-size: 22px;
+                font-size: 40px;
                 line-height: 150%;
-                background-color: gainsboro;
+                background-color: #dcdcdc85;
             }
             
             .div_essay_char
             {
                 display: inline-block;
-                vertical-align: text-top;
+                /*! vertical-align: text-top; */
                 min-width: 5px;
                 min-height: 20px;
                 text-align: center;
                 line-height: 100%;
                 border: 1px solid white;
                 background-color: white;
+                /*! text-decoration: underline; */
             }
             .div_essay_char_haverel {
-                border: 1px solid gray;
+                /*! border: 1px solid gray; */
                 /*
                 padding: 2px;
                 margin: 2px;
                 */
             }
             .div_essay_char_haverel .div_orig_char {
-                font-weight: bold;
+                /*! font-weight: bold; */
             }
             .div_one_rel_char {
                 font-size: 80%;
+                display: inline-block;
             }
             .simp {
-                background-color: #ffffaf;
+                background-color: #ffd47070;
             }
             .trad {
-                background-color: #b5b5fd;
+                background-color: #8b9ed545;
             }
             .simp-n-trad {
-                background-color: #91ff91;
+                background-color: #91ff9166;
             }
             .jp {
                 background-color: red;
             }
+            
+            .div_orig_char {
+            ruby-position: under;
+            border-bottom: 1px dashed grey;
+            }
+            .div_orig_char.simp {
+            border-bottom: 1px solid orange;
+            }
+            .div_one_rel_char {
+            font-size: 120%;
+            }
+            
             
         </style>
     </head>
