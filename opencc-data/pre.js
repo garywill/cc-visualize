@@ -140,7 +140,7 @@ async function init_opencc()
             //for (i=candi.length-1; i>=0; i--)
             for (char of candi)
             {
-                if ( haveTSRelation(char, left) )
+                if ( haveTSRelation(map, char, left) )
                 {
                     //                 console.log(`正在处理${zone}变体关系，${char} 与 ${left} 已有繁简关系，故不判断为变体`);
                     candi_filtered.delete( char );
@@ -315,12 +315,12 @@ async function init_opencc()
     }
     
     //检查两个字有无繁简关系。仅读map表
-    function haveTSRelation(char1, char2) //前提是建立繁简map rel关系时每两两都关系了
+    function haveTSRelation(mapObj, char1, char2) //前提是建立繁简map rel关系时每两两都关系了
     {
-        if ( map[char1] === undefined || map[char2] === undefined)
+        if ( mapObj[char1] === undefined || mapObj[char2] === undefined)
             return false;
         
-        if ( map[char1]['rel'].includes(char2) )
+        if ( mapObj[char1]['rel'].includes(char2) )
             return true;
         
         return false;
