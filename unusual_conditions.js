@@ -115,6 +115,15 @@ onDCL(function() {
         form.appendChild(checkbox_span);
     }
 });
+function readUserCond() 
+{
+    const checkboxes = Array.from( $$$("#form_unusual_cond .unusual_cond_checkbox") );
+    for (cb of checkboxes)
+    {
+        const name = cb.getAttribute("name");
+        unusual_cond [name] . isCurrentlyEnabled = cb.checked;
+    }
+}
 
 
 function getCharUnusuals(c, charObj) 
@@ -127,7 +136,7 @@ function getCharUnusuals(c, charObj)
         if ( condObj['func'] )
         {
             result[ name ] = condObj.func(c, summary_map[c], charObj) ;
-            if ( result [ name] && charObj && $$(`.unusual_cond_checkbox[name='${name}']`).checked )
+            if ( result [ name] && charObj && condObj.isCurrentlyEnabled )
             {
                 charObj ['isUnusual'] = true;
             }
@@ -178,19 +187,20 @@ unusual_cond['is_simp_n_trad'].func = function(c, mapObj, charObj) {
 
 
 unusual_cond['blk_is_comp'].func = function(c, mapObj, charObj) {
-    const blks = [
-        "CJK Compatibility Ideographs Supplement",
-        "CJK Compatibility",
-        "CJK Compatibility Forms",
-        "CJK Compatibility Ideographs",
-    ];
+//     const blks = [
+//         "CJK Compatibility Ideographs Supplement",
+//         "CJK Compatibility",
+//         "CJK Compatibility Forms",
+//         "CJK Compatibility Ideographs",
+//     ];
     var blk ;
     if (charObj)
         blk = charObj.blk;
     else
         blk = getCpBlock( c2utf16(c).hex );
     
-    if ( blks.includes(blk) )
+//     if ( blks.includes(blk) )
+    if (blk.includes("CJK Compatibility"))
         return true;
 };
 unusual_cond['blk_is_rad'].func = function(c, mapObj, charObj) {
@@ -209,23 +219,24 @@ unusual_cond['blk_is_rad'].func = function(c, mapObj, charObj) {
         return true;
 };
 unusual_cond['blk_is_cjkext'].func = function(c, mapObj, charObj) {
-    const blks = [
-        "CJK Unified Ideographs Extension A",
-        "CJK Unified Ideographs Extension B",
-        "CJK Unified Ideographs Extension C",
-        "CJK Unified Ideographs Extension D",
-        "CJK Unified Ideographs Extension E",
-        "CJK Unified Ideographs Extension F",
-        "CJK Unified Ideographs Extension G",
-        "CJK Unified Ideographs Extension H",
-    ];
+//     const blks = [
+//         "CJK Unified Ideographs Extension A",
+//         "CJK Unified Ideographs Extension B",
+//         "CJK Unified Ideographs Extension C",
+//         "CJK Unified Ideographs Extension D",
+//         "CJK Unified Ideographs Extension E",
+//         "CJK Unified Ideographs Extension F",
+//         "CJK Unified Ideographs Extension G",
+//         "CJK Unified Ideographs Extension H",
+//     ];
     var blk ;
     if (charObj)
         blk = charObj.blk;
     else
         blk = getCpBlock( c2utf16(c).hex );
     
-    if ( blks.includes(blk) )
+//     if ( blks.includes(blk) )
+    if (blk.includes("CJK Unified Ideographs Extension"))
         return true;
 };
 

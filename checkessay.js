@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
 function show_check_results(only_unusual = false)
 {
+    readUserCond();
+    
     const container = document.getElementById("div_result")
     container.innerHTML = "";
     
@@ -76,7 +78,7 @@ function show_check_results(only_unusual = false)
             {
                 for ( name of Object.keys(charObj.unusuals) )
                 {
-                    if ( charObj.unusuals[name] == true && $$(`.unusual_cond_checkbox[name='${name}']`).checked )
+                    if ( charObj.unusuals[name] == true && unusual_cond[name].isCurrentlyEnabled )
                     {
                         unusual_span.style.display="";
                         unusual_span.textContent += unusual_cond[name].short_desc;
