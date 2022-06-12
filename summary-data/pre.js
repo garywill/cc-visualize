@@ -1,6 +1,7 @@
 var opencc = {}; 
 var unicode_data = {};
 var summary_map = {};
+const chi_chars = ['醋', '予', '疏', '欠']; // 一些可能会被误判成日本简化字的中文字
 
 var fs = require('fs');
 
@@ -18,6 +19,12 @@ async function start()
     for (c in opencc.map2 )
     {
         summary_map [c] = combineCharObj(c, unicode_data.map2, opencc.map2);
+    }
+    
+    for (c of chi_chars)
+    {
+        createKey(c, summary_map);
+        summary_map[c] ['isChi'] = true;
     }
     
     for (c in summary_map)
@@ -161,6 +168,18 @@ function unionSet(setA, setB) {
     }
     return _union;
 }
+
+function createKey( key , mapObj)
+{
+    if ( mapObj[key] === undefined)
+    {
+        mapObj[key] = { 
+            "rel" : []
+        };
+        
+    }
+}
+
 function sortMapObj(mapObj) {
     var newMapObj = {};
     const origI = Object.keys(mapObj).sort();
