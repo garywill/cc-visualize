@@ -17,6 +17,13 @@ async function init_opencc()
     var TWV="";
     var JPV="";
     
+    var STj = {};
+    var TSj = {};
+    var HKVj = {}
+    var TWVj = {};
+    var JPVj = {};
+    
+    
     var map = {}; // 主 繁与简对应表
     var map2 = {}; // 加上变体之后的map(中华字不与外国变体字主动关联)
     var map3 = {}; // 所有关联,包括自身
@@ -50,8 +57,23 @@ async function init_opencc()
     
     async function afterLoadText() 
     {
-        mapTnS(ST, "ST");
-        mapTnS(TS, "TS");
+        STj = txt2json(ST);
+        fs.writeFileSync( "opencc-data-ST.js", "opencc.ST = \n" + JSON.stringify(STj, null, 2) + "\n;" );
+        
+        TSj = txt2json(TS);
+        fs.writeFileSync( "opencc-data-TS.js", "opencc.TS = \n" + JSON.stringify(TSj, null, 2) + "\n;" );
+        
+        HKVj = txt2json(HKV);
+        fs.writeFileSync( "opencc-data-HKV.js", "opencc.HKV = \n" + JSON.stringify(HKVj, null, 2) + "\n;" );
+        
+        TWVj = txt2json(TWV);
+        fs.writeFileSync( "opencc-data-TWV.js", "opencc.TWV = \n" + JSON.stringify(TWVj, null, 2) + "\n;" );
+        
+        JPVj = txt2json(JPV);
+        fs.writeFileSync( "opencc-data-JPV.js", "opencc.JPV = \n" + JSON.stringify(JPVj, null, 2) + "\n;" );
+        
+        mapTnS(STj, "ST");
+        mapTnS(TSj, "TS");
         opencc.map = map;
         fs.writeFileSync( "opencc-data-map.js", "opencc.map = \n" + JSON.stringify(map, null, 2) + "\n;" );
         console.log("完成map");
@@ -59,9 +81,9 @@ async function init_opencc()
         //     map2 = Object.assign({}, map);
         map2 = JSON.parse(JSON.stringify(map));
         
-        checkVariants(HKV, "HK");
-        checkVariants(TWV, "TW");
-        checkVariants(JPV, "JP");
+        checkVariants(HKVj, "HK");
+        checkVariants(TWVj, "TW");
+        checkVariants(JPVj, "JP");
         opencc.map2 = map2;
         fs.writeFileSync( "opencc-data-map2.js", "opencc.map2 = \n" + JSON.stringify(map2, null, 2) + "\n;" );
         console.log("完成map2");
@@ -98,23 +120,15 @@ async function init_opencc()
     //============ map2 所需函数 ==============================
     
     //参数：
-    //     txtStream:   openCC数据文本文件的内容
-    //                  其中一行为，例如：  A<tab>B<space>C<space>D
     //参数zone: HK/TW/JP
-    function checkVariants(txtStream, zone)
+    function checkVariants(obj , zone)
     {
-        var lines = txtStream.split('\n');
-        var candi = [];
         
-        lines.forEach( function (line, line_i) {
-            
-            if (!line)
-                return;
-            
-            var [left, right] = line.split('\t');
-            
-            var right_arr = right.split(' ');
-            
+        for ( left in obj )
+        {
+            var right_arr = obj[left];
+        
+            var candi = [];
             candi = right_arr;
             //candi.unshift(left);
             candi = new Set(candi) ;
@@ -145,7 +159,7 @@ async function init_opencc()
             var allRel = getAllRel(all_chars);
             
             addVariantRel( [...candi_filtered], allRel );
-        });  
+        };  
     }
     
     //把一个或多个字设置为表中的变体字
@@ -177,29 +191,22 @@ async function init_opencc()
     //============= map 所需函数 及 通用函数 ====================
     
     //参数：
-    //     txtStream:   openCC数据文本文件的内容
-    //                  其中一行为，例如：  A<tab>B<space>C<space>D
     //     ToS:         是[繁-简]还是[简-繁]
     //仅作用于map表
-    function mapTnS(txtStream, ToS)
+    function mapTnS(obj , ToS)
     {
-        var lines = txtStream.split('\n');
         
-        lines.forEach( function (line, line_i) {
+        for ( left in obj ) {
+            var right_arr = obj[left];
             
-            if (!line)
-                return;
             
-            var [left, right] = line.split('\t');
-            
-            var right_arr = right.split(' ');
             
             if (ToS == "TS")
                 addTSRelation( right_arr, left )
-                else if (ToS == "ST")
-                    addTSRelation( left, right_arr )
+            else if (ToS == "ST")
+                addTSRelation( left, right_arr )
                     
-        });   
+        };   
     }
     
     //参数char可以是字符串（单个字），也可以是数组（一个元素是一个字）
@@ -317,5 +324,28 @@ async function init_opencc()
             return true;
         
         return false;
+    }
+    
+    //     txtStream:   openCC数据文本文件的内容
+    //                  其中一行为，例如：  A<tab>B<space>C<space>D
+    function txt2json(txtStream) 
+    {
+        var json = {};
+        
+        var lines = txtStream.split('\n');
+        
+        lines.forEach( function (line, line_i) {
+        
+            if (!line)
+                return;
+            
+            var [left, right] = line.split('\t');
+            
+            var right_arr = right.split(' ');
+            
+            json[left] = right_arr;
+        })
+        
+        return json;
     }
 }
