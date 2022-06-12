@@ -11,6 +11,7 @@ const kVarNames = [
     "kSpoofingVariant",
     "kTraditionalVariant",
     "kZVariant",
+    "EqUIdeo",
 ];
 
 var unicode_data = {
@@ -159,6 +160,17 @@ async function start()
              
             createKey( c,  unicode_data.map2);
             unicode_data.map2[c] ['isComp'] = true;
+            updateCharRel(unicode_data.map2, c , oldRels);
+        }
+        
+        if ( unicode_data.unihan_variants [c] ["EqUIdeo"] )
+        {
+            var oldRels1 = getAllRel( unicode_data.map2, c );
+            var oldRels2 = getAllRel( unicode_data.map2,  unicode_data.unihan_variants [c] ["EqUIdeo"] );
+            var oldRels = [ ... unionSet( (new Set(oldRels1)) , (new Set(oldRels2)) ) ] ;
+             
+            createKey( c,  unicode_data.map2);
+            unicode_data.map2[c] ['isRad'] = true;
             updateCharRel(unicode_data.map2, c , oldRels);
         }
         
