@@ -110,7 +110,10 @@ async function init_opencc()
             for (write_char of newSet) 
             {
                 createKey(write_char, map3);
-                map3[write_char]['rel'] = [...newSet];
+                
+                var write_newSet = new Set(newSet);
+                write_newSet.delete(write_char);
+                map3[write_char]['rel'] = [...write_newSet];
             }
             //         if (newSet.has("发"))
             //             console.log(newSet);
