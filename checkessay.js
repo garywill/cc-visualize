@@ -84,7 +84,20 @@ function show_check_results(only_unusual = false)
                 }
             }
             
-
+            var tips = `Line ${charObj.line_num} Col ${charObj.col_num}\n\n`;
+            tips += genCharTipLine(essayChar, charObj);
+            
+            for ( unusual_name  of Object.keys(charObj.cInfo.unusuals) )
+            {
+                if ( charObj.cInfo.unusuals [unusual_name])
+                {
+                    var warn = unusual_cond [unusual_name] .isCurrentlyEnabled ? '⚠' : '';
+                    var line = `${warn}${unusual_cond [unusual_name] .full_desc}\n` ;
+                    
+                    tips += line;
+                }
+            }
+            tips += '\n';
 
             if (summary_map [essayChar])
             {
@@ -104,23 +117,15 @@ function show_check_results(only_unusual = false)
 
             }
             
-            if ( 100 <= charObj.isUnusual && charObj.isUnusual < 200 )
-                div_origChar.className += " unusual_1";
-            else if (200 <= charObj.isUnusual )
-                div_origChar.className += " unusual_2";
-            
-//             if (charObj.isUnusual)
-//             {
-//                 div_origChar_n_aboveText.querySelector(".span_a_comment_above_char").textContent = 
-//                     getCpBlock( c2utf16(essayChar).hex );
-//             }
-            
 
-            if (summary_map[essayChar] && summary_map[essayChar]['rel']) //有关联字
+            if (summary_map[essayChar] && summary_map[essayChar]['rel'].length > 0) //有关联字
             {
+                tips += "关联字：\n";
                 div_essayChar.className += " div_essay_char_haverel";
                 
                 summary_map[essayChar]['rel'].forEach( function(relChar) {
+                    
+                    tips += genCharTipLine(relChar);
                     
                     var div_oneRelChar = document.createElement("div");
                     div_oneRelChar.className = "div_one_rel_char";
@@ -139,18 +144,8 @@ function show_check_results(only_unusual = false)
                 });
             }
             
-            var tip = "";
-            tip += essayChar + "（" + getCharPropStr(essayChar) + "）";
-            
-            if (summary_map[essayChar] && summary_map[essayChar]['rel']) //有关联字
-            {
-                tip += "\n\n关联字\n";
-                summary_map[essayChar]['rel'].forEach( function(relChar) {
-                    tip += relChar + "（" + getCharPropStr(relChar) + "）\n";
-                });
-            }
-            
-            div_essayChar.title = tip;
+
+            div_essayChar.title = tips;
             
             p.appendChild(div_essayChar);
         }
@@ -159,44 +154,68 @@ function show_check_results(only_unusual = false)
     }
     
 }
-
-
-
-
-function getCharPropStr(char) {
-    var prop = "";
-    if (summary_map[char])
-    {
-        
-        if (summary_map[char]['isSimp'])
-            prop += "简";
-        if (summary_map[char]['isTrad'])
-            prop += "繁";
-        if (summary_map[char]['isVari_HK'])
-            prop += "港";
-        if (summary_map[char]['isVari_TW'])
-            prop += "台";
-        if (summary_map[char]['isVari_JP'])
-            prop += "日";
-    }
-    return prop;
+function genClassNamesAccordingMap(c)
+{
+    
 }
+function genCharTipLine(c, charObj)
+{
+    var result = "";
+    
+    var hex = charObj ? charObj.cInfo.hex : c2utf16(c).hex ;
+    var blk = charObj ? charObj.cInfo.blk : getCpBlock(hex);
+    
+    var cProp = "";
+    const mapObj = summary_map[c];
+    
+    if (mapObj)
+    {
+        if (mapObj ['isTrad'])
+            cProp += '繁';
+        if (mapObj ['isSimp'])
+            cProp += '简';
+        if (mapObj ['isVari_HK'])
+            cProp += "港";
+        if (mapObj ['isVari_TW'])
+            cProp += "台";
+        if (mapObj ['isVari_JP'])
+            cProp += "日";    
+        if (mapObj ['isComp'])
+            cProp += "兼";
+        if (mapObj ['isRad'])
+            cProp += "划";
+    }
+    
+    result += `${c} ${hex} （${cProp}） 属于${blk}\n`;
+    return result;
+}
+
+
+// function getCharPropStr(char) {
+//     var prop = "";
+//     if (summary_map[char])
+//     {
+//         
+//         if (summary_map[char]['isSimp'])
+//             prop += "简";
+//         if (summary_map[char]['isTrad'])
+//             prop += "繁";
+//         if (summary_map[char]['isVari_HK'])
+//             prop += "港";
+//         if (summary_map[char]['isVari_TW'])
+//             prop += "台";
+//         if (summary_map[char]['isVari_JP'])
+//             prop += "日";
+//     }
+//     return prop;
+// }
 
 
 function c2utf16(c) { 
     var code;
-//     var next;
     
     var dec; 
 
-//     code = c.charCodeAt(0);
-//     if (code <= 0xd7ff || code >= 0xe000) 
-//         dec = code;
-//     else
-//     {
-//         next = c.charCodeAt(1);
-//         dec = (code << 10) + next - 0x35fdc00;
-//     }
     dec = c.codePointAt(0);
     
     var hex = dec.toString(16);
@@ -205,19 +224,19 @@ function c2utf16(c) {
     return { dec: dec, hex: hex.toUpperCase() };
 }
 
-function c2utf8(c){       
-    const en = new TextEncoder();
-    var a8 = en.encode(c);
-    var b = [];
-    a8.forEach(function(n,i){
-        b[i] = n.toString(16);
-        if (b[i].length<2)
-            b[i] = "0" + b[i];
-    });
-    var hex = b.join('');
-    var dec = parseInt(hex, 16);
-    return { dec: dec, hex: hex.toUpperCase() };
-}
+// function c2utf8(c){       
+//     const en = new TextEncoder();
+//     var a8 = en.encode(c);
+//     var b = [];
+//     a8.forEach(function(n,i){
+//         b[i] = n.toString(16);
+//         if (b[i].length<2)
+//             b[i] = "0" + b[i];
+//     });
+//     var hex = b.join('');
+//     var dec = parseInt(hex, 16);
+//     return { dec: dec, hex: hex.toUpperCase() };
+// }
 var charsCInfoCache = {};
 function essay_to_arr(essay, only_unusual = false) 
 {
