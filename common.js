@@ -10,6 +10,56 @@ function $$$(s)
     return document.querySelectorAll(s);
 }
 
+Object.prototype.q = function(selectorStr) {
+    function handleNonArrayObject(obj)
+    {
+        return obj.querySelector(selectorStr);
+    }
+    
+    var obj = this;
+    var result = null;
+    
+    if ( HTMLElement.prototype.isPrototypeOf(obj) ) 
+        result = handleNonArrayObject( obj );
+    else if ( typeof(obj) != "string" && 
+        obj.length !== undefined && obj.length > 0
+    )
+    {
+        for( subObj of obj )
+        {
+            result = handleNonArrayObject(subObj);
+            if (result)
+                break;
+        }
+    }
+    
+    return result;
+}
+Object.prototype.qa = function(selectorStr) {
+    function handleNonArrayObject(obj)
+    {
+        return obj.querySelectorAll(selectorStr);
+    }
+    
+    var obj = this;
+    var result = [];
+    
+    if ( HTMLElement.prototype.isPrototypeOf(obj) ) 
+        result = Array.from( handleNonArrayObject( obj ) );
+    else if ( typeof(obj) != "string" && 
+        obj.length !== undefined && obj.length > 0
+    )
+    {
+        for( subObj of obj )
+        {
+            result = result.concat ( Array.from (handleNonArrayObject(subObj) ) );
+        }
+        result = Array.from ( new Set(result) );
+    }
+    
+    return result;
+}
+
 function onDCL(f) 
 {
     document.addEventListener('DOMContentLoaded', f);
