@@ -196,6 +196,8 @@ unusual_cond['blk_is_comp'].func = function(c, mapObj, cInfo) {
         blk = getCpBlock( c2utf16(c).hex );
     
 //     if ( blks.includes(blk) )
+    if ( ! blk )
+        return false;
     if (blk.includes("CJK Compatibility"))
         return true;
 };
@@ -211,6 +213,8 @@ unusual_cond['blk_is_rad'].func = function(c, mapObj, cInfo) {
     else
         blk = getCpBlock( c2utf16(c).hex );
     
+    if ( ! blk )
+        return false;
     if ( blks.includes(blk) )
         return true;
 };
@@ -232,6 +236,8 @@ unusual_cond['blk_is_cjkext'].func = function(c, mapObj, cInfo) {
         blk = getCpBlock( c2utf16(c).hex );
     
 //     if ( blks.includes(blk) )
+    if ( ! blk )
+        return false;
     if (blk.includes("CJK Unified Ideographs Extension"))
         return true;
 };

@@ -99,28 +99,13 @@ function show_check_results(only_unusual = false)
             }
             tips += '\n';
 
-            if (summary_map [essayChar])
-            {
-                if (summary_map[essayChar]['isVari_TW'])
-                    div_origChar.className += " tw";
-                if (summary_map[essayChar]['isVari_HK'])
-                    div_origChar.className += " hk";
-                if (summary_map[essayChar]['isVari_JP'])
-                    div_origChar.className += " jp";
-                
-                if (summary_map[essayChar]['isSimp'] && summary_map[essayChar]['isTrad'])
-                    div_origChar.className += " simp-n-trad";
-                else if (summary_map[essayChar]['isSimp'])
-                    div_origChar.className += " simp";
-                else if (summary_map[essayChar]['isTrad'])
-                    div_origChar.className += " trad";
-
-            }
             
+            div_origChar.className += genClassNamesAccordingCInfo(essayChar);
 
             if (summary_map[essayChar] && summary_map[essayChar]['rel'].length > 0) //有关联字
             {
                 tips += "关联字：\n";
+                
                 div_essayChar.className += " div_essay_char_haverel";
                 
                 summary_map[essayChar]['rel'].forEach( function(relChar) {
@@ -131,14 +116,8 @@ function show_check_results(only_unusual = false)
                     div_oneRelChar.className = "div_one_rel_char";
                     div_oneRelChar.textContent = relChar;
                     
-                    if (summary_map[relChar] && summary_map[relChar]['isSimp'] && summary_map[relChar]['isTrad'])
-                        div_oneRelChar.className += " simp-n-trad";
-                    else if (summary_map[relChar] && summary_map[relChar]['isSimp'])
-                        div_oneRelChar.className += " simp";
-                    else if (summary_map[relChar] && summary_map[relChar]['isTrad'])
-                        div_oneRelChar.className += " trad";
-                    else if (summary_map[relChar] && summary_map[relChar]['isVari_JP'])
-                        div_oneRelChar.className += " jp";
+                    div_oneRelChar.className += genClassNamesAccordingCInfo(relChar);
+                    
                     
                     ruby_rt.appendChild(div_oneRelChar);
                 });
@@ -154,10 +133,20 @@ function show_check_results(only_unusual = false)
     }
     
 }
-function genClassNamesAccordingMap(c)
+function genClassNamesAccordingCInfo(c)
 {
+    var classNames = " "; 
+//     const mapObj = summary_map [c];
+    const cInfo = getCInfo(c);
     
+    for (name of Object.keys(cInfo.unusuals) )
+    {
+        if ( cInfo.unusuals [name] == true )
+            classNames += ` UCcss_${name}`;
+    }
+    return classNames;
 }
+
 function genCharTipLine(c, charObj)
 {
     var result = "";

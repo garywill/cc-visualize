@@ -87,6 +87,9 @@ Object.prototype.addOnClk = function(f) {
 
 function escapeHtml(unsafe)
 {
+    if (typeof(unsafe) !== "string" )
+        return escapeHtml( toString(unsafe) );
+    
     return unsafe
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
