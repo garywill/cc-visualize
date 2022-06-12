@@ -161,7 +161,7 @@ async function init_opencc()
         for ( left in obj )
         {
             createKey( left, map2);
-            map2[left]['isTrad'] = true;
+            map2[left]['isChi'] = true;
             
             var right_arr = obj[left];
         
