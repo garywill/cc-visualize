@@ -31,6 +31,8 @@ async function start()
             delete cObj['isChi'];
     }
     
+    // cat summary-data-map.js |grep -o 'is.*'|uniq|sort|uniq
+    
     for (c in summary_map)
     {
         const cObj = summary_map[c];
