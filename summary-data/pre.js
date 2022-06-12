@@ -14,10 +14,12 @@ async function start()
     {
         summary_map [c] = combineCharObj(c, unicode_data.map2, opencc.map2);
     }
+    
     for (c in opencc.map2 )
     {
         summary_map [c] = combineCharObj(c, unicode_data.map2, opencc.map2);
     }
+    
     for (c in summary_map)
     {
         const cObj = summary_map[c];
@@ -28,12 +30,101 @@ async function start()
         if ( cObj['isChi'] && ( cObj['isTrad'] || cObj['isSimp'] ) )
             delete cObj['isChi'];
     }
+    
+    for (c in summary_map)
+    {
+        const cObj = summary_map[c];
+        
+        if (cObj['isComp'])
+        {
+            var rels = getAllRel( summary_map, cObj['rel'] );
+            updateCharRel(summary_map , c , rels);
+        }
+    }
+    
+    for (c in summary_map)
+    {
+        const cObj = summary_map[c];
+        
+        if (cObj['isRad'])
+        {
+            var rels = getAllRel( summary_map, cObj['rel'] );
+            updateCharRel(summary_map , c , rels);
+        }
+    }
+
+    for (c in summary_map)
+    {
+        const cObj = summary_map[c];
+        
+        if (cObj['isVari_TW'] && ( !cObj['isSimp'] && !cObj['isTrad'] ) )
+        {
+            var rels = getAllRel( summary_map, cObj['rel'] );
+            updateCharRel(summary_map , c , rels);
+        }
+    }
+    
+    for (c in summary_map)
+    {
+        const cObj = summary_map[c];
+        
+        if (cObj['isVari_HK'] && ( !cObj['isSimp'] && !cObj['isTrad'] ) )
+        {
+            var rels = getAllRel( summary_map, cObj['rel'] );
+            updateCharRel(summary_map , c , rels);
+        }
+    }
+    
+    for (c in summary_map)
+    {
+        const cObj = summary_map[c];
+        
+        if (cObj['isVari_JP'] && ( !cObj['isSimp'] && !cObj['isTrad'] ) )
+        {
+            var rels = getAllRel( summary_map, cObj['rel'] );
+            updateCharRel(summary_map , c , rels);
+        }
+    }
+    
     summary_map = sortMapObj(summary_map);
     fs.writeFileSync("summary-data-map.js" , ( "summary_map = \n" + JSON.stringify(summary_map) + "\n;" )
         .replaceAll("},", "},\n")
     );
 }
 start();
+
+
+function updateCharRel(mapObj, char, updatedRelSet)
+{
+    var newSet = new Set(updatedRelSet);
+    newSet.delete(char);
+
+    mapObj[char]['rel'] = [...newSet].sort();
+}
+
+//参数char可以是字符串（单个字），也可以是数组（一个元素是一个字）
+//参数mapObj指定要从哪一个表中读取
+//把输入的一个或多个字的目前表中已知的关联字都找出来
+function getAllRel( mapObj, chars)
+{
+    if ( typeof(chars) === "string" )
+        chars = [chars];
+    
+    var set = new Set();
+    
+    chars.forEach( function(char) {
+        set.add(char);
+        
+        if (mapObj[char] !== undefined)
+        {
+            mapObj[char]['rel'].forEach( function(relChar) {
+                set.add(relChar);
+            });
+        }
+    });
+    
+    return [...set];
+}
 
 function combineCharObj(c , fromMap1, fromMap2) 
 {
