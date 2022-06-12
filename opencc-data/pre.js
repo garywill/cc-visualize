@@ -202,9 +202,9 @@ async function init_opencc()
             
             
             if (ToS == "TS")
-                addTSRelation( right_arr, left )
+                addTSRelation(map, right_arr, left )
             else if (ToS == "ST")
-                addTSRelation( left, right_arr )
+                addTSRelation(map, left, right_arr )
                     
         };   
     }
@@ -235,7 +235,7 @@ async function init_opencc()
     
     //参数可以是字符串（单个字），也可以是数组（一个元素是一个字）
     //仅作用于map表
-    function addTSRelation(simpChars, tradChars)
+    function addTSRelation(mapObj, simpChars, tradChars)
     {
         // 单个字的输入转为数组
         if ( typeof(simpChars) === "string")
@@ -249,24 +249,24 @@ async function init_opencc()
             // 分别设置繁、简标志
             simpChars.forEach( function(simpChar) {
                 createKey(simpChar);
-                map[simpChar]['isSimp'] = true;
+                mapObj[simpChar]['isSimp'] = true;
                 //set.add(simpChar);
-                //map[simpChar]['rel'].forEach( function(char) {
+                //mapObj[simpChar]['rel'].forEach( function(char) {
                 //    set.add(char);
                 //});
             });
             
             tradChars.forEach( function(tradChar) {
                 createKey(tradChar);
-                map[tradChar]['isTrad'] = true;
+                mapObj[tradChar]['isTrad'] = true;
                 //set.add(tradChar);
-                //map[tradChar]['rel'].forEach( function(char) {
+                //mapObj[tradChar]['rel'].forEach( function(char) {
                 //    set.add(char);
                 //});
             });
             
-            var set1 = getAllRel(map, simpChars);
-            var set2 = getAllRel(map, tradChars);
+            var set1 = getAllRel(mapObj, simpChars);
+            var set2 = getAllRel(mapObj, tradChars);
             set = unionSet(set1, set2);
             
             // 写入（更新）rel
