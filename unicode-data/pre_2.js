@@ -41,16 +41,19 @@ async function start()
     // 转换blocks范围数据成json
     var xmlDocNore = domparser.parseFromString(ucd_nore_data_raw_string, "text/xml");
     var blockNodes = xmlDocNore.getElementsByTagName("ucd")[0].getElementsByTagName("blocks")[0].getElementsByTagName("block");
+    var blocksInfoTxt = "";
     for ( block of Array.from(blockNodes)) {
         unicode_data.blocks.push( {
             name: block.getAttribute("name"),
             first_cp: block.getAttribute("first-cp"),
             last_cp: block.getAttribute("last-cp"),
         });
+        blocksInfoTxt += `${block.getAttribute("first-cp")}\t${block.getAttribute("last-cp")}\t${block.getAttribute("name")}\n`;
     }
     fs.writeFileSync("unicode-data-blocks.js",( "unicode_data.blocks =\n" + JSON.stringify( unicode_data.blocks) + "\n;")
         .replaceAll("},", "},\n")
     );
+    fs.writeFileSync("blocksInfoTxt.txt", blocksInfoTxt);
     
     
     var xmlDoc = domparser.parseFromString(ucd_data_raw_string, "text/xml");
