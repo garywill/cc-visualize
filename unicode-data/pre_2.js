@@ -152,28 +152,6 @@ async function start()
     unicode_data.map2 = JSON.parse(JSON.stringify( unicode_data.map )) ;
     for ( c in unicode_data.unihan_variants )
     {
-        if ( unicode_data.unihan_variants [c] ["kCompatibilityVariant"] )
-        {
-            var oldRels1 = getAllRel( unicode_data.map2, c );
-            var oldRels2 = getAllRel( unicode_data.map2,  unicode_data.unihan_variants [c] ["kCompatibilityVariant"] );
-            var oldRels = [ ... unionSet( (new Set(oldRels1)) , (new Set(oldRels2)) ) ] ;
-             
-            createKey( c,  unicode_data.map2);
-            unicode_data.map2[c] ['isComp'] = true;
-            updateCharRel(unicode_data.map2, c , oldRels);
-        }
-        
-        if ( unicode_data.unihan_variants [c] ["EqUIdeo"] )
-        {
-            var oldRels1 = getAllRel( unicode_data.map2, c );
-            var oldRels2 = getAllRel( unicode_data.map2,  unicode_data.unihan_variants [c] ["EqUIdeo"] );
-            var oldRels = [ ... unionSet( (new Set(oldRels1)) , (new Set(oldRels2)) ) ] ;
-             
-            createKey( c,  unicode_data.map2);
-            unicode_data.map2[c] ['isRad'] = true;
-            updateCharRel(unicode_data.map2, c , oldRels);
-        }
-        
         if ( unicode_data.unihan_variants [c] ["kZVariant"] )
         {
             var oldRels1 = getAllRel( unicode_data.map2, c );
@@ -188,6 +166,35 @@ async function start()
                 updateCharRel(unicode_data.map2, cN , newRels);
             }
         }
+    }
+    
+    for ( c in unicode_data.unihan_variants )
+    {
+        if ( unicode_data.unihan_variants [c] ["kCompatibilityVariant"] )
+        {
+            var oldRels1 = getAllRel( unicode_data.map2, c );
+            var oldRels2 = getAllRel( unicode_data.map2,  unicode_data.unihan_variants [c] ["kCompatibilityVariant"] );
+            var oldRels = [ ... unionSet( (new Set(oldRels1)) , (new Set(oldRels2)) ) ] ;
+             
+            createKey( c,  unicode_data.map2);
+            unicode_data.map2[c] ['isComp'] = true;
+            updateCharRel(unicode_data.map2, c , oldRels);
+        }
+    }
+    
+    for ( c in unicode_data.unihan_variants )
+    {
+        if ( unicode_data.unihan_variants [c] ["EqUIdeo"] )
+        {
+            var oldRels1 = getAllRel( unicode_data.map2, c );
+            var oldRels2 = getAllRel( unicode_data.map2,  unicode_data.unihan_variants [c] ["EqUIdeo"] );
+            var oldRels = [ ... unionSet( (new Set(oldRels1)) , (new Set(oldRels2)) ) ] ;
+             
+            createKey( c,  unicode_data.map2);
+            unicode_data.map2[c] ['isRad'] = true;
+            updateCharRel(unicode_data.map2, c , oldRels);
+        }
+        
     }
     unicode_data.map2 = sortMapObj(unicode_data.map2);
     fs.writeFileSync("unicode-data-map2.js" , ( "unicode_data.map2 = \n" + JSON.stringify(unicode_data.map2) + "\n;" )
