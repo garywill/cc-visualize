@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         container.innerHTML = "";
         
         const essay = Array.from(document.getElementById("essay").value);
+        var allDf = document.createDocumentFragment();
         
         for ( var pos = 0; pos < essay.length; pos++) // 原文一字一循环
         {
@@ -20,23 +21,33 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 container.appendChild( document.createElement("br") );
             }else{    
                     
-                var div_essayChar = document.createElement("div");
+                var div_essayChar = document.createElement("ruby");
                 div_essayChar.className = "div_essay_char";
                 
-                var div_origChar = document.createElement("ruby");
-                div_origChar.className = "div_orig_char";
-                div_origChar.textContent = essayChar;
+                var div_origChar_n_aboveText = htmlStr2dom(`
+                        <div class="div_origChar_n_aboveText">
+                            <div class="div_comments_above_char">
+                                <div class="a_comment_above_char">
+                                    <span class="span_a_comment_above_char"></span>
+                                </div>
+                            </div>
+                        </div>
+                `);
+                    var div_origChar = document.createElement("div");
+                    div_origChar.className = "div_orig_char";
+                    div_origChar.textContent = essayChar;
+                    
+                    if (opencc.map2[essayChar] && opencc.map2[essayChar]['isSimp'] && opencc.map2[essayChar]['isTrad'])
+                        div_origChar.className += " simp-n-trad";
+                    else if (opencc.map2[essayChar] && opencc.map2[essayChar]['isSimp'])
+                        div_origChar.className += " simp";
+                    else if (opencc.map2[essayChar] && opencc.map2[essayChar]['isTrad'])
+                        div_origChar.className += " trad";
+                    else if (opencc.map2[essayChar] && opencc.map2[essayChar]['isVari_JP'])
+                        div_origChar.className += " jp";
                 
-                if (opencc.map2[essayChar] && opencc.map2[essayChar]['isSimp'] && opencc.map2[essayChar]['isTrad'])
-                    div_origChar.className += " simp-n-trad";
-                else if (opencc.map2[essayChar] && opencc.map2[essayChar]['isSimp'])
-                    div_origChar.className += " simp";
-                else if (opencc.map2[essayChar] && opencc.map2[essayChar]['isTrad'])
-                    div_origChar.className += " trad";
-                else if (opencc.map2[essayChar] && opencc.map2[essayChar]['isVari_JP'])
-                    div_origChar.className += " jp";
-                
-                div_essayChar.appendChild(div_origChar);
+                div_origChar_n_aboveText.appendChild(div_origChar)
+                div_essayChar.appendChild(div_origChar_n_aboveText);
                 
                 var ruby_rt = document.createElement("rt");
                 if (opencc.map2[essayChar] && opencc.map2[essayChar]['rel']) //有关联字
@@ -60,7 +71,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                         
                         ruby_rt.appendChild(div_oneRelChar);
                     });
-                    div_origChar.appendChild(ruby_rt);
+                    div_essayChar.appendChild(ruby_rt);
                 }
                 
                 var tip = "";
@@ -76,9 +87,10 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 
                 div_essayChar.title = tip;
                 
-                container.appendChild(div_essayChar);
+                allDf.appendChild(div_essayChar);
             }
         }
+        container.appendChild(allDf);
     }
 
 });
