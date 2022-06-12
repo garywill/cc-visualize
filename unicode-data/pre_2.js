@@ -136,7 +136,14 @@ async function start()
     );
     
     
-    // TODO 生成一个繁简map。
+    // 生成一个繁简map。
+    mapTnS(unicode_data.map, unicode_data.ST, "ST");
+    mapTnS(unicode_data.map, unicode_data.TS, "TS");
+    unicode_data.map = sortMapObj(unicode_data.map);
+    fs.writeFileSync("unicode-data-map.js" , ( "unicode_data.map = \n" + JSON.stringify(unicode_data.map) + "\n;" )
+        .replaceAll("},", "},\n")
+    );
+    
     // TODO 做一个summary表，结合opencc的map2和ucd的map
     
     /* 
@@ -160,4 +167,153 @@ function utf16hex2char(hexStr) // 输入可以是 3F2F U+3AB2 1A7323<xxxx
     hexStr = hexStr.split("<")[0];
 //     console.log(hexStr);
     return String.fromCodePoint( parseInt(hexStr, 16) );
+}
+
+
+// =====================================
+//  ================== map 函数===========
+
+//参数：
+//     ToS:         是[繁-简]还是[简-繁]
+//仅作用于map表
+function mapTnS(mapObj, rawrelObj , ToS)
+{
+    
+    for ( left in rawrelObj ) {
+        var right_arr = rawrelObj[left];
+        
+        
+        
+        if (ToS == "TS")
+            addTSRelation(mapObj, right_arr, left )
+            else if (ToS == "ST")
+                addTSRelation(mapObj, left, right_arr )
+                
+    };   
+}
+
+//参数char可以是字符串（单个字），也可以是数组（一个元素是一个字）
+//参数mapObj指定要从哪一个表中读取
+//把输入的一个或多个字的目前表中已知的关联字都找出来
+function getAllRel( mapObj, chars)
+{
+    if ( typeof(chars) === "string" )
+        chars = [chars];
+    
+    var set = new Set();
+    
+    chars.forEach( function(char) {
+        set.add(char);
+        
+        if (mapObj[char] !== undefined)
+        {
+            mapObj[char]['rel'].forEach( function(relChar) {
+                set.add(relChar);
+            });
+        }
+    });
+    
+    return [...set];
+}
+
+//参数可以是字符串（单个字），也可以是数组（一个元素是一个字）
+//仅作用于map表
+function addTSRelation(mapObj, simpChars, tradChars)
+{
+    // 单个字的输入转为数组
+    if ( typeof(simpChars) === "string")
+        simpChars=[simpChars]
+        
+        if ( typeof(tradChars) === "string")
+            tradChars=[tradChars]
+            
+            var set = new Set();
+        
+        // 分别设置繁、简标志
+        simpChars.forEach( function(simpChar) {
+            createKey(simpChar, mapObj);
+            mapObj[simpChar]['isSimp'] = true;
+            //set.add(simpChar);
+            //mapObj[simpChar]['rel'].forEach( function(char) {
+            //    set.add(char);
+            //});
+        });
+        
+        tradChars.forEach( function(tradChar) {
+            createKey(tradChar, mapObj);
+            mapObj[tradChar]['isTrad'] = true;
+            //set.add(tradChar);
+            //mapObj[tradChar]['rel'].forEach( function(char) {
+            //    set.add(char);
+            //});
+        });
+        
+        var set1 = getAllRel(mapObj, simpChars);
+        var set2 = getAllRel(mapObj, tradChars);
+        set = unionSet(set1, set2);
+        
+        // 写入（更新）rel
+        for (char of set) 
+        {
+            updateCharRel(mapObj, char, set)
+        }
+        
+}
+
+//并集
+function unionSet(setA, setB) {
+    let _union = new Set(setA);
+    for (let elem of setB) {
+        _union.add(elem);
+    }
+    return _union;
+}
+
+function updateCharRel(mapObj, char, updatedRelSet)
+{
+    var newSet = new Set(updatedRelSet);
+    newSet.delete(char);
+    
+    //     if ( mapObj[char]['rel'].length)
+    //     {
+    //         var oldr = mapObj[char]['rel'].sort().toString();
+    //         var newr = [...newSet].sort().toString();
+    //         if (oldr != newr)
+    //             console.log(`${char} 字已设置过关联关系{${oldr}}，现又更新关联成为{${newr}}`);
+    //     }
+    
+    mapObj[char]['rel'] = [...newSet].sort();
+}
+
+//如果某表中还没有这个字的索引，为它创建一个新的（空内容但有基本结构的）
+function createKey( key , mapObj)
+{
+    if ( mapObj[key] === undefined)
+    {
+        mapObj[key] = { 
+            "rel" : []
+        };
+        
+    }
+}
+
+//=============================================
+
+function sortMapObj(mapObj) {
+    var newMapObj = {};
+    const origI = Object.keys(mapObj).sort();
+//     console.log(origI);
+    for ( c of origI )
+    {
+//         console.log(c);
+        newMapObj[c] = JSON.parse( JSON.stringify( mapObj[c] ) );
+        if ( Array.isArray(newMapObj [c] ['rel'] ) )
+        {
+            newMapObj [c] ['rel']  = newMapObj [c] ['rel'] .sort();
+        }
+    }
+    return newMapObj;
+//     Object.assign( mapObj , JSON.parse( JSON.stringify( newMapObj ) ) );
+//     console.log(mapObj);
+    
 }
