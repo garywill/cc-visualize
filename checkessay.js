@@ -252,9 +252,8 @@ function essay_to_arr(essay, only_unusual = false)
             };
             
             result_char_obj.blk = getCpBlock(result_char_obj.hex);
-            result_char_obj.unusuals = getCharUnusuals(originalChar, result_char_obj);
-//             console.log(result_char_obj.unusuals);
-            result_char_obj.isUnusual = isCurrentlyThisUnusual(result_char_obj.unusuals);
+            getCharUnusuals(originalChar, result_char_obj);
+//             isCurrentlyThisUnusual(result_char_obj.unusuals);
             if (result_char_obj.isUnusual)
             {
                 result_line_obj.this_line_has_unusual = true;
@@ -269,18 +268,6 @@ function essay_to_arr(essay, only_unusual = false)
     }
 
     return result_arr;
-}
-function isCurrentlyThisUnusual(unusualsObj)
-{
-    for (name of Object.keys(unusualsObj) )
-    {
-        if ( $$(`.unusual_cond_checkbox[name='${name}']`).checked )
-        {
-            if (unusualsObj[name])
-                return true;
-        }
-    }
-    return false;
 }
 
 console.log(Array.from(`\u4e00\u3400\u{20000}\u{2a700}\u{2b740}\u{2b820}\u{2ceb0}`));

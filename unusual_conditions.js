@@ -127,8 +127,16 @@ function getCharUnusuals(c, charObj)
         if ( condObj['func'] )
         {
             result[ name ] = condObj.func(c, summary_map[c], charObj) ;
+            if ( result [ name] && charObj && $$(`.unusual_cond_checkbox[name='${name}']`).checked )
+            {
+                charObj ['isUnusual'] = true;
+            }
         }
     }
+    
+    if (charObj)
+        charObj['unusuals'] = result;
+    
     return result;
 }
 
