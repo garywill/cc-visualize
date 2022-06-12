@@ -4,7 +4,12 @@
         <meta charset="utf-8">
         <title>全文汉字关联字关系可视化</title>
         <script type="text/javascript" src="common.js"></script>
-        <script type="text/javascript" src="opencc2json.js"></script>
+        
+        <script type="text/javascript">
+            var opencc = {};
+        </script>
+        <script type="text/javascript" src="opencc-data/opencc-data-map2.js"></script>
+        
         <script type="text/javascript" src="ucd.js"></script>
         <script type="text/javascript" src="checkessay.js"></script>
         <style>
@@ -77,6 +82,8 @@
             .div_comments_above_char {
                 font-family: 'sans';
                 font-size: 10px;
+                margin-left: 3px;
+                margin-right: 3px;
                 margin-bottom:3px;
                 margin-top: 10px;
                 color:grey
@@ -97,8 +104,7 @@
         <h1 style="text-align: center;">全文汉字关联字关系可视化工具</h1> 
         <div style="text-align: center;">
             <a href="https://github.com/garywill/cc-visualize">本工具源代码及说明</a>
-            | 其他工具推荐：可以快速在不同的词典中查字的工具：
-            <a target="_blank" href="https://github.com/garywill/BigSearch">大术专搜</a>
+            | 其他工具推荐 <a href="https://github.com/garywill/BigSearch/blob/master/src/README_zh.md">大术专搜</a>（一个搜索、查询工具）中收集的汉语工具部分
             （<a target="_blank" href="https://acsearch.ga">网页版主站</a>
             <a href="http://acsearch.tk">备用站</a>）
             （<a target="_blank" href="https://github.com/garywill/BigSearch">源代码</a>）

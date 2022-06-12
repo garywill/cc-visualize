@@ -52,5 +52,8 @@ function htmlStr2dom(htmlStr)
 
 }
 
-
+function removeNode(node)
+{
+    node.parentNode.removeChild(node);
+}
 
