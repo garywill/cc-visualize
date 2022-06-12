@@ -15,6 +15,12 @@ function show_check_results(only_unusual = false)
     const essay = document.getElementById("essay").value;
     var essay_arr = essay_to_arr(essay);
     
+    if (! only_unusual &&   essay_arr.length > 2000 )
+    {
+        if ( ! confirm(`一共有${essay_arr.length}行文本要显示，可能会卡住浏览器。\n确定要继续吗？`) )
+            return;
+    }
+    
     for (var iLine = 0; iLine < essay_arr.length; iLine++)
     {
         const lineObj = essay_arr[iLine]; 
@@ -41,11 +47,15 @@ function show_check_results(only_unusual = false)
                 <ruby class="div_essay_char">
                     <div class="div_origChar_n_aboveText">
                         <div class="div_comments_above_char">
-                            <div class="a_comment_above_char" style="display: none;" >
-                                <span class="span_a_comment_above_char" id="blk"></span>
+                            <div class="a_comment_above_char">
+                                <span class="span_a_comment_above_char" id="unusual"  style="display: none;" >⚠</span>
+                            </div>
+                            
+                            <div class="a_comment_above_char"  >
+                                <span class="span_a_comment_above_char" id="blk" style="display: none;">${escapeHtml(charObj.blk)}</span>
                             </div>
                             <div class="a_comment_above_char"  >
-                                <span class="span_a_comment_above_char" id="code">${c2utf16(essayChar).hex}</span>
+                                <span class="span_a_comment_above_char" id="code" style="display: none;">${charObj.hex}</span>
                             </div>
                         </div>
                         <div class="div_orig_char">${escapeHtml(essayChar)}</div>
@@ -56,6 +66,23 @@ function show_check_results(only_unusual = false)
             var div_origChar_n_aboveText = div_essayChar.q(".div_origChar_n_aboveText");
             var div_origChar = div_essayChar.q(".div_orig_char");
             var ruby_rt = div_essayChar.q("rt");
+            var code_span = div_essayChar.q("#code");
+            
+//             if (!only_unusual)
+//                 code_span.style.display = "none";
+            
+            var unusual_span = div_essayChar.q("#unusual");
+            if (charObj.isUnusual)
+            {
+                for ( name of Object.keys(charObj.unusuals) )
+                {
+                    if ( charObj.unusuals[name] == true && $$(`.unusual_cond_checkbox[name='${name}']`).checked )
+                    {
+                        unusual_span.style.display="";
+                        unusual_span.textContent += unusual_cond[name].short_desc;
+                    }
+                }
+            }
             
 
 
@@ -218,16 +245,24 @@ function essay_to_arr(essay, only_unusual = false)
                 line_num: line_index+1,
                 col_num: char_index + 1,
                 char:  originalChar,
-                isUnusual: false,
+                hex: c2utf16(originalChar).hex,
+                blk: undefined,
+                unusuals: undefined,
+                isUnusual: undefined,
             };
             
-            if ( isCharUnusual(originalChar) )
+            result_char_obj.blk = getCpBlock(result_char_obj.hex);
+            result_char_obj.unusuals = getCharUnusuals(originalChar, result_char_obj);
+//             console.log(result_char_obj.unusuals);
+            result_char_obj.isUnusual = isCurrentlyThisUnusual(result_char_obj.unusuals);
+            if (result_char_obj.isUnusual)
             {
-                result_char_obj.isUnusual = isCharUnusual(originalChar);
                 result_line_obj.this_line_has_unusual = true;
             }
             
             result_line_obj.charsObjs.push( result_char_obj ) ;
+            
+//             console.log(originalChar, result_char_obj.isUnusual);
         }
         
         result_arr.push(result_line_obj);
@@ -235,26 +270,17 @@ function essay_to_arr(essay, only_unusual = false)
 
     return result_arr;
 }
-
-function isCharUnusual(c)
+function isCurrentlyThisUnusual(unusualsObj)
 {
-    var unusual_val = 0;
-    
-    if ( summary_map[c] )
+    for (name of Object.keys(unusualsObj) )
     {
-        if (summary_map[c] ['isComp'])
-            unusual_val += 220;
-        
-        if (summary_map[c] ['isRad'])
-            unusual_val += 220;
-        
-        if (summary_map[c] ['isVari_JP']
-            && !summary_map[c] ['isSimp'] && !summary_map[c] ['isTrad'] && !summary_map[c] ['isChi']
-        )
-            unusual_val += 210;
-    } 
-
-    return unusual_val > 0 ? unusual_val : false ;
+        if ( $$(`.unusual_cond_checkbox[name='${name}']`).checked )
+        {
+            if (unusualsObj[name])
+                return true;
+        }
+    }
+    return false;
 }
 
 console.log(Array.from(`\u4e00\u3400\u{20000}\u{2a700}\u{2b740}\u{2b820}\u{2ceb0}`));

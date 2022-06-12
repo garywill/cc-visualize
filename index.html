@@ -7,10 +7,14 @@
         
         <script type="text/javascript">
             var opencc = {};
+            var unicode_data = {};
         </script>
+        <script type="text/javascript" src="unicode-data/unicode-data-blocks.js"></script>
+        <script type="text/javascript" src="ucd.js"></script>
+        
         <script type="text/javascript" src="summary-data/summary-data-map.js"></script>
         
-<!--         <script type="text/javascript" src="ucd.js"></script> -->
+        <script type="text/javascript" src="unusual_conditions.js"></script>
         <script type="text/javascript" src="checkessay.js"></script>
         <style>
             .serif {
@@ -62,10 +66,16 @@
             .simp-n-trad {
                 background-color: #91ff9166;
             }
-            .unusual_2  {
-                background-color: red;
+            .jp {
+                background-color: #ff000080;
             }
-            
+                        
+            #unusual {
+                font-size: 15px;
+                color: #ff0808;
+                font-weight: bold;
+            }
+
             .div_orig_char {
             ruby-position: under;
             border-bottom: 1px dashed grey;
@@ -116,7 +126,7 @@
         </div>
 
         <div id="userInput" >
-            <p>输入文本:</p>
+            输入文本:<br>
             <div>
             <textarea class="serif" id="essay" style="width:100%; height: 200px;">       
 例：如下小说、古文及古诗取自网络，可见网络来源含有错字
@@ -167,6 +177,11 @@
             </div>
             <button id="btn_checkessay">全文检视</button>
             <button id="btn_checkessay_unusualonly">仅检视不寻常字符</button>
+            <br>不寻常字符判断条件：<br>
+            <details>
+            <summary>展开选项</summary>
+                <form id="form_unusual_cond"></form>
+            </details>
         </div>
         
       
