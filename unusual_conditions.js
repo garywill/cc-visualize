@@ -58,34 +58,34 @@ const unusual_cond = {
         default_checked: false,
     },
     
-    "irg_no_gsource": {
-        full_desc: "中国大陆/马来西亚研究组未提供字源的字",
-        short_desc: "外",
-        default_checked: true,
-    },
-    "irg_onlyone": {
-        full_desc: "仅一个地区或国家的研究组提供了字源的字",
-        short_desc: "独",
-        default_checked: true,
-    },
+//     "irg_no_gsource": {
+//         full_desc: "中国大陆/马来西亚研究组未提供字源的字",
+//         short_desc: "外",
+//         default_checked: true,
+//     },
+//     "irg_onlyone": {
+//         full_desc: "仅一个地区或国家的研究组提供了字源的字",
+//         short_desc: "独",
+//         default_checked: true,
+//     },
 
     
-    "is_en": {
-        full_desc: "属于基本西文ASCII字符",
-        short_desc: "西",
-        default_checked: false,
-    },
-    "is_cjk": {
-        full_desc: "属于汉字或汉字标点字符",
-        short_desc: "汉",
-        default_checked: false,
-    },
-    
-    "blk_others": {
-        full_desc: "既不属于基本西文ASCII也非汉字",
-        short_desc: "其",
-        default_checked: true,
-    },
+//     "is_en": {
+//         full_desc: "属于基本西文ASCII字符",
+//         short_desc: "西",
+//         default_checked: false,
+//     },
+//     "is_cjk": {
+//         full_desc: "属于汉字或汉字标点字符",
+//         short_desc: "汉",
+//         default_checked: false,
+//     },
+//     
+//     "blk_others": {
+//         full_desc: "既不属于基本西文ASCII也非汉字",
+//         short_desc: "其",
+//         default_checked: true,
+//     },
     "blk_nobelong": {
         full_desc: "不属于任何区块",
         short_desc: "非",
@@ -126,58 +126,54 @@ function readUserCond()
 }
 
 
-function getCharUnusuals(c, charObj) 
+function getCharUnusuals(c, cInfo) 
 {
     var result = {};
+    
     for (name of Object.keys(unusual_cond))
     {
         const condObj = unusual_cond[name];
         
         if ( condObj['func'] )
         {
-            result[ name ] = condObj.func(c, summary_map[c], charObj) ;
-            if ( result [ name] && charObj && condObj.isCurrentlyEnabled )
-            {
-                charObj ['isUnusual'] = true;
-            }
+            result[ name ] = condObj.func(c, summary_map[c], cInfo) ;
+
         }
     }
-    
-    if (charObj)
-        charObj['unusuals'] = result;
+
     
     return result;
 }
 
-unusual_cond['has_comp_var'].func = function(c, mapObj, charObj) {
+unusual_cond['has_comp_var'].func = function(c, mapObj, cInfo) {
     return ( mapObj !== undefined 
         && mapObj ['isComp'] 
     );
 };
-unusual_cond['has_rad_var'].func = function(c, mapObj, charObj) {
+unusual_cond['has_rad_var'].func = function(c, mapObj, cInfo) {
     return ( mapObj !== undefined 
         && mapObj ['isRad'] 
     );
 };
 
-unusual_cond['is_jp'].func = function(c, mapObj, charObj) {
+unusual_cond['is_jp'].func = function(c, mapObj, cInfo) {
     return ( mapObj !== undefined 
         && mapObj ['isVari_JP'] 
     );
 };
-unusual_cond['is_simp'].func = function(c, mapObj, charObj) {
+unusual_cond['is_simp'].func = function(c, mapObj, cInfo) {
     return ( mapObj !== undefined 
         && mapObj ['isSimp']
         && !mapObj ['isTrad']
     );
 };
-unusual_cond['is_trad'].func = function(c, mapObj, charObj) {
+unusual_cond['is_trad'].func = function(c, mapObj, cInfo) {
     return ( mapObj !== undefined 
         && mapObj ['isTrad']
         && !mapObj ['isSimp']
     );
 };
-unusual_cond['is_simp_n_trad'].func = function(c, mapObj, charObj) {
+unusual_cond['is_simp_n_trad'].func = function(c, mapObj, cInfo) {
     return ( mapObj !== undefined 
         && mapObj ['isSimp']
         && mapObj ['isTrad']
@@ -186,7 +182,7 @@ unusual_cond['is_simp_n_trad'].func = function(c, mapObj, charObj) {
 
 
 
-unusual_cond['blk_is_comp'].func = function(c, mapObj, charObj) {
+unusual_cond['blk_is_comp'].func = function(c, mapObj, cInfo) {
 //     const blks = [
 //         "CJK Compatibility Ideographs Supplement",
 //         "CJK Compatibility",
@@ -194,8 +190,8 @@ unusual_cond['blk_is_comp'].func = function(c, mapObj, charObj) {
 //         "CJK Compatibility Ideographs",
 //     ];
     var blk ;
-    if (charObj)
-        blk = charObj.blk;
+    if (cInfo)
+        blk = cInfo.blk;
     else
         blk = getCpBlock( c2utf16(c).hex );
     
@@ -203,22 +199,22 @@ unusual_cond['blk_is_comp'].func = function(c, mapObj, charObj) {
     if (blk.includes("CJK Compatibility"))
         return true;
 };
-unusual_cond['blk_is_rad'].func = function(c, mapObj, charObj) {
+unusual_cond['blk_is_rad'].func = function(c, mapObj, cInfo) {
     const blks = [
         "CJK Radicals Supplement",
         "Kangxi Radicals",
         "CJK Strokes",
     ];
     var blk ;
-    if (charObj)
-        blk = charObj.blk;
+    if (cInfo)
+        blk = cInfo.blk;
     else
         blk = getCpBlock( c2utf16(c).hex );
     
     if ( blks.includes(blk) )
         return true;
 };
-unusual_cond['blk_is_cjkext'].func = function(c, mapObj, charObj) {
+unusual_cond['blk_is_cjkext'].func = function(c, mapObj, cInfo) {
 //     const blks = [
 //         "CJK Unified Ideographs Extension A",
 //         "CJK Unified Ideographs Extension B",
@@ -230,8 +226,8 @@ unusual_cond['blk_is_cjkext'].func = function(c, mapObj, charObj) {
 //         "CJK Unified Ideographs Extension H",
 //     ];
     var blk ;
-    if (charObj)
-        blk = charObj.blk;
+    if (cInfo)
+        blk = cInfo.blk;
     else
         blk = getCpBlock( c2utf16(c).hex );
     
@@ -240,10 +236,10 @@ unusual_cond['blk_is_cjkext'].func = function(c, mapObj, charObj) {
         return true;
 };
 
-unusual_cond['blk_nobelong'].func = function(c, mapObj, charObj) {
+unusual_cond['blk_nobelong'].func = function(c, mapObj, cInfo) {
     var blk ;
-    if (charObj)
-        blk = charObj.blk;
+    if (cInfo)
+        blk = cInfo.blk;
     else
         blk = getCpBlock( c2utf16(c).hex );
     

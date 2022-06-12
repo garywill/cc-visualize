@@ -54,10 +54,10 @@ function show_check_results(only_unusual = false)
                             </div>
                             
                             <div class="a_comment_above_char"  >
-                                <span class="span_a_comment_above_char" id="blk" style="display: none;">${escapeHtml(charObj.blk)}</span>
+                                <span class="span_a_comment_above_char" id="blk" style="display: none;">${escapeHtml(charObj.cInfo.blk)}</span>
                             </div>
                             <div class="a_comment_above_char"  >
-                                <span class="span_a_comment_above_char" id="code" style="display: none;">${charObj.hex}</span>
+                                <span class="span_a_comment_above_char" id="code" style="display: none;">${charObj.cInfo.hex}</span>
                             </div>
                         </div>
                         <div class="div_orig_char">${escapeHtml(essayChar)}</div>
@@ -69,16 +69,14 @@ function show_check_results(only_unusual = false)
             var div_origChar = div_essayChar.q(".div_orig_char");
             var ruby_rt = div_essayChar.q("rt");
             var code_span = div_essayChar.q("#code");
-            
-//             if (!only_unusual)
-//                 code_span.style.display = "none";
-            
             var unusual_span = div_essayChar.q("#unusual");
+            
+            
             if (charObj.isUnusual)
             {
-                for ( name of Object.keys(charObj.unusuals) )
+                for ( name of Object.keys(charObj.cInfo.unusuals) )
                 {
-                    if ( charObj.unusuals[name] == true && unusual_cond[name].isCurrentlyEnabled )
+                    if ( charObj.cInfo.unusuals[name] == true && unusual_cond[name].isCurrentlyEnabled )
                     {
                         unusual_span.style.display="";
                         unusual_span.textContent += unusual_cond[name].short_desc;
@@ -220,6 +218,7 @@ function c2utf8(c){
     var dec = parseInt(hex, 16);
     return { dec: dec, hex: hex.toUpperCase() };
 }
+var charsCInfoCache = {};
 function essay_to_arr(essay, only_unusual = false) 
 {
     var result_arr = [];
@@ -247,23 +246,17 @@ function essay_to_arr(essay, only_unusual = false)
                 line_num: line_index+1,
                 col_num: char_index + 1,
                 char:  originalChar,
-                hex: c2utf16(originalChar).hex,
-                blk: undefined,
-                unusuals: undefined,
+                cInfo: getCInfo(originalChar),
                 isUnusual: undefined,
             };
             
-            result_char_obj.blk = getCpBlock(result_char_obj.hex);
-            getCharUnusuals(originalChar, result_char_obj);
-//             isCurrentlyThisUnusual(result_char_obj.unusuals);
+            result_char_obj.isUnusual = isCurrentlyThisUnusual(result_char_obj.cInfo.unusuals);
             if (result_char_obj.isUnusual)
             {
                 result_line_obj.this_line_has_unusual = true;
             }
             
             result_line_obj.charsObjs.push( result_char_obj ) ;
-            
-//             console.log(originalChar, result_char_obj.isUnusual);
         }
         
         result_arr.push(result_line_obj);
@@ -271,8 +264,37 @@ function essay_to_arr(essay, only_unusual = false)
 
     return result_arr;
 }
+function getCInfo(c)
+{
+    if ( ! charsCInfoCache [c] )
+    {
+        var cInfo = {
+            hex: c2utf16(c).hex,
+            blk: undefined,
+            unusuals: undefined,
+        }
+        cInfo.blk = getCpBlock(cInfo.hex); 
+        cInfo.unusuals = getCharUnusuals(c, cInfo);
+
+        charsCInfoCache [c] = cInfo;
+    }
+    return charsCInfoCache [c];
+}
+
+function isCurrentlyThisUnusual(unusualsObj)
+{
+    for (name of Object.keys(unusualsObj) )
+    {
+        if ( unusual_cond [name] . isCurrentlyEnabled )
+        {
+            if (unusualsObj[name])
+                return true;
+        }
+    }
+    return false;
+}
+
+
 
 console.log(Array.from(`\u4e00\u3400\u{20000}\u{2a700}\u{2b740}\u{2b820}\u{2ceb0}`));
 console.log(Array.from(`一㐀𠀀𪜀𫝀𫠠𬺰`));
-
- 
