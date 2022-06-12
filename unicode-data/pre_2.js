@@ -14,6 +14,7 @@ const kVarNames = [
 ];
 
 var unicode_data = {
+    blocks: [],
     unihan_variants_raw: {}, // 所有（原始）unihan的k____Variants原始数据转成json
     unihan_variants: {},  // 所有（原始）unihan的k____Variants原始数据转成json，然后hex变中文字符，且k____Variants内容为数组
     map: {}, //繁简双向JSON
@@ -23,21 +24,40 @@ var unicode_data = {
 
 async function start() 
 {   
-    
+    // xml nore 部分 变js原始string
     var ucd_nore_data_raw_string  =  fs.readFileSync('ucd.no-repertoire.xml',  'utf8');
     
     fs.writeFileSync("unicode-data-ucd.no-repertoire.xml.js", "unicode_data.xml_nore = `\n" + ucd_nore_data_raw_string.replaceAll("`", "\\`") + "\n`;" );
     
+    // xml re 部分 变js原始string
     var ucd_data_raw_string =  fs.readFileSync('ucd.repertoire.xml',  'utf8');
     
     fs.writeFileSync("unicode-data-ucd.repertoire.xml.js", "unicode_data.xml_re = `\n" + ucd_data_raw_string.replaceAll("`", "\\`") + "\n`;" );
     
     const domparser = new DOMParser();
+    
+    // 转换blocks范围数据成json
+    var xmlDocNore = domparser.parseFromString(ucd_nore_data_raw_string, "text/xml");
+    var blockNodes = xmlDocNore.getElementsByTagName("ucd")[0].getElementsByTagName("blocks")[0].getElementsByTagName("block");
+    for ( block of Array.from(blockNodes)) {
+        unicode_data.blocks.push( {
+            name: block.getAttribute("name"),
+            first_cp: block.getAttribute("first-cp"),
+            last_cp: block.getAttribute("last-cp"),
+        });
+    }
+    fs.writeFileSync("unicode-data-blocks.js",( "unicode_data.blocks =\n" + JSON.stringify( unicode_data.blocks) + "\n;")
+        .replaceAll("},", "},\n")
+    );
+    
+    
     var xmlDoc = domparser.parseFromString(ucd_data_raw_string, "text/xml");
     
     var repertoireNode = xmlDoc.getElementsByTagName("repertoire")[0];
     
     var charNodes = repertoireNode.getElementsByTagName("char");
+    
+    //所有k___Variants的raw内容转json
     for (charNode of Array.from(charNodes) )
     {
         const blk = charNode.getAttribute("blk");
@@ -64,6 +84,7 @@ async function start()
 //     console.log(unicode_data.unihan_variants_raw);
     fs.writeFileSync("unicode-data-unihan-all-vars-raw.json", JSON.stringify(unicode_data.unihan_variants_raw, null, 2) );
     
+    // 所有k___Variants转json
     for ( objI in unicode_data.unihan_variants_raw) 
     {
         const left = utf16hex2char(objI);
@@ -85,8 +106,12 @@ async function start()
             unicode_data.unihan_variants [left] [kVarN] = right_arr;
         }
     }
-    fs.writeFileSync("unicode-data-unihan-all-vars.js", "unicode_data.unihan_variants =\n" + JSON.stringify( unicode_data.unihan_variants, null, 2) + "\n;" );
+    fs.writeFileSync("unicode-data-unihan-all-vars.js",( "unicode_data.unihan_variants =\n" + JSON.stringify( unicode_data.unihan_variants) + "\n;")
+        .replaceAll("},", "},\n")
+        .replaceAll("],", "],\n")
+    );
     
+    // 繁简互换数据转json
     for ( c in unicode_data.unihan_variants )
     {
         if ( unicode_data.unihan_variants [c] ["kSimplifiedVariant"] )
@@ -109,6 +134,23 @@ async function start()
         .replaceAll("}", "\n}")
         .replaceAll("],", "],\n")
     );
+    
+    
+    // TODO 生成一个繁简map。
+    // TODO 做一个summary表，结合opencc的map2和ucd的map
+    
+    /* 
+     * kCompatibilityVarian
+kSemanticVarian
+kSimplifiedVarian
+kSpecializedSemanticVarian
+kSpoofingVarian
+kTraditionalVarian
+kZVarian
+*/
+    // kSemanticVariant和kSpecialSemantic为异体字oo
+    
+    // TODO 添加手动的字
 }
 start();
 
