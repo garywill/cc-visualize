@@ -74,6 +74,7 @@ async function init_opencc()
         
         mapTnS(STj, "ST");
         mapTnS(TSj, "TS");
+        map = sortMapObj(map);
         opencc.map = map;
         fs.writeFileSync( "opencc-data-map.js", "opencc.map = \n" + JSON.stringify(map, null, 2) + "\n;" );
         console.log("完成map");
@@ -84,6 +85,7 @@ async function init_opencc()
         checkVariants(HKVj, "HK");
         checkVariants(TWVj, "TW");
         checkVariants(JPVj, "JP");
+        map2 = sortMapObj(map2);
         opencc.map2 = map2;
         fs.writeFileSync( "opencc-data-map2.js", "opencc.map2 = \n" + JSON.stringify(map2, null, 2) + "\n;" );
         console.log("完成map2");
@@ -92,6 +94,7 @@ async function init_opencc()
         map3 = JSON.parse(JSON.stringify(map2));
         
         finishMap3();
+        map3 = sortMapObj(map3);
         opencc.map3 = map3;
         fs.writeFileSync( "opencc-data-map3.js", "opencc.map3 = \n" + JSON.stringify(map3, null, 2) + "\n;" );
         console.log("完成map3");
@@ -113,7 +116,7 @@ async function init_opencc()
                 
                 var write_newSet = new Set(newSet);
                 write_newSet.delete(write_char);
-                map3[write_char]['rel'] = [...write_newSet];
+                map3[write_char]['rel'] = [...write_newSet].sort();
             }
             //         if (newSet.has("发"))
             //             console.log(newSet);
@@ -191,7 +194,7 @@ async function init_opencc()
         variChars.forEach( function(char) {
             var _updatedRelSet = new Set(updatedRelSet);
             _updatedRelSet.delete(char)
-            map2[char]['rel'] = [..._updatedRelSet];
+            map2[char]['rel'] = [..._updatedRelSet].sort();
         });
     }
     //=================================
@@ -306,7 +309,7 @@ async function init_opencc()
         //             console.log(`${char} 字已设置过关联关系{${oldr}}，现又更新关联成为{${newr}}`);
         //     }
         
-        mapObj[char]['rel'] = [...newSet];
+        mapObj[char]['rel'] = [...newSet].sort();
     }
     
     //如果某表中还没有这个字的索引，为它创建一个新的（空内容但有基本结构的）
@@ -350,9 +353,31 @@ async function init_opencc()
             
             var right_arr = right.split(' ');
             
-            json[left] = right_arr;
+            json[left] = right_arr.sort();
         })
+        
+        json = sortMapObj(json);
         
         return json;
     }
+}
+// ====================
+
+function sortMapObj(mapObj) {
+    var newMapObj = {};
+    const origI = Object.keys(mapObj).sort();
+//     console.log(origI);
+    for ( c of origI )
+    {
+//         console.log(c);
+        newMapObj[c] = JSON.parse( JSON.stringify( mapObj[c] ) );
+        if ( Array.isArray(newMapObj [c] ['rel'] ) )
+        {
+            newMapObj [c] ['rel']  = newMapObj [c] ['rel'] .sort();
+        }
+    }
+    return newMapObj;
+//     Object.assign( mapObj , JSON.parse( JSON.stringify( newMapObj ) ) );
+//     console.log(mapObj);
+    
 }
