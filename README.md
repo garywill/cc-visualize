@@ -85,15 +85,15 @@ UCD提供txt（文件数量多）和[xml](https://www.unicode.org/Public/15.0.0/
 ```json
 "壮":{"rel":["壯","𡉟"],"isSimp":true,"isTrad":true},
 "壯":{"rel":["壮","𡉟"],"isTrad":true},
-"壮":{"rel":["壮","壯","𡉟"],"isComp":true},
-"𡉟":{"rel":["壮","壯"]},
+"壮":{"rel":["壮","壯","𡉟"],"isComp":true},  // 兼容区字符 
+"𡉟":{"rel":["壮","壯"]},  //扩展区字，少见字
 
 "並":{"rel":["併","倂","并"],"isTrad":true},
 "併":{"rel":["並","倂","并"],"isTrad":true},
 "倂":{"rel":["並","併","并"]},
 "并":{"rel":["並","併","倂"],"isSimp":true,"isTrad":true},
-"倂":{"rel":["並","併","倂","并"],"isComp":true},
-"並":{"rel":["並","併","倂","并"],"isComp":true},
+"倂":{"rel":["並","併","倂","并"],"isComp":true},  // 兼容区字 
+"並":{"rel":["並","併","倂","并"],"isComp":true},  // 兼容区字
 ```
 
 其他未采用的UCD参数
