@@ -193,11 +193,11 @@ async function init_opencc()
     //参数：
     //     ToS:         是[繁-简]还是[简-繁]
     //仅作用于map表
-    function mapTnS(obj , ToS)
+    function mapTnS(rawrelObj , ToS)
     {
         
-        for ( left in obj ) {
-            var right_arr = obj[left];
+        for ( left in rawrelObj ) {
+            var right_arr = rawrelObj[left];
             
             
             
