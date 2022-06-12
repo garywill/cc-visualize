@@ -230,7 +230,7 @@ async function init_opencc()
     //参数：
     //     ToS:         是[繁-简]还是[简-繁]
     //仅作用于map表
-    function mapTnS(rawrelObj , ToS)
+    function mapTnS(rawrelObj , ToS) //TODO mapobj
     {
         
         for ( left in rawrelObj ) {
@@ -285,7 +285,7 @@ async function init_opencc()
             
             // 分别设置繁、简标志
             simpChars.forEach( function(simpChar) {
-                createKey(simpChar, map);
+                createKey(simpChar, mapObj);
                 mapObj[simpChar]['isSimp'] = true;
                 //set.add(simpChar);
                 //mapObj[simpChar]['rel'].forEach( function(char) {
@@ -294,7 +294,7 @@ async function init_opencc()
             });
             
             tradChars.forEach( function(tradChar) {
-                createKey(tradChar, map);
+                createKey(tradChar, mapObj);
                 mapObj[tradChar]['isTrad'] = true;
                 //set.add(tradChar);
                 //mapObj[tradChar]['rel'].forEach( function(char) {
