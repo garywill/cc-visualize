@@ -58,25 +58,48 @@ async function init_opencc()
     async function afterLoadText() 
     {
         STj = txt2json(ST);
-        fs.writeFileSync( "opencc-data-ST.js", "opencc.ST = \n" + JSON.stringify(STj, null, 2) + "\n;" );
+        fs.writeFileSync( "opencc-data-ST.js", ( "opencc.ST = \n" + JSON.stringify(STj) + "\n;" )
+            .replaceAll("{", "{\n") 
+            .replaceAll("}", "\n}")
+            .replaceAll("],", "],\n")
+        );
         
         TSj = txt2json(TS);
-        fs.writeFileSync( "opencc-data-TS.js", "opencc.TS = \n" + JSON.stringify(TSj, null, 2) + "\n;" );
+        fs.writeFileSync( "opencc-data-TS.js", ( "opencc.TS = \n" + JSON.stringify(TSj) + "\n;" )
+            .replaceAll("{", "{\n") 
+            .replaceAll("}", "\n}")
+            .replaceAll("],", "],\n")
+        );
         
         HKVj = txt2json(HKV);
-        fs.writeFileSync( "opencc-data-HKV.js", "opencc.HKV = \n" + JSON.stringify(HKVj, null, 2) + "\n;" );
+        fs.writeFileSync( "opencc-data-HKV.js", ( "opencc.HKV = \n" + JSON.stringify(HKVj) + "\n;" )
+            .replaceAll("{", "{\n") 
+            .replaceAll("}", "\n}")
+            .replaceAll("],", "],\n")
+        );
         
         TWVj = txt2json(TWV);
-        fs.writeFileSync( "opencc-data-TWV.js", "opencc.TWV = \n" + JSON.stringify(TWVj, null, 2) + "\n;" );
+        fs.writeFileSync( "opencc-data-TWV.js", ( "opencc.TWV = \n" + JSON.stringify(TWVj) + "\n;" )
+            .replaceAll("{", "{\n") 
+            .replaceAll("}", "\n}")
+            .replaceAll("],", "],\n")
+        );
         
         JPVj = txt2json(JPV);
-        fs.writeFileSync( "opencc-data-JPV.js", "opencc.JPV = \n" + JSON.stringify(JPVj, null, 2) + "\n;" );
+        fs.writeFileSync( "opencc-data-JPV.js", ( "opencc.JPV = \n" + JSON.stringify(JPVj) + "\n;" )
+            .replaceAll("{", "{\n") 
+            .replaceAll("}", "\n}")
+            .replaceAll("],", "],\n")
+        );
         
         mapTnS(STj, "ST");
         mapTnS(TSj, "TS");
         map = sortMapObj(map);
         opencc.map = map;
-        fs.writeFileSync( "opencc-data-map.js", "opencc.map = \n" + JSON.stringify(map, null, 2) + "\n;" );
+//         console.log(map);
+        fs.writeFileSync( "opencc-data-map.js", ( "opencc.map = \n" + JSON.stringify(map) + "\n;" )
+            .replaceAll("},", "},\n")
+        );
         console.log("完成map");
         
         //     map2 = Object.assign({}, map);
@@ -87,7 +110,9 @@ async function init_opencc()
         checkVariants(JPVj, "JP");
         map2 = sortMapObj(map2);
         opencc.map2 = map2;
-        fs.writeFileSync( "opencc-data-map2.js", "opencc.map2 = \n" + JSON.stringify(map2, null, 2) + "\n;" );
+        fs.writeFileSync( "opencc-data-map2.js", ( "opencc.map2 = \n" + JSON.stringify(map2) + "\n;" )
+            .replaceAll("},", "},\n")
+        );
         console.log("完成map2");
         
         //     map3 = Object.assign({}, map2);
@@ -96,7 +121,9 @@ async function init_opencc()
         finishMap3();
         map3 = sortMapObj(map3);
         opencc.map3 = map3;
-        fs.writeFileSync( "opencc-data-map3.js", "opencc.map3 = \n" + JSON.stringify(map3, null, 2) + "\n;" );
+        fs.writeFileSync( "opencc-data-map3.js", ( "opencc.map3 = \n" + JSON.stringify(map3) + "\n;" )
+            .replaceAll("},", "},\n")
+        );
         console.log("完成map3");
     }
     
