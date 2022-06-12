@@ -21,6 +21,10 @@ async function start()
     for (c in summary_map)
     {
         const cObj = summary_map[c];
+        
+        if ( cObj['isChi'] && ! cObj['isTrad'] && cObj['isSimp'] ) 
+            cObj['isTrad'] = true;
+        
         if ( cObj['isChi'] && ( cObj['isTrad'] || cObj['isSimp'] ) )
             delete cObj['isChi'];
     }
