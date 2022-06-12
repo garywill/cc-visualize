@@ -272,7 +272,7 @@ async function init_opencc()
             // 写入（更新）rel
             for (char of set) 
             {
-                updateCharRel(char, set)
+                updateCharRel(mapObj, char, set)
             }
             
     }
@@ -286,20 +286,20 @@ async function init_opencc()
         return _union;
     }
     
-    function updateCharRel(char, updatedRelSet)
+    function updateCharRel(mapObj, char, updatedRelSet)
     {
         var newSet = new Set(updatedRelSet);
         newSet.delete(char);
         
-        //     if ( map[char]['rel'].length)
+        //     if ( mapObj[char]['rel'].length)
         //     {
-        //         var oldr = map[char]['rel'].sort().toString();
+        //         var oldr = mapObj[char]['rel'].sort().toString();
         //         var newr = [...newSet].sort().toString();
         //         if (oldr != newr)
         //             console.log(`${char} 字已设置过关联关系{${oldr}}，现又更新关联成为{${newr}}`);
         //     }
         
-        map[char]['rel'] = [...newSet];
+        mapObj[char]['rel'] = [...newSet];
     }
     
     //如果某表中还没有这个字的索引，为它创建一个新的（空内容但有基本结构的）
