@@ -19,10 +19,10 @@ async function init_ucd() {
 }
 init_ucd();
 
-function getCPBlock(cp) //eg cp="4e00"
+function getCpBlock(cp) //eg cp="4e00"
 {
     var cp_int =  Number("0x" + cp);
-    var blockData_arr = ucd.ucdNode.querySelector("blocks").querySelectorAll("block");
+    var blockData_arr = ucd.ucd.querySelector("blocks").querySelectorAll("block");
     for ( i in blockData_arr )
     {
         const b=blockData_arr[i];
