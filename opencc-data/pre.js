@@ -248,7 +248,7 @@ async function init_opencc()
             
             // 分别设置繁、简标志
             simpChars.forEach( function(simpChar) {
-                createKey(simpChar);
+                createKey(simpChar, map);
                 mapObj[simpChar]['isSimp'] = true;
                 //set.add(simpChar);
                 //mapObj[simpChar]['rel'].forEach( function(char) {
@@ -257,7 +257,7 @@ async function init_opencc()
             });
             
             tradChars.forEach( function(tradChar) {
-                createKey(tradChar);
+                createKey(tradChar, map);
                 mapObj[tradChar]['isTrad'] = true;
                 //set.add(tradChar);
                 //mapObj[tradChar]['rel'].forEach( function(char) {
@@ -303,7 +303,7 @@ async function init_opencc()
     }
     
     //如果某表中还没有这个字的索引，为它创建一个新的（空内容但有基本结构的）
-    function createKey( key , mapObj=map)
+    function createKey( key , mapObj)
     {
         if ( mapObj[key] === undefined)
         {
