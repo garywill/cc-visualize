@@ -18,6 +18,7 @@ var unicode_data = {
     unihan_variants_raw: {}, // 所有（原始）unihan的k____Variants原始数据转成json
     unihan_variants: {},  // 所有（原始）unihan的k____Variants原始数据转成json，然后hex变中文字符，且k____Variants内容为数组
     map: {}, //繁简双向JSON
+    map2: {}, //繁简加一些其他k__variant 
     ST: {}, // 简->繁JSON
     TS: {}, // 繁->简JSON
 };
@@ -144,18 +145,46 @@ async function start()
         .replaceAll("},", "},\n")
     );
     
-    // TODO 做一个summary表，结合opencc的map2和ucd的map
     
-    /* 
-     * kCompatibilityVarian
-kSemanticVarian
-kSimplifiedVarian
-kSpecializedSemanticVarian
-kSpoofingVarian
-kTraditionalVarian
-kZVarian
-*/
-    // kSemanticVariant和kSpecialSemantic为异体字oo
+    
+    // 把一些其他k___variant加进新map
+    unicode_data.map2 = JSON.parse(JSON.stringify( unicode_data.map )) ;
+    for ( c in unicode_data.unihan_variants )
+    {
+        if ( unicode_data.unihan_variants [c] ["kCompatibilityVariant"] )
+        {
+            var oldRels1 = getAllRel( unicode_data.map2, c );
+            var oldRels2 = getAllRel( unicode_data.map2,  unicode_data.unihan_variants [c] ["kCompatibilityVariant"] );
+            var oldRels = [ ... unionSet( (new Set(oldRels1)) , (new Set(oldRels2)) ) ] ;
+             
+            createKey( c,  unicode_data.map2);
+            unicode_data.map2[c] ['isComp'] = true;
+            updateCharRel(unicode_data.map2, c , oldRels);
+        }
+        
+        if ( unicode_data.unihan_variants [c] ["kZVariant"] )
+        {
+            var oldRels1 = getAllRel( unicode_data.map2, c );
+            var oldRels2 = getAllRel( unicode_data.map2,  unicode_data.unihan_variants [c] ["kZVariant"] );
+            var oldRels = [ ... unionSet( (new Set(oldRels1)) , (new Set(oldRels2)) ) ] ;
+            
+            var newRels = oldRels;
+            newRels.push(c);
+            for ( cN of newRels )
+            {
+                createKey( cN,  unicode_data.map2);
+                updateCharRel(unicode_data.map2, cN , newRels);
+            }
+        }
+    }
+    unicode_data.map2 = sortMapObj(unicode_data.map2);
+    fs.writeFileSync("unicode-data-map2.js" , ( "unicode_data.map2 = \n" + JSON.stringify(unicode_data.map2) + "\n;" )
+        .replaceAll("},", "},\n")
+    );
+    
+    
+    // TODO 做一个summary表，结合opencc的map2和ucd的map2
+
     
     // TODO 添加手动的字
 }

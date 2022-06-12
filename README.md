@@ -42,7 +42,7 @@
 
 - 可以再加....
 
-### openCC
+### OpenCC
 
 含有中文繁简关系、日本用字与中文汉字关系
 
@@ -82,6 +82,17 @@
 UCD提供txt（文件数量多）和[xml](https://www.unicode.org/Public/15.0.0/ucdxml/)（单个大文件）两种数据格式。
 
 含有任意字符所属语言区块、每个区块的码的范围。含有正常汉字字符（CJK统一表意字符区）与康熙部首区、兼容表意字符区。还有繁简、Z变体、语义变体、特殊主义变体之间的关系。还有每个字的提交者是来自哪个国家的研究组
+
+采用的参数
+- kSimplifiedVariant 这个字对应的简体字
+- kTraditionalVariant 这个字对应的繁体字
+- kCompatibilityVariant 这个兼容区字对应的统一区字
+- kZVariant 相同字被多次编码（因为错误，或来源不同）
+
+其他参数
+- kSemanticVariant
+- kSpecializedSemanticVariant
+- kSpoofingVariant
 
 这里下载了xml并进行缩小，删除不需要的信息。然后生成JSON格式的汉字关联表
 
