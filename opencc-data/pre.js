@@ -99,13 +99,14 @@ async function init_opencc()
     
     //============ map3 所需函数 ==============================
     function finishMap3() {
-        var all_chars = Object.keys(map2);
+        var all_chars = Object.keys(map3);
         
         for (char of all_chars)
         {
-            var newSet = new Set(map2[char].rel);
+            var newSet = new Set(map3[char].rel);
             newSet.add(char);
-            newSet = new Set(getAllRel(map2, newSet));
+            newSet = new Set(getAllRel(map3, newSet));
+            
             for (write_char of newSet) 
             {
                 createKey(write_char, map3);
