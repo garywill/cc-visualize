@@ -105,7 +105,7 @@ async function init_opencc()
         {
             var newSet = new Set(map2[char].rel);
             newSet.add(char);
-            newSet = new Set(getAllRel(newSet, map2));
+            newSet = new Set(getAllRel(map2, newSet));
             for (write_char of newSet) 
             {
                 createKey(write_char, map3);
@@ -156,7 +156,7 @@ async function init_opencc()
             
             var all_chars = [...candi_filtered];
             all_chars.push(left);
-            var allRel = getAllRel(all_chars);
+            var allRel = getAllRel(map, all_chars);
             
             addVariantRel( [...candi_filtered], allRel );
         };  
@@ -212,7 +212,7 @@ async function init_opencc()
     //参数char可以是字符串（单个字），也可以是数组（一个元素是一个字）
     //参数mapObj指定要从哪一个表中读取
     //把输入的一个或多个字的目前表中已知的关联字都找出来
-    function getAllRel(chars, mapObj=map)
+    function getAllRel( mapObj, chars)
     {
         if ( typeof(chars) === "string" )
             chars = [chars];
@@ -265,8 +265,8 @@ async function init_opencc()
                 //});
             });
             
-            var set1 = getAllRel(simpChars);
-            var set2 = getAllRel(tradChars);
+            var set1 = getAllRel(map, simpChars);
+            var set2 = getAllRel(map, tradChars);
             set = unionSet(set1, set2);
             
             // 写入（更新）rel
