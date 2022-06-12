@@ -47,6 +47,10 @@ function escapeHtml(unsafe)
 
 function htmlStr2dom(htmlStr)
 {
+    htmlStr = htmlStr.replaceAll("\n", "");
+    htmlStr = htmlStr.replaceAll("\r", "");
+    htmlStr = htmlStr.replace(/> *</g, "><");
+    
     var dp = new DOMParser();
     return dp.parseFromString(htmlStr, "text/html").body.firstChild;
 
