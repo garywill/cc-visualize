@@ -182,11 +182,8 @@ async function start()
         .replaceAll("},", "},\n")
     );
     
-    
-    // TODO 做一个summary表，结合opencc的map2和ucd的map2
-
-    
     // TODO 添加手动的字
+    // TODO 挑出奇怪的独源字或无中国源的字
 }
 start();
 
