@@ -38,6 +38,23 @@ async function start()
             delete cObj['isChi'];
     }
     
+    for (c in summary_map)
+    {
+        const cObj = summary_map[c];
+        
+        if (cObj['isVari_JP'] && (
+            cObj['isTrad'] 
+            || cObj['isSimp']
+            || cObj['isVari_HK']
+            || cObj['isVari_TW']
+            || cObj['isChi']
+            )
+        )
+        {
+            delete cObj['isVari_JP'];
+        }
+    }
+    
     // cat summary-data-map.js |grep -o 'is.*'|uniq|sort|uniq
     
     for (c in summary_map)
