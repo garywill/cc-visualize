@@ -67,11 +67,11 @@ const unusual_cond = {
 //     },
 
 
-//     "blk_others": {
-//         full_desc: "既不属于基本西文ASCII也非汉字",
-//         short_desc: "其",
-//         default_checked: true,
-//     },
+    "blk_others": {
+        full_desc: "属于中文文献一般不会用到的区块",
+        short_desc: "其",
+        default_checked: true,
+    },
     "blk_nobelong": {
         full_desc: "不属于任何区块",
         short_desc: "非",
@@ -266,33 +266,43 @@ unusual_cond['blk_nobelong'].func = function(c, mapObj, cInfo) {
 
 
 
-// unusual_cond['is_cjk'].func = function(c) {
-//     const blks = [
-//         "CJK Radicals Supplement",
-//         "CJK Symbols and Punctuation",
-//         "CJK Strokes",
-//         "Enclosed CJK Letters and Months",
-//         "CJK Compatibility",
-//         "CJK Unified Ideographs Extension A",
-//         "CJK Unified Ideographs",
-//         "CJK Compatibility Ideographs",
-//         "CJK Compatibility Forms",
-//         "CJK Unified Ideographs Extension B",
-//         "CJK Unified Ideographs Extension C",
-//         "CJK Unified Ideographs Extension D",
-//         "CJK Unified Ideographs Extension E",
-//         "CJK Unified Ideographs Extension F",
-//         "CJK Compatibility Ideographs Supplement",
-//         "CJK Unified Ideographs Extension G",
-//         "CJK Unified Ideographs Extension H",
-//         "Kangxi Radicals",
-//         // TODO 其他区
-//         
-//         // TODO 中文标点特殊处理
-//     ];
-//     
-//     var blk = getCpBlock( c2utf16(c).hex );
-//     
-//     if ( blks.includes(blk) )
-//         return true;
-// };
+unusual_cond['blk_others'].func = function(c, mapObj, cInfo) {
+    const blks = [
+        "CJK Radicals Supplement",
+        "CJK Symbols and Punctuation",
+        "CJK Strokes",
+        "Enclosed CJK Letters and Months",
+        "CJK Compatibility",
+        "CJK Unified Ideographs Extension A",
+        "CJK Unified Ideographs",
+        "CJK Compatibility Ideographs",
+        "CJK Compatibility Forms",
+        "CJK Unified Ideographs Extension B",
+        "CJK Unified Ideographs Extension C",
+        "CJK Unified Ideographs Extension D",
+        "CJK Unified Ideographs Extension E",
+        "CJK Unified Ideographs Extension F",
+        "CJK Compatibility Ideographs Supplement",
+        "CJK Unified Ideographs Extension G",
+        "CJK Unified Ideographs Extension H",
+        "Kangxi Radicals",
+        
+        "Halfwidth and Fullwidth Forms",
+        "General Punctuation",
+//         "Latin-1 Supplement",
+        "Basic Latin",
+        "Enclosed Alphanumerics",
+        
+    ];
+    
+    var blk ;
+    if (cInfo)
+        blk = cInfo.blk;
+    else
+        blk = getCpBlock( c2utf16(c).hex );
+    
+    if ( ! blk )
+        return false;
+    if ( ! blks.includes(blk) )
+        return true;
+};
