@@ -1,42 +1,11 @@
 const unusual_cond = {
-    "blk_is_rad": {
-        full_desc: "属于笔划偏旁部首区汉字符",
-        short_desc: "划",
-        default_checked: true,
-    },
-    
-    "has_rad_var": {
-        full_desc: "此笔划偏旁部首字符有对应的完整统一汉字符",
-        short_desc: "划",
-        default_checked: true,
-    },
+//     "is_en": {
+//         full_desc: "是基本西文ASCII",
+//         short_desc: "西",
+//         default_checked: false,
+//     },
     
     
-    "blk_is_comp": {
-        full_desc: "属于兼容区汉字符",
-        short_desc: "兼",
-        default_checked: true,
-    },
-    
-    "has_comp_var": {
-        full_desc: "此兼容汉字符有所应该用以替代的统一汉字符",
-        short_desc: "兼",
-        default_checked: true,
-    },
-    
-    "blk_is_cjkext": {
-        full_desc: "属于汉字扩展区（一般为少见字）",
-        short_desc: "扩",
-        default_checked: true,
-    },
-    
-    
-    
-    "is_jp": {
-        full_desc: "是仅日文使用的简化字",
-        short_desc: "日",
-        default_checked: true,
-    },
     "is_simp": {
         full_desc: "是中文简体字",
         short_desc: "简",
@@ -52,11 +21,38 @@ const unusual_cond = {
         short_desc: "合",
         default_checked: false,
     },
-    "rel_multi": {
-        full_desc: "繁简关系有多个对应字的字",
-        short_desc: "多",
-        default_checked: false,
+//     "rel_multi": {
+//         full_desc: "繁简关系有多个对应字的字",
+//         short_desc: "多",
+//         default_checked: false,
+//     },
+    "is_jp": {
+        full_desc: "是仅日文使用的简化字",
+        short_desc: "日",
+        default_checked: true,
     },
+    
+    
+    "is_rad": {
+        full_desc: "属于笔划偏旁部首区汉字符 或 此笔划偏旁部首字符有对应的完整统一汉字符",
+        short_desc: "划",
+        default_checked: true,
+    },
+    "is_comp": {
+        full_desc: "属于兼容区汉字符 或 此兼容汉字符有所应该用以替代的统一汉字符",
+        short_desc: "兼",
+        default_checked: true,
+    },
+    
+    
+    "blk_is_cjkext": {
+        full_desc: "属于汉字扩展区（一般为少见字）",
+        short_desc: "扩",
+        default_checked: true,
+    },
+    
+    
+
     
 //     "irg_no_gsource": {
 //         full_desc: "中国大陆/马来西亚研究组未提供字源的字",
@@ -69,18 +65,7 @@ const unusual_cond = {
 //         default_checked: true,
 //     },
 
-    
-//     "is_en": {
-//         full_desc: "属于基本西文ASCII字符",
-//         short_desc: "西",
-//         default_checked: false,
-//     },
-//     "is_cjk": {
-//         full_desc: "属于汉字或汉字标点字符",
-//         short_desc: "汉",
-//         default_checked: false,
-//     },
-//     
+
 //     "blk_others": {
 //         full_desc: "既不属于基本西文ASCII也非汉字",
 //         short_desc: "其",
@@ -145,16 +130,6 @@ function getCharUnusuals(c, cInfo)
     return result;
 }
 
-unusual_cond['has_comp_var'].func = function(c, mapObj, cInfo) {
-    return ( mapObj !== undefined 
-        && mapObj ['isComp'] 
-    );
-};
-unusual_cond['has_rad_var'].func = function(c, mapObj, cInfo) {
-    return ( mapObj !== undefined 
-        && mapObj ['isRad'] 
-    );
-};
 
 unusual_cond['is_jp'].func = function(c, mapObj, cInfo) {
     return ( mapObj !== undefined 
@@ -182,7 +157,7 @@ unusual_cond['is_simp_n_trad'].func = function(c, mapObj, cInfo) {
 
 
 
-unusual_cond['blk_is_comp'].func = function(c, mapObj, cInfo) {
+unusual_cond['is_comp'].func = function(c, mapObj, cInfo) { 
 //     const blks = [
 //         "CJK Compatibility Ideographs Supplement",
 //         "CJK Compatibility",
@@ -196,12 +171,17 @@ unusual_cond['blk_is_comp'].func = function(c, mapObj, cInfo) {
         blk = getCpBlock( c2utf16(c).hex );
     
 //     if ( blks.includes(blk) )
-    if ( ! blk )
-        return false;
-    if (blk.includes("CJK Compatibility"))
+    
+    if ( blk && blk.includes("CJK Compatibility") 
+        || 
+        ( mapObj !== undefined 
+                && mapObj ['isComp'] 
+        )
+    )
         return true;
 };
-unusual_cond['blk_is_rad'].func = function(c, mapObj, cInfo) {
+
+unusual_cond['is_rad'].func = function(c, mapObj, cInfo) {
     const blks = [
         "CJK Radicals Supplement",
         "Kangxi Radicals",
@@ -213,9 +193,12 @@ unusual_cond['blk_is_rad'].func = function(c, mapObj, cInfo) {
     else
         blk = getCpBlock( c2utf16(c).hex );
     
-    if ( ! blk )
-        return false;
-    if ( blks.includes(blk) )
+    if ( blks.includes(blk) 
+        ||
+        ( mapObj !== undefined 
+            && mapObj ['isRad'] 
+        )
+    )
         return true;
 };
 unusual_cond['blk_is_cjkext'].func = function(c, mapObj, cInfo) {
@@ -254,15 +237,6 @@ unusual_cond['blk_nobelong'].func = function(c, mapObj, cInfo) {
 };
 
 
-// unusual_cond['is_en'].func = function(c) {
-//     const blks = [
-//         "Basic Latin",
-//     ];
-//     var blk = getCpBlock( c2utf16(c).hex );
-//     
-//     if ( blks.includes(blk) )
-//         return true;
-// };
 
 // unusual_cond['is_cjk'].func = function(c) {
 //     const blks = [
