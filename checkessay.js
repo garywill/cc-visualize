@@ -54,7 +54,7 @@ function show_check_results(only_unusual = false)
                             </div>
 
                         </div>
-                        <div class="div_orig_char">${escapeHtml(essayChar)}</div>
+                        <div class="div_orig_char">${essayChar != ' ' ? escapeHtml(essayChar) : '&nbsp' }</div>
                     </div>
                     <rt></rt>
                 </ruby>
