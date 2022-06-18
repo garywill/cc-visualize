@@ -150,6 +150,9 @@ function getCharUnusuals(c, cInfo)
 unusual_cond['is_jp'].func = function(c, mapObj, cInfo) {
     return ( mapObj !== undefined 
         && mapObj ['isVari_JP'] 
+        && !mapObj ['isChi'] 
+        && !mapObj ['isSimp']
+        && !mapObj ['isTrad']
     );
 };
 unusual_cond['is_simp'].func = function(c, mapObj, cInfo) {
