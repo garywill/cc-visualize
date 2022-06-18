@@ -115,13 +115,27 @@ function getCharUnusuals(c, cInfo)
 {
     var result = {};
     
+    var blk ;
+    if (cInfo)
+        blk = cInfo.blk;
+    else
+        blk = getCpBlock( c2utf16(c).hex );
+    
+    if ( blk == "Basic Latin" )
+        return result;
+    
     for (name of Object.keys(unusual_cond))
     {
         const condObj = unusual_cond[name];
         
         if ( condObj['func'] )
         {
-            result[ name ] = condObj.func(c, summary_map[c], cInfo) ;
+            var oneResult = condObj.func(c, summary_map[c], cInfo) ;
+            if (oneResult)
+            {
+                result[ name ] =  oneResult;
+                return result;
+            }
 
         }
     }
