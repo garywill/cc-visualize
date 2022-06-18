@@ -1,7 +1,7 @@
 var opencc = {}; 
 var unicode_data = {};
 var summary_map = {};
-const chi_chars = ['醋', '予', '疏', '欠']; // 一些可能会被误判成日本简化字的中文字
+const chi_chars = ['醋', '予', '疏', '欠', '弁']; // 一些可能会被误判成日本简化字的中文字
 
 var fs = require('fs');
 
