@@ -5,7 +5,12 @@ const unusual_cond = {
 //         default_checked: false,
 //     },
     
-    
+    "blk_is_cjkext": {
+        full_desc: "属于汉字扩展区（一般为少见字）",
+        short_desc: "扩",
+        default_checked: true,
+        skipBelow: false,
+    },
     "is_simp": {
         full_desc: "是中文简体字",
         short_desc: "简",
@@ -45,11 +50,7 @@ const unusual_cond = {
     },
     
     
-    "blk_is_cjkext": {
-        full_desc: "属于汉字扩展区（一般为少见字）",
-        short_desc: "扩",
-        default_checked: true,
-    },
+
     
     
 
@@ -134,7 +135,8 @@ function getCharUnusuals(c, cInfo)
             if (oneResult)
             {
                 result[ name ] =  oneResult;
-                return result;
+                if ( condObj.skipBelow !== false )
+                    return result;
             }
 
         }
