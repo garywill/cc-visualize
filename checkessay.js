@@ -60,7 +60,7 @@ function show_check_results(only_unusual = false)
                 </ruby>
             `);
             
-            var div_comments_above_char = div_essayChar.q(".div_comments_above_char");
+            var div_comments_above_char = div_essayChar.q$(".div_comments_above_char");
             if ( charObj.cInfo.showCode == true )
             {
                 var codeDiv = htmlStr2dom(`
@@ -71,10 +71,10 @@ function show_check_results(only_unusual = false)
                 div_comments_above_char.insertBefore(codeDiv, div_comments_above_char.firstChild);
             }
             
-            var div_origChar_n_aboveText = div_essayChar.q(".div_origChar_n_aboveText");
-            var div_origChar = div_essayChar.q(".div_orig_char");
-            var ruby_rt = div_essayChar.q("rt");
-            var unusual_span = div_essayChar.q("#unusual");
+            var div_origChar_n_aboveText = div_essayChar.q$(".div_origChar_n_aboveText");
+            var div_origChar = div_essayChar.q$(".div_orig_char");
+            var ruby_rt = div_essayChar.q$("rt");
+            var unusual_span = div_essayChar.q$("#unusual");
             
             
             if (charObj.isUnusual)

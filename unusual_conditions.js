@@ -97,7 +97,7 @@ onDCL(function() {
             <input type="checkbox" class="unusual_cond_checkbox" name="${name}" >${escapeHtml(condObj['full_desc'])}</input>
         </div>
         `);
-        checkbox_span.q("input").checked = condObj.default_checked;
+        checkbox_span.q$("input").checked = condObj.default_checked;
         form.appendChild(checkbox_span);
     }
 });

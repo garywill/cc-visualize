@@ -10,7 +10,7 @@ function $$$(s)
     return document.querySelectorAll(s);
 }
 
-Object.prototype.q = function(selectorStr) {
+Object.prototype.q$ = function(selectorStr) {
     function handleNonArrayObject(obj)
     {
         return obj.querySelector(selectorStr);
