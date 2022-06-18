@@ -59,6 +59,18 @@ function show_check_results(only_unusual = false)
                     <rt></rt>
                 </ruby>
             `);
+            
+            var div_comments_above_char = div_essayChar.q(".div_comments_above_char");
+            if ( charObj.cInfo.showCode == true )
+            {
+                var codeDiv = htmlStr2dom(`
+                    <div class="a_comment_above_char"  >                                                                                
+                        <span class="span_a_comment_above_char" id="code" ">${charObj.cInfo.hex}</span>              
+                    </div>   
+                `);
+                div_comments_above_char.insertBefore(codeDiv, div_comments_above_char.firstChild);
+            }
+            
             var div_origChar_n_aboveText = div_essayChar.q(".div_origChar_n_aboveText");
             var div_origChar = div_essayChar.q(".div_orig_char");
             var ruby_rt = div_essayChar.q("rt");
@@ -275,10 +287,12 @@ function getCInfo(c)
             hex: c2utf16(c).hex,
             blk: undefined,
             unusuals: undefined,
+            showCode: undefined,
         }
         cInfo.blk = getCpBlock(cInfo.hex); 
         cInfo.unusuals = getCharUnusuals(c, cInfo);
-
+        cInfo.showCode = getIfShowCode(c, cInfo);
+        
         charsCInfoCache [c] = cInfo;
     }
     return charsCInfoCache [c];

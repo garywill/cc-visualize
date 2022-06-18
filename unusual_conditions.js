@@ -145,7 +145,16 @@ function getCharUnusuals(c, cInfo)
     
     return result;
 }
-
+function getIfShowCode(c, cInfo)
+{
+    const blks = [
+        "General Punctuation",
+        "Halfwidth and Fullwidth Forms",
+        "Latin-1 Supplement",
+    ];
+    if ( blks.includes(cInfo.blk) )
+        return true;
+}
 
 unusual_cond['is_jp'].func = function(c, mapObj, cInfo) {
     return ( mapObj !== undefined 
