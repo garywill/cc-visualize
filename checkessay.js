@@ -152,6 +152,8 @@ function genCharTipLine(c, charObj)
     
     if (mapObj)
     {
+        if (mapObj ['isChi'])
+            cProp += '中';
         if (mapObj ['isTrad'])
             cProp += '繁';
         if (mapObj ['isSimp'])
