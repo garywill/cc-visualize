@@ -52,13 +52,7 @@ function show_check_results(only_unusual = false)
                             <div class="a_comment_above_char">
                                 <span class="span_a_comment_above_char" id="unusual"  style="display: none;" >⚠</span>
                             </div>
-                            
-                            <div class="a_comment_above_char"  >
-                                <span class="span_a_comment_above_char" id="blk" style="display: none;">${escapeHtml(charObj.cInfo.blk)}</span>
-                            </div>
-                            <div class="a_comment_above_char"  >
-                                <span class="span_a_comment_above_char" id="code" style="display: none;">${charObj.cInfo.hex}</span>
-                            </div>
+
                         </div>
                         <div class="div_orig_char">${escapeHtml(essayChar)}</div>
                     </div>
@@ -68,7 +62,6 @@ function show_check_results(only_unusual = false)
             var div_origChar_n_aboveText = div_essayChar.q(".div_origChar_n_aboveText");
             var div_origChar = div_essayChar.q(".div_orig_char");
             var ruby_rt = div_essayChar.q("rt");
-            var code_span = div_essayChar.q("#code");
             var unusual_span = div_essayChar.q("#unusual");
             
             
