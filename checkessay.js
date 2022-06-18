@@ -70,6 +70,15 @@ function show_check_results(only_unusual = false)
                 `);
                 div_comments_above_char.insertBefore(codeDiv, div_comments_above_char.firstChild);
             }
+            if ( charObj.cInfo.unusuals['blk_others'] == true )
+            {
+                var blkDiv = htmlStr2dom(`
+                    <div class="a_comment_above_char"  >                                                                                
+                        <span class="span_a_comment_above_char" id="blk" >${escapeHtml(charObj.cInfo.blk)}</span>
+                    </div>   
+                `);
+                div_comments_above_char.insertBefore(blkDiv, div_comments_above_char.firstChild);
+            }
             
             var div_origChar_n_aboveText = div_essayChar.q$(".div_origChar_n_aboveText");
             var div_origChar = div_essayChar.q$(".div_orig_char");
