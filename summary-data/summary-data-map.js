@@ -2254,7 +2254,7 @@ summary_map =
 "廮":{"rel":["𫷾"],"isTrad":true},
 "廳":{"rel":["厅"],"isTrad":true},
 "开":{"rel":["開","𫔭"],"isSimp":true,"isTrad":true},
-"弁":{"rel":["瓣","辨","辩","辯"],"isVari_JP":true},
+"弁":{"rel":["瓣","辨","辩","辯"],"isVari_JP":true,"isChi":true},
 "异":{"rel":["異"],"isSimp":true},
 "弃":{"rel":["棄"],"isSimp":true,"isTrad":true},
 "弐":{"rel":["貳","贰"],"isVari_JP":true},
