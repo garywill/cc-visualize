@@ -35,7 +35,7 @@ Object.prototype.q$ = function(selectorStr) {
     
     return result;
 }
-Object.prototype.qa = function(selectorStr) {
+Object.prototype.q$$ = function(selectorStr) {
     function handleNonArrayObject(obj)
     {
         return obj.querySelectorAll(selectorStr);
