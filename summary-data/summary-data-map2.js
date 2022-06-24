@@ -1,4 +1,4 @@
-summary_map = 
+summary_data.map2 = 
 {"⺁":{"rel":["厂","廠"],"isRad":true},
 "⺂":{"rel":["乛"],"isRad":true},
 "⺃":{"rel":["乚"],"isRad":true},

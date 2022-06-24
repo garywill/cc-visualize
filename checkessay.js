@@ -116,13 +116,13 @@ function show_check_results(only_unusual = false)
             
             div_origChar.className += genClassNamesAccordingCInfo(essayChar);
 
-            if (summary_map[essayChar] && summary_map[essayChar]['rel'].length > 0) //有关联字
+            if (summary_data.map2[essayChar] && summary_data.map2[essayChar]['rel'].length > 0) //有关联字
             {
                 tips += "关联字：\n";
                 
                 div_essayChar.className += " div_essay_char_haverel";
                 
-                summary_map[essayChar]['rel'].forEach( function(relChar) {
+                summary_data.map2[essayChar]['rel'].forEach( function(relChar) {
                     
                     tips += genCharTipLine(relChar);
                     
@@ -150,7 +150,7 @@ function show_check_results(only_unusual = false)
 function genClassNamesAccordingCInfo(c)
 {
     var classNames = " "; 
-//     const mapObj = summary_map [c];
+//     const mapObj = summary_data.map2 [c];
     const cInfo = getCInfo(c);
     
     for (name of Object.keys(cInfo.unusuals) )
@@ -169,7 +169,7 @@ function genCharTipLine(c, charObj)
     var blk = charObj ? charObj.cInfo.blk : getCpBlock(hex);
     
     var cProp = "";
-    const mapObj = summary_map[c];
+    const mapObj = summary_data.map2[c];
     
     if (mapObj)
     {

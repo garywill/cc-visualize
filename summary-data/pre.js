@@ -1,6 +1,10 @@
 var opencc = {}; 
 var unicode_data = {};
-var summary_map = {};
+var summary_data = {
+    map: {}, // 仅繁简
+    map2: {}, //繁简+兼 划 日  等 
+    map3: {}, //把对map2来说不必要的关联也加进来
+};
 const chi_chars = ['醋', '予', '疏', '欠', '弁']; // 一些可能会被误判成日本简化字的中文字
 
 var fs = require('fs');
@@ -13,23 +17,23 @@ async function start()
 {
     for (c in unicode_data.map2 )
     {
-        summary_map [c] = combineCharObj(c, unicode_data.map2, opencc.map2);
+        summary_data.map2 [c] = combineCharObj(c, unicode_data.map2, opencc.map2);
     }
     
     for (c in opencc.map2 )
     {
-        summary_map [c] = combineCharObj(c, unicode_data.map2, opencc.map2);
+        summary_data.map2 [c] = combineCharObj(c, unicode_data.map2, opencc.map2);
     }
     
     for (c of chi_chars)
     {
-        createKey(c, summary_map);
-        summary_map[c] ['isChi'] = true;
+        createKey(c, summary_data.map2);
+        summary_data.map2[c] ['isChi'] = true;
     }
     
-    for (c in summary_map)
+    for (c in summary_data.map2)
     {
-        const cObj = summary_map[c];
+        const cObj = summary_data.map2[c];
         
         if ( cObj['isChi'] && ! cObj['isTrad'] && cObj['isSimp'] ) 
             cObj['isTrad'] = true;
@@ -40,63 +44,63 @@ async function start()
     
     // cat summary-data-map.js |grep -o 'is.*'|uniq|sort|uniq
     
-    for (c in summary_map)
+    for (c in summary_data.map2)
     {
-        const cObj = summary_map[c];
+        const cObj = summary_data.map2[c];
         
         if (cObj['isComp'])
         {
-            var rels = getAllRel( summary_map, cObj['rel'] );
-            updateCharRel(summary_map , c , rels);
+            var rels = getAllRel( summary_data.map2, cObj['rel'] );
+            updateCharRel(summary_data.map2 , c , rels);
         }
     }
     
-    for (c in summary_map)
+    for (c in summary_data.map2)
     {
-        const cObj = summary_map[c];
+        const cObj = summary_data.map2[c];
         
         if (cObj['isRad'])
         {
-            var rels = getAllRel( summary_map, cObj['rel'] );
-            updateCharRel(summary_map , c , rels);
+            var rels = getAllRel( summary_data.map2, cObj['rel'] );
+            updateCharRel(summary_data.map2 , c , rels);
         }
     }
 
-    for (c in summary_map)
+    for (c in summary_data.map2)
     {
-        const cObj = summary_map[c];
+        const cObj = summary_data.map2[c];
         
         if (cObj['isVari_TW'] && ( !cObj['isSimp'] && !cObj['isTrad'] ) )
         {
-            var rels = getAllRel( summary_map, cObj['rel'] );
-            updateCharRel(summary_map , c , rels);
+            var rels = getAllRel( summary_data.map2, cObj['rel'] );
+            updateCharRel(summary_data.map2 , c , rels);
         }
     }
     
-    for (c in summary_map)
+    for (c in summary_data.map2)
     {
-        const cObj = summary_map[c];
+        const cObj = summary_data.map2[c];
         
         if (cObj['isVari_HK'] && ( !cObj['isSimp'] && !cObj['isTrad'] ) )
         {
-            var rels = getAllRel( summary_map, cObj['rel'] );
-            updateCharRel(summary_map , c , rels);
+            var rels = getAllRel( summary_data.map2, cObj['rel'] );
+            updateCharRel(summary_data.map2 , c , rels);
         }
     }
     
-    for (c in summary_map)
+    for (c in summary_data.map2)
     {
-        const cObj = summary_map[c];
+        const cObj = summary_data.map2[c];
         
         if (cObj['isVari_JP'] && ( !cObj['isSimp'] && !cObj['isTrad'] ) )
         {
-            var rels = getAllRel( summary_map, cObj['rel'] );
-            updateCharRel(summary_map , c , rels);
+            var rels = getAllRel( summary_data.map2, cObj['rel'] );
+            updateCharRel(summary_data.map2 , c , rels);
         }
     }
     
-    summary_map = sortMapObj(summary_map);
-    fs.writeFileSync("summary-data-map.js" , ( "summary_map = \n" + JSON.stringify(summary_map) + "\n;" )
+    summary_data.map2 = sortMapObj(summary_data.map2);
+    fs.writeFileSync("summary-data-map2.js" , ( "summary_data.map2 = \n" + JSON.stringify(summary_data.map2) + "\n;" )
         .replaceAll("},", "},\n")
     );
 }

@@ -131,7 +131,7 @@ function getCharUnusuals(c, cInfo)
         
         if ( condObj['func'] )
         {
-            var oneResult = condObj.func(c, summary_map[c], cInfo) ;
+            var oneResult = condObj.func(c, summary_data.map2[c], cInfo) ;
             if (oneResult)
             {
                 result[ name ] =  oneResult;
