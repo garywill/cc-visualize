@@ -196,26 +196,6 @@ function genCharTipLine(c, charObj)
 }
 
 
-// function getCharPropStr(char) {
-//     var prop = "";
-//     if (summary_map[char])
-//     {
-//         
-//         if (summary_map[char]['isSimp'])
-//             prop += "简";
-//         if (summary_map[char]['isTrad'])
-//             prop += "繁";
-//         if (summary_map[char]['isVari_HK'])
-//             prop += "港";
-//         if (summary_map[char]['isVari_TW'])
-//             prop += "台";
-//         if (summary_map[char]['isVari_JP'])
-//             prop += "日";
-//     }
-//     return prop;
-// }
-
-
 function c2utf16(c) { 
     var code;
     
@@ -319,8 +299,3 @@ function isCurrentlyThisUnusual(unusualsObj)
     }
     return false;
 }
-
-
-
-console.log(Array.from(`\u4e00\u3400\u{20000}\u{2a700}\u{2b740}\u{2b820}\u{2ceb0}`));
-console.log(Array.from(`一㐀𠀀𪜀𫝀𫠠𬺰`));
