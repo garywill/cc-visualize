@@ -41,14 +41,99 @@ async function start()
     edu_tw_1 = eduTxtToArr ( edu_tw_1 );
     edu_tw_2 = eduTxtToArr ( edu_tw_2 );       
 
+    for ( c of edu_cn_1c )
+    {
+        createKey(c, summary_data.map2);
+        const mapObj = summary_data.map2 [c];
+        mapObj ['isEdu_CN_1c'] = true;
+    }
+    for ( c of edu_cn_2c )
+    {
+        createKey(c, summary_data.map2);
+        const mapObj = summary_data.map2 [c];
+        mapObj ['isEdu_CN_2c'] = true;
+    }
+    for ( c of edu_cn_3c )
+    {
+        createKey(c, summary_data.map2);
+        const mapObj = summary_data.map2 [c];
+        mapObj ['isEdu_CN_3c'] = true;
+    }
+    
+    for ( c of edu_hk )
+    {
+        createKey(c, summary_data.map2);
+        const mapObj = summary_data.map2 [c];
+        mapObj ['isEdu_HK'] = true;
+    }
+
+    for ( c of edu_tw_1 )
+    {
+        createKey(c, summary_data.map2);
+        const mapObj = summary_data.map2 [c];
+        mapObj ['isEdu_TW_1'] = true;
+    }
+    for ( c of edu_tw_2 )
+    {
+        createKey(c, summary_data.map2);
+        const mapObj = summary_data.map2 [c];
+        mapObj ['isEdu_TW_2'] = true;
+    }
+    
+//     console.log(summary_data.map2);
+    
+    for (c in unicode_data.map2)
+    {
+        const uObj = unicode_data.map2[c];
+        const sObj = summary_data.map2[c];
+        
+        if ( !sObj)
+            continue;
+        
+        if (uObj['isSimp'])
+        {
+            if (   (  sObj['isEdu_HK']    ||  sObj['isEdu_TW_1']  )
+                && ( !sObj['isEdu_CN_1c'] && !sObj['isEdu_CN_2c'] )
+            )
+                delete uObj['isSimp'];
+        }
+    } 
+    
+    for (c in unicode_data.map2)
+    {
+        const uObj = unicode_data.map2[c];
+        const sObj = summary_data.map2[c];
+        
+        if ( !sObj)
+            continue;
+        
+        if (uObj['isTrad'])
+        {
+            if (   (  sObj['isEdu_CN_1c'] ||  sObj['isEdu_CN_2c'] )
+                && ( !sObj['isEdu_HK']    && !sObj['isEdu_TW_1']  && !sObj['isEdu_TW_2'] )
+            )
+                delete uObj['isTrad'];  
+        }
+    } 
+    
+    for (c in summary_data.map2 )
+    {
+        summary_data.map2 [c] = combineCharObj(c, summary_data.map2, unicode_data.map2);
+    }    
     for (c in unicode_data.map2 )
     {
-        summary_data.map2 [c] = combineCharObj(c, unicode_data.map2, opencc.map2);
+        summary_data.map2 [c] = combineCharObj(c, summary_data.map2, unicode_data.map2);
+    }    
+    
+    
+    for (c in summary_data.map2 )
+    {
+        summary_data.map2 [c] = combineCharObj(c, summary_data.map2, opencc.map2);
     }
     
     for (c in opencc.map2 )
     {
-        summary_data.map2 [c] = combineCharObj(c, unicode_data.map2, opencc.map2);
+        summary_data.map2 [c] = combineCharObj(c, summary_data.map2, opencc.map2);
     }
     
 
@@ -125,49 +210,25 @@ async function start()
     
     for ( c of edu_cn_1c )
     {
-        createKey(c, summary_data.map2);
-        
         const mapObj = summary_data.map2 [c];
-        
-        mapObj ['isEdu_CN_1c'] = true;
-        
+
         if (mapObj ['isTrad'] && !mapObj ['isSimp'] )
             mapObj ['isSimp'] = true;
     }
     
     for ( c of edu_cn_2c )
     {
-        createKey(c, summary_data.map2);
-        
         const mapObj = summary_data.map2 [c];
-        
-        mapObj ['isEdu_CN_2c'] = true;
-        
+
         if (mapObj ['isTrad'] && !mapObj ['isSimp'] )
             mapObj ['isSimp'] = true;
     }
 
-    for ( c of edu_cn_3c )
-    {
-        createKey(c, summary_data.map2);
-        
-        const mapObj = summary_data.map2 [c];
-        
-        mapObj ['isEdu_CN_3c'] = true;
-        
-        // 三级表不一定是简体字
-    }
     
-    
-
     
     for ( c of edu_hk )
     {
-        createKey(c, summary_data.map2);
-        
         const mapObj = summary_data.map2 [c];
-        
-        mapObj ['isEdu_HK'] = true;
         
         if (mapObj ['isSimp'] && !mapObj ['isTrad'] )
             mapObj ['isTrad'] = true;
@@ -176,23 +237,12 @@ async function start()
 
     for ( c of edu_tw_1 )
     {
-        createKey(c, summary_data.map2);
-        
         const mapObj = summary_data.map2 [c];
-        
-        mapObj ['isEdu_TW_1'] = true;
         
         if (mapObj ['isSimp'] && !mapObj ['isTrad'] )
             mapObj ['isTrad'] = true;
     }
-    for ( c of edu_tw_2 )
-    {
-        createKey(c, summary_data.map2);
-        
-        const mapObj = summary_data.map2 [c];
-        
-        mapObj ['isEdu_TW_2'] = true;
-    }
+
     
     
     
@@ -217,31 +267,7 @@ async function start()
             delete cObj['isChi'];
     }    
     
-    for (c in summary_data.map2)
-    {
-        const cObj = summary_data.map2[c];
-            
-        if (cObj['isSimp'])
-        {
-            if (   (  cObj['isEdu_HK']    ||  cObj['isEdu_TW_1']  )
-                && ( !cObj['isEdu_CN_1c'] && !cObj['isEdu_CN_2c'] )
-            )
-                delete cObj['isSimp'];
-        }
-    } 
-    
-    for (c in summary_data.map2)
-    {
-        const cObj = summary_data.map2[c];
-            
-        if (cObj['isTrad'])
-        {
-            if (   (  cObj['isEdu_CN_1c'] ||  cObj['isEdu_CN_2c'] )
-                && ( !cObj['isEdu_HK']    && !cObj['isEdu_TW_1']  && !cObj['isEdu_TW_2'] )
-            )
-                delete cObj['isTrad'];
-        }
-    } 
+
     
     
     
