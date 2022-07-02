@@ -47,18 +47,15 @@
 
     本项目关注的是，哪些码位字符在哪个地区属于日常可用或不应使用。像同一码位字符在不同地区所显示的字形的异同，【并非】是本项目能够研究或关注的。
     
-1. 一些表情符号无法正确处理
+1. 一些新表情符号暂时无法正确处理
 
 ## 数据说明
 
 汉字、字符关系数据来源：
 
 - [OpenCC （Open Chinese Convert）](https://github.com/BYVoid/OpenCC)
-
 - [Unicode Character Database (UCD)](https://www.unicode.org/ucd/) （及其子集Unihan）
-
 - 中华地区官方中文教育制定的常用字表
-
 - 可以再加....
 
 ### OpenCC

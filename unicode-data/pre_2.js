@@ -16,6 +16,7 @@ const kVarNames = [
 
 var unicode_data = {
     blocks: [],
+    blocks_dict: {}, // 能用块名索引到的
     unihan_variants_raw: {}, // 所有（原始）unihan的k____Variants原始数据转成json
     unihan_variants: {},  // 所有（原始）unihan的k____Variants原始数据转成json，然后hex变中文字符，且k____Variants内容为数组
     map: {}, //繁简双向JSON
@@ -28,6 +29,36 @@ var unicode_data = {
     ages: [],
 };
 
+const blks_prio = [
+    "CJK Radicals Supplement",
+    "CJK Symbols and Punctuation",
+    "CJK Strokes",
+    "Enclosed CJK Letters and Months",
+    "CJK Compatibility",
+    "CJK Unified Ideographs Extension A",
+    "CJK Unified Ideographs",
+    "CJK Compatibility Ideographs",
+    "CJK Compatibility Forms",
+    "CJK Unified Ideographs Extension B",
+    "CJK Unified Ideographs Extension C",
+    "CJK Unified Ideographs Extension D",
+    "CJK Unified Ideographs Extension E",
+    "CJK Unified Ideographs Extension F",
+    "CJK Compatibility Ideographs Supplement",
+    "CJK Unified Ideographs Extension G",
+    "CJK Unified Ideographs Extension H",
+    "Kangxi Radicals",
+    
+    "Halfwidth and Fullwidth Forms",
+    "General Punctuation",
+    "Latin-1 Supplement",
+    "Basic Latin",
+    "Enclosed Alphanumerics",
+    
+    "Private Use Area",
+    "Supplementary Private Use Area-A",
+    "Supplementary Private Use Area-B",
+];
 async function start() 
 {   
     // xml nore 部分 变js原始string
@@ -47,11 +78,15 @@ async function start()
     var blockNodes = xmlDocNore.getElementsByTagName("ucd")[0].getElementsByTagName("blocks")[0].getElementsByTagName("block");
     var blocksInfoTxt = "";
     for ( block of Array.from(blockNodes)) {
+        const name = block.getAttribute("name");
+        const first_cp = Number( "0x" + block.getAttribute("first-cp") );
+        const last_cp = Number( "0x" + block.getAttribute("last-cp") );
         unicode_data.blocks.push( {
-            name: block.getAttribute("name"),
-            first_cp: Number( "0x" + block.getAttribute("first-cp") ),
-            last_cp: Number( "0x" + block.getAttribute("last-cp") ),
+            name: name,
+            first_cp: first_cp,
+            last_cp: last_cp,
         });
+        unicode_data.blocks_dict [name] = [first_cp, last_cp];
         unicode_data.blocks.sort(function(a, b) {
             if ( isPrioBlk(a.name) && !isPrioBlk(b.name) )
                 return -1 ;
@@ -59,17 +94,7 @@ async function start()
                 return 0 ;
             
             function isPrioBlk(blkname) {
-                    const blks = [
-                        "Kangxi Radicals",
-                        "Halfwidth and Fullwidth Forms",
-                        "General Punctuation",
-                        "Basic Latin",
-                        "Enclosed Alphanumerics",
-                        "Supplementary Private Use Area-A",
-                        "Supplementary Private Use Area-B",
-                        "Private Use Area",
-                    ];
-                    if (blks.includes (blkname) || blkname.includes("CJK") )
+                    if ( blks_prio.includes (blkname) )
                         return true;
             }
         });
@@ -80,7 +105,6 @@ async function start()
         .replaceAll("},", "},\n")
     );
     fs.writeFileSync("blocksInfoTxt.txt", blocksInfoTxt);
-    
     
     var xmlDoc = domparser.parseFromString(ucd_data_raw_string, "text/xml");
     
@@ -203,8 +227,32 @@ async function start()
         previous_age = age;
         previous_cp = cp;
     }
-
-    console.log(unicode_data.ages);
+    unicode_data.ages.sort(function(a1, a2) {
+        if ( isAgeObjPrio(a1) && !isAgeObjPrio(a2) )
+            return -1;
+        else
+            return 0;
+        function isAgeObjPrio(ageObj) {
+            const age_start = ageObj.start;
+            const age_end = ageObj.end;
+            return isCpRangePrio (  age_start, age_end );
+        }
+        function isCpRangePrio(range_start, range_end) {
+            for (prioBlkName of blks_prio)
+            {
+                const prioBlk_start = unicode_data.blocks_dict[prioBlkName] [0];
+                const prioBlk_end = unicode_data.blocks_dict[prioBlkName] [1];
+                if ( hasNumRangeOverlap ( prioBlk_start, prioBlk_end, range_start, range_end ) )
+                    return true;
+            }
+        }
+        function hasNumRangeOverlap(Amin, Amax, Bmin, Bmax) {
+            if ( Bmax < Amin || Bmin > Amax )
+                return false;
+            else
+                return true;
+        }
+    });
     fs.writeFileSync("unicode-data-ages.js",( "unicode_data.ages =\n" + JSON.stringify( unicode_data.ages) + "\n;")
         .replaceAll("},", "},\n")
     );    

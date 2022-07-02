@@ -1,5 +1,6 @@
 unicode_data.blocks =
 [{"name":"Basic Latin","first_cp":0,"last_cp":127},
+{"name":"Latin-1 Supplement","first_cp":128,"last_cp":255},
 {"name":"General Punctuation","first_cp":8192,"last_cp":8303},
 {"name":"Enclosed Alphanumerics","first_cp":9312,"last_cp":9471},
 {"name":"CJK Radicals Supplement","first_cp":11904,"last_cp":12031},
@@ -24,7 +25,6 @@ unicode_data.blocks =
 {"name":"CJK Unified Ideographs Extension H","first_cp":201552,"last_cp":205743},
 {"name":"Supplementary Private Use Area-A","first_cp":983040,"last_cp":1048575},
 {"name":"Supplementary Private Use Area-B","first_cp":1048576,"last_cp":1114111},
-{"name":"Latin-1 Supplement","first_cp":128,"last_cp":255},
 {"name":"Latin Extended-A","first_cp":256,"last_cp":383},
 {"name":"Latin Extended-B","first_cp":384,"last_cp":591},
 {"name":"IPA Extensions","first_cp":592,"last_cp":687},
