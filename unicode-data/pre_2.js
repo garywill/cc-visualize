@@ -24,6 +24,8 @@ var unicode_data = {
     TS: {}, // 繁->简JSON
     
     charsAreUnif: [],
+    
+    ages: [],
 };
 
 async function start() 
@@ -123,6 +125,91 @@ async function start()
     
 //     console.log(unicode_data.unihan_variants_raw);
     fs.writeFileSync("unicode-data-unihan-all-vars-raw.json", JSON.stringify(unicode_data.unihan_variants_raw, null, 2) );
+    
+    
+    
+    var previous_age = undefined;
+    var previous_cp = 0 ;
+    var current_age_start_pos = undefined;
+    function pushAgeRange(start, end, age)
+    {
+//         start = start.toString(16).toUpperCase();
+//         if (start.length %2 == 1)
+//             start = "0" + start;
+//         
+//         end = end.toString(16).toUpperCase();
+//         if (end.length %2 == 1)
+//             end = "0" + end;
+
+        unicode_data.ages.push({
+            start: start,
+            end: end,
+            age: age, 
+        });
+    }
+    for (var i = 0; i<charNodes.length; i++)
+    {
+        const charNode = charNodes[i];
+        
+        var  cp =  charNode.getAttribute("cp");
+        const first_cp =  charNode.getAttribute("first-cp");
+        const last_cp =  charNode.getAttribute("last-cp");
+        const age =  charNode.getAttribute("age");
+        
+        if (i == charNodes.length - 1) // 如果已是最后一个<char>
+        {
+            // 如果原本处在记录中的状态，将上一个range推进数组
+            if (current_age_start_pos >= 0 && previous_age !== undefined)
+                pushAgeRange(current_age_start_pos, previous_cp, previous_age);
+            
+            break;
+        }
+        
+        if ( !cp || first_cp || last_cp ) // 本次不是有效的<char>
+            continue;
+        
+        cp = Number("0x" + cp);
+        
+        // 判断与previous记录的cp是否为差1关系
+        if (  previous_cp + 1 ===  cp ) // 是位置+1关系
+        {
+            if (age === previous_age) //位置连续，且age未变
+            {
+                if (current_age_start_pos < 0) 
+                    current_age_start_pos = cp;
+            }
+            else // 位置连续，但age变了
+            {
+                // 如果原本处在记录中的状态，将上一个range推进数组
+                if (current_age_start_pos >= 0 && previous_age !== undefined)
+                    pushAgeRange(current_age_start_pos, previous_cp, previous_age); 
+                
+                // 新range开始记录
+                current_age_start_pos = cp;
+            }
+        }
+        else // 非+1关系，是有跳过
+        {
+            // 如果原本处在记录中的状态，将上一个range推进数组
+            if (current_age_start_pos >= 0 && previous_age !== undefined)
+                pushAgeRange(current_age_start_pos, previous_cp, previous_age); 
+            
+            // 新range开始记录
+            current_age_start_pos = cp;
+        }
+
+        
+        // 本次循环已处理过，将previous设为当前，供下一次循环用
+        previous_age = age;
+        previous_cp = cp;
+    }
+
+    console.log(unicode_data.ages);
+    fs.writeFileSync("unicode-data-ages.js",( "unicode_data.ages =\n" + JSON.stringify( unicode_data.ages) + "\n;")
+        .replaceAll("},", "},\n")
+    );    
+    
+
     
     // 所有k___Variants转json
     for ( objI in unicode_data.unihan_variants_raw) 

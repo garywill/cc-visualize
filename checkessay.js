@@ -208,7 +208,7 @@ function getCharTipLine(c)
         
         cProp = cProp.join(' ')
         
-        cInfo.tipLine = `${c}\t${cInfo.hex}\t（${cProp}）\t属于${cInfo.blk}\n` ;
+        cInfo.tipLine = `${c}\t${cInfo.hex}\t（${cProp}）\t属于${cInfo.blk}\t${cInfo.age}\n` ;
     }
     return cInfo.tipLine;
 }
@@ -292,6 +292,7 @@ function getCInfo(c)
         var dec; 
         var hex;
         var blk;
+        var age;
         
         dec = c.codePointAt(0);
         hex = dec.toString(16).toUpperCase();
@@ -299,10 +300,12 @@ function getCInfo(c)
             hex = "0" + hex;
         
         blk = getCpBlock(dec);
+        age = getCpAge(dec); 
          
         var cInfo = {
             hex: hex,
             blk: blk,
+            age: age,
             unusuals: undefined,
             showCode: undefined,
         }
