@@ -160,6 +160,8 @@ unusual_cond['is_jp'].func = function(c, mapObj, cInfo) {
         && !mapObj ['isEdu_CN_2c']
         && !mapObj ['isEdu_CN_3c']
         && !mapObj ['isEdu_HK']
+        && !mapObj ['isEdu_TW_1']
+        && !mapObj ['isEdu_TW_2']
         && !mapObj ['isSimp']
         && !mapObj ['isTrad']
         && !mapObj ['isVari_TW']
