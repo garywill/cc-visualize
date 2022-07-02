@@ -15,6 +15,14 @@
     > 
     > ![兀](https://user-images.githubusercontent.com/32130780/175266740-caad17d0-39c8-4d5d-a02a-ec04a16ddab5.png)
 
+## 非作用
+
+只收录文本数据，即以计算机码位形式储存的数据，不收录图片、字形。
+
+本项目关注的是，哪些码位在哪个地区属于日常可用或不应使用。
+
+像同一码位字符在不同地区所显示的字形，某部件从「王」或从「壬」从「术」或从「朮」这一类研究，皆【不】是本项目关注的。
+    
 ## 截图预览
 
 ![Screenshot](https://repository-images.githubusercontent.com/395479775/5b0eff04-c615-4b80-bc87-091443360351)
@@ -36,7 +44,7 @@
 - 橙色边框：扩展区汉字（一般为少见字）
 - 灰色：未定义编码字符
 
-> 本工具目前无法保证数据是100%准确的。如果发现错误之处，可以开issue告知。然后请先尝试向上游（数据来源）报告和修复。也可以在本工具中（预处理脚本内）使用手动更正方案。另外目前还存在已采用的权威数据源数量不足的问题
+> 本工具目前无法保证数据是100%准确的。如果发现错误之处，可以开issue告知。然后请先尝试向上游（数据来源）报告和修复。也可以在本工具中（预处理脚本内）使用手动更正方案
 
 ## 原理
 
@@ -45,6 +53,8 @@
 - [OpenCC （Open Chinese Convert）](https://github.com/BYVoid/OpenCC)
 
 - [Unicode Character Database (UCD)](https://www.unicode.org/ucd/) （及其子集Unihan）
+
+- 中华地区中文教育常用字
 
 - 可以再加....
 
@@ -115,6 +125,9 @@ UCD提供txt（文件数量多）和[xml](https://www.unicode.org/Public/15.0.0/
 
 其他未采用的Unihan变体参数： kSemanticVariant, kSpecializedSemanticVariant, kSpoofingVariant
 
+### 中华地区中文教育常用字
+
+[《通用规范汉字表》](https://zh.wikisource.org/wiki/%E9%80%9A%E7%94%A8%E8%A7%84%E8%8C%83%E6%B1%89%E5%AD%97%E8%A1%A8)（官方链接提供的[原文件](http://www.gov.cn/gzdt/att/att/site1/20130819/tygfhzb.pdf)是图片PDF，因此采用wikisource.org文本）。分为三级：一级字表 3500字；二级字表 3000字；三级字表 1605字。其中一、二级在此认为皆是简体字，三级不视为一定是简体。
 
 ### 总数据
 
