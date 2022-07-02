@@ -226,6 +226,20 @@ async function start()
         }
     } 
     
+    for (c in summary_data.map2)
+    {
+        const cObj = summary_data.map2[c];
+            
+        if (cObj['isTrad'])
+        {
+            if (   (  cObj['isEdu_CN_1c'] ||  cObj['isEdu_CN_2c'] )
+                && ( !cObj['isEdu_HK']    && !cObj['isEdu_TW_1']  && !cObj['isEdu_TW_2'] )
+            )
+                delete cObj['isTrad'];
+        }
+    } 
+    
+    
     
     summary_data.map2 = sortMapObj(summary_data.map2);
     fs.writeFileSync("summary-data-map2.js" , ( "summary_data.map2 = \n" + JSON.stringify(summary_data.map2) + "\n;" )
