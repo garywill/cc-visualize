@@ -157,6 +157,8 @@ unusual_cond['is_jp'].func = function(c, mapObj, cInfo) {
         && !mapObj ['isChi'] 
         && !mapObj ['isSimp']
         && !mapObj ['isTrad']
+        && !mapObj ['isVari_TW']
+        && !mapObj ['isVari_HK']
     );
 };
 unusual_cond['is_simp'].func = function(c, mapObj, cInfo) {
