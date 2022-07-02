@@ -22,6 +22,8 @@ var unicode_data = {
     map2: {}, //繁简加一些其他k__variant 
     ST: {}, // 简->繁JSON
     TS: {}, // 繁->简JSON
+    
+    charsAreUnif: [],
 };
 
 async function start() 
@@ -67,6 +69,7 @@ async function start()
     {
         const blk = charNode.getAttribute("blk");
         const cp =  charNode.getAttribute("cp");
+        const UIdeo =  charNode.getAttribute("UIdeo");
         // grep -E "^ blk=" ucd.repertoire.xml |uniq|sort
 //         if (  blk.includes("CJK") ||  blk.includes("Kangxi") )
         for (kVarN of kVarNames) 
@@ -85,7 +88,11 @@ async function start()
                 //                         console.log(cp, blk, kVarN, kVarContent);
             }
         }
+        if ( blk.includes("CJK_Compat") && UIdeo == "Y" )
+            unicode_data.charsAreUnif.push( utf16hex2char(cp) );
     }
+    console.log(unicode_data.charsAreUnif);
+
 //     console.log(unicode_data.unihan_variants_raw);
     fs.writeFileSync("unicode-data-unihan-all-vars-raw.json", JSON.stringify(unicode_data.unihan_variants_raw, null, 2) );
     
@@ -199,6 +206,13 @@ async function start()
         }
         
     }
+    for ( c of unicode_data.charsAreUnif )
+    {
+        createKey(c, unicode_data.map2);
+        unicode_data.map2[c] ['isUnif'] = true;
+        
+    }
+
     unicode_data.map2 = sortMapObj(unicode_data.map2);
     fs.writeFileSync("unicode-data-map2.js" , ( "unicode_data.map2 = \n" + JSON.stringify(unicode_data.map2) + "\n;" )
         .replaceAll("},", "},\n")
@@ -208,6 +222,20 @@ async function start()
     // TODO 挑出奇怪的独源字或无中国源的字
 }
 start();
+
+
+function c2utf16(c) { 
+    var code;
+    
+    var dec; 
+
+    dec = c.codePointAt(0);
+    
+    var hex = dec.toString(16);
+    if (hex.length %2 == 1)
+        hex = "0" + hex;
+    return { dec: dec, hex: hex.toUpperCase() };
+}
 
 function utf16hex2char(hexStr) // 输入可以是 3F2F U+3AB2 1A7323<xxxx
 {
