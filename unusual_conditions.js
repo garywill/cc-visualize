@@ -147,6 +147,9 @@ function getIfShowCode(c, cInfo)
         "General Punctuation",
         "Halfwidth and Fullwidth Forms",
         "Latin-1 Supplement",
+        "Private Use Area",
+        "Supplementary Private Use Area-A",
+        "Supplementary Private Use Area-B",
     ];
     if ( blks.includes(cInfo.blk) )
         return true;
