@@ -12,8 +12,35 @@ var fs = require('fs');
 eval(fs.readFileSync('../opencc-data/opencc-data-map2.js').toString());
 eval(fs.readFileSync('../unicode-data/unicode-data-map2.js').toString());
 
+
+
+//     cat cn-1c.txt |awk '{print $2}'  | grep -E "^$" -v   | cut -c -1 > cn通用规范汉字表_一级.txt
+//     cat cn-2c.txt |awk '{print $2}'  | grep -E "^$" -v   | cut -c -1 > cn通用规范汉字表_二级.txt
+//     cat cn-3c.txt |awk '{print $2}'  | grep -E "^$" -v   | cut -c -1 > cn通用规范汉字表_三级.txt   
+var edu_cn_1c = fs.readFileSync("../edu-data/cn通用规范汉字表_一级.txt").toString();
+var edu_cn_2c = fs.readFileSync("../edu-data/cn通用规范汉字表_二级.txt").toString();
+var edu_cn_3c = fs.readFileSync("../edu-data/cn通用规范汉字表_三级.txt").toString();
+
+//     cat hk.txt |awk '{print $2}'  | grep -E "^$" -v > hk常用字字形表.txt
+var edu_hk = fs.readFileSync("../edu-data/hk常用字字形表.txt").toString();
+
+// cat tw2-wiki.txt |column -t -s '|' | awk '{print $2}' | grep -E "^$" -v > tw次常用國字標準字體表.txt
+var edu_tw_1 = fs.readFileSync("../edu-data/tw常用國字標準字體表.txt").toString();
+var edu_tw_2 = fs.readFileSync("../edu-data/tw次常用國字標準字體表.txt").toString();
+    
+
 async function start()
 {
+    
+    edu_cn_1c = eduTxtToArr( edu_cn_1c);
+    edu_cn_2c = eduTxtToArr( edu_cn_2c);
+    edu_cn_3c = eduTxtToArr( edu_cn_3c);
+
+    edu_hk = eduTxtToArr ( edu_hk );
+
+    edu_tw_1 = eduTxtToArr ( edu_tw_1 );
+    edu_tw_2 = eduTxtToArr ( edu_tw_2 );       
+
     for (c in unicode_data.map2 )
     {
         summary_data.map2 [c] = combineCharObj(c, unicode_data.map2, opencc.map2);
@@ -93,26 +120,8 @@ async function start()
     
     
     
-    function eduTxtToArr(txt) {
-        txt = new Set( Array.from(txt) ); 
-        txt.delete('\n');
-        txt.delete('\r');
-        txt.delete(' ');
-        txt.delete('\t');
-        txt.delete('、');
-        txt = [... txt ];
-        return txt;
-    }
-//     cat cn-1c.txt |awk '{print $2}'  | grep -E "^$" -v   | cut -c -1 > cn通用规范汉字表_一级.txt
-//     cat cn-2c.txt |awk '{print $2}'  | grep -E "^$" -v   | cut -c -1 > cn通用规范汉字表_二级.txt
-//     cat cn-3c.txt |awk '{print $2}'  | grep -E "^$" -v   | cut -c -1 > cn通用规范汉字表_三级.txt   
-    var edu_cn_1c = fs.readFileSync("../edu-data/cn通用规范汉字表_一级.txt").toString();
-    var edu_cn_2c = fs.readFileSync("../edu-data/cn通用规范汉字表_二级.txt").toString();
-    var edu_cn_3c = fs.readFileSync("../edu-data/cn通用规范汉字表_三级.txt").toString();
-    
-    edu_cn_1c = eduTxtToArr( edu_cn_1c);
-    edu_cn_2c = eduTxtToArr( edu_cn_2c);
-    edu_cn_3c = eduTxtToArr( edu_cn_3c);
+
+
     
     for ( c of edu_cn_1c )
     {
@@ -150,9 +159,7 @@ async function start()
     }
     
     
-//     cat hk.txt |awk '{print $2}'  | grep -E "^$" -v > hk常用字字形表.txt
-    var edu_hk = fs.readFileSync("../edu-data/hk常用字字形表.txt").toString();
-    edu_hk = eduTxtToArr ( edu_hk );
+
     
     for ( c of edu_hk )
     {
@@ -166,11 +173,7 @@ async function start()
             mapObj ['isTrad'] = true;
     }
     
-    // cat tw2-wiki.txt |column -t -s '|' | awk '{print $2}' | grep -E "^$" -v > tw次常用國字標準字體表.txt
-    var edu_tw_1 = fs.readFileSync("../edu-data/tw常用國字標準字體表.txt").toString();
-    var edu_tw_2 = fs.readFileSync("../edu-data/tw次常用國字標準字體表.txt").toString();
-    edu_tw_1 = eduTxtToArr ( edu_tw_1 );
-    edu_tw_2 = eduTxtToArr ( edu_tw_2 );   
+
     for ( c of edu_tw_1 )
     {
         createKey(c, summary_data.map2);
@@ -249,6 +252,17 @@ async function start()
 }
 start();
 
+
+function eduTxtToArr(txt) {
+    txt = new Set( Array.from(txt) ); 
+    txt.delete('\n');
+    txt.delete('\r');
+    txt.delete(' ');
+    txt.delete('\t');
+    txt.delete('、');
+    txt = [... txt ];
+    return txt;
+}
 
 function updateCharRel(mapObj, char, updatedRelSet)
 {
