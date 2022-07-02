@@ -289,13 +289,23 @@ function getCInfo(c)
 {
     if ( ! charsCInfoCache [c] )
     {
+        var dec; 
+        var hex;
+        var blk;
+        
+        dec = c.codePointAt(0);
+        hex = dec.toString(16).toUpperCase();
+        if (hex.length %2 == 1)
+            hex = "0" + hex;
+        
+        blk = getCpBlock(dec);
+         
         var cInfo = {
-            hex: c2utf16(c).hex,
-            blk: undefined,
+            hex: hex,
+            blk: blk,
             unusuals: undefined,
             showCode: undefined,
         }
-        cInfo.blk = getCpBlock(cInfo.hex); 
         cInfo.unusuals = getCharUnusuals(c, cInfo);
         cInfo.showCode = getIfShowCode(c, cInfo);
         

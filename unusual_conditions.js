@@ -109,18 +109,18 @@ function readUserCond()
 
 function getCharUnusuals(c, cInfo) 
 {
+    if ( !cInfo)
+        cInfo = getCInfo(c);
+    
     var result = {};
     
-    var blk ;
-    if (cInfo)
-        blk = cInfo.blk;
-    else
-        blk = getCpBlock( c2utf16(c).hex );
+    var blk = cInfo.blk;
     
     if ( blk == "Basic Latin" )
         return result;
     
     const mapObj = summary_data.map2[c];
+    
     for (name of Object.keys(unusual_cond))
     {
         const condObj = unusual_cond[name];
@@ -199,11 +199,7 @@ unusual_cond['is_comp'].func = function(c, mapObj, cInfo) {
 //         "CJK Compatibility Forms",
 //         "CJK Compatibility Ideographs",
 //     ];
-    var blk ;
-    if (cInfo)
-        blk = cInfo.blk;
-    else
-        blk = getCpBlock( c2utf16(c).hex );
+    var blk = cInfo.blk;
     
 //     if ( blks.includes(blk) )
     if ( mapObj !== undefined  && mapObj ['isComp']  )
@@ -225,11 +221,7 @@ unusual_cond['is_rad'].func = function(c, mapObj, cInfo) {
         "Kangxi Radicals",
         "CJK Strokes",
     ];
-    var blk ;
-    if (cInfo)
-        blk = cInfo.blk;
-    else
-        blk = getCpBlock( c2utf16(c).hex );
+    var blk = cInfo.blk;
     
     if ( blks.includes(blk) 
         ||
@@ -250,11 +242,7 @@ unusual_cond['blk_is_cjkext'].func = function(c, mapObj, cInfo) {
 //         "CJK Unified Ideographs Extension G",
 //         "CJK Unified Ideographs Extension H",
 //     ];
-    var blk ;
-    if (cInfo)
-        blk = cInfo.blk;
-    else
-        blk = getCpBlock( c2utf16(c).hex );
+    var blk = cInfo.blk;
     
 //     if ( blks.includes(blk) )
     if ( ! blk )
@@ -264,11 +252,7 @@ unusual_cond['blk_is_cjkext'].func = function(c, mapObj, cInfo) {
 };
 
 unusual_cond['blk_nobelong'].func = function(c, mapObj, cInfo) {
-    var blk ;
-    if (cInfo)
-        blk = cInfo.blk;
-    else
-        blk = getCpBlock( c2utf16(c).hex );
+    var blk = cInfo.blk;
     
     if ( ! blk )
         return true;
@@ -305,11 +289,7 @@ unusual_cond['blk_others'].func = function(c, mapObj, cInfo) {
         
     ];
     
-    var blk ;
-    if (cInfo)
-        blk = cInfo.blk;
-    else
-        blk = getCpBlock( c2utf16(c).hex );
+    var blk = cInfo.blk;
     
     if ( ! blk )
         return false;
