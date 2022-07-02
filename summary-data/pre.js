@@ -325,21 +325,32 @@ function createKey( key , mapObj)
     }
 }
 
+
 function sortMapObj(mapObj) {
+    
     var newMapObj = {};
     const origI = Object.keys(mapObj).sort();
-//     console.log(origI);
     for ( c of origI )
     {
-//         console.log(c);
-        newMapObj[c] = JSON.parse( JSON.stringify( mapObj[c] ) );
-        if ( Array.isArray(newMapObj [c] ['rel'] ) )
+        if ( Array.isArray(mapObj[c]) )
+            newMapObj[c] = JSON.parse( JSON.stringify( mapObj[c] ) );
+        else
         {
-            newMapObj [c] ['rel']  = newMapObj [c] ['rel'] .sort();
+            newMapObj [c] = {};
+            
+            if ( Array.isArray(mapObj [c] ['rel'] ) )
+            {
+                newMapObj [c] ['rel']  = JSON.parse( JSON.stringify( mapObj [c] ['rel'] .sort() ) );
+            }
+            
+            var otherIsAttrs = new Set ( Object.keys(mapObj [c]) ) ;
+            otherIsAttrs.delete ('rel');
+            otherIsAttrs = [...otherIsAttrs].sort();
+            for (attr of otherIsAttrs)
+            {
+                newMapObj [c] [attr] = JSON.parse( JSON.stringify( mapObj [c] [attr] ) );
+            }
         }
     }
     return newMapObj;
-//     Object.assign( mapObj , JSON.parse( JSON.stringify( newMapObj ) ) );
-//     console.log(mapObj);
-    
 }
