@@ -213,7 +213,18 @@ async function start()
             delete cObj['isChi'];
     }    
     
-    
+    for (c in summary_data.map2)
+    {
+        const cObj = summary_data.map2[c];
+            
+        if (cObj['isSimp'])
+        {
+            if (   (  cObj['isEdu_HK']    ||  cObj['isEdu_TW_1']  )
+                && ( !cObj['isEdu_CN_1c'] && !cObj['isEdu_CN_2c'] )
+            )
+                delete cObj['isSimp'];
+        }
+    } 
     
     
     summary_data.map2 = sortMapObj(summary_data.map2);
