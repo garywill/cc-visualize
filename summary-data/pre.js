@@ -101,8 +101,12 @@ async function start()
     
     
     
+//     cat cn-1c.txt |awk '{print $2}'  | grep -E "^$" -v   | cut -c -1 > cn通用规范汉字表_一级.txt
+//     cat cn-2c.txt |awk '{print $2}'  | grep -E "^$" -v   | cut -c -1 > cn通用规范汉字表_二级.txt
+//     cat cn-3c.txt |awk '{print $2}'  | grep -E "^$" -v   | cut -c -1 > cn通用规范汉字表_三级.txt   
     var edu_cn_1c = fs.readFileSync("../edu-data/cn通用规范汉字表_一级.txt").toString();
     var edu_cn_2c = fs.readFileSync("../edu-data/cn通用规范汉字表_二级.txt").toString();
+    var edu_cn_3c = fs.readFileSync("../edu-data/cn通用规范汉字表_三级.txt").toString();
     
     function eduTxtToArr(txt) {
         txt = new Set( Array.from(txt) ); 
@@ -115,6 +119,7 @@ async function start()
     }
     edu_cn_1c = eduTxtToArr( edu_cn_1c);
     edu_cn_2c = eduTxtToArr( edu_cn_2c);
+    edu_cn_3c = eduTxtToArr( edu_cn_3c);
     
     for ( c of edu_cn_1c )
     {
@@ -138,6 +143,17 @@ async function start()
         
         if (mapObj ['isTrad'] && !mapObj ['isSimp'] )
             mapObj ['isSimp'] = true;
+    }
+
+    for ( c of edu_cn_3c )
+    {
+        createEmptyKey(c, summary_data.map2);
+        
+        const mapObj = summary_data.map2 [c];
+        
+        mapObj ['isEdu_CN_3c'] = true;
+        
+        // 三级表不一定是简体字
     }
 
     
