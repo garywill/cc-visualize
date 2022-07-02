@@ -99,6 +99,33 @@ async function start()
         }
     }
     
+    
+    
+    var edu_cn_1c = fs.readFileSync("../edu-data/cn通用规范汉字表_一级.txt").toString();
+    
+    function eduTxtToArr(txt) {
+        txt = new Set( Array.from(txt) ); 
+        txt.delete('\n');
+        txt.delete('\r');
+        txt.delete(' ');
+        txt.delete('\t');
+        txt = [... txt ];
+        return txt;
+    }
+    edu_cn_1c = eduTxtToArr( edu_cn_1c);
+    
+    for ( c of edu_cn_1c )
+    {
+        createEmptyKey(c, summary_data.map2);
+        
+        const mapObj = summary_data.map2 [c];
+        
+        mapObj ['isEdu_CN_1c'] = true;
+        
+    }
+    
+
+    
     summary_data.map2 = sortMapObj(summary_data.map2);
     fs.writeFileSync("summary-data-map2.js" , ( "summary_data.map2 = \n" + JSON.stringify(summary_data.map2) + "\n;" )
         .replaceAll("},", "},\n")
@@ -180,7 +207,14 @@ function createKey( key , mapObj)
         mapObj[key] = { 
             "rel" : []
         };
-        
+    }
+}
+function createEmptyKey( key , mapObj)
+{
+    if ( mapObj[key] === undefined)
+    {
+        mapObj[key] = { 
+        };
     }
 }
 
