@@ -68,7 +68,7 @@ const unusual_cond = {
         default_checked: true,
     },
     "blk_nobelong": {
-        full_desc: "不属于任何区块",
+        full_desc: "不属于任何合法区块",
         short_desc: "非",
         default_checked: true,
     },
@@ -254,7 +254,13 @@ unusual_cond['blk_is_cjkext'].func = function(c, mapObj, cInfo) {
 unusual_cond['blk_nobelong'].func = function(c, mapObj, cInfo) {
     var blk = cInfo.blk;
     
-    if ( ! blk )
+    const blks = [
+        "High Surrogates",
+        "High Private Use Surrogates",
+        "Low Surrogates",
+    ];
+    
+    if ( ! blk || blks.includes(blk) )
         return true;
 };
 
