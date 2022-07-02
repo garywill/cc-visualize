@@ -118,7 +118,7 @@ async function start()
     
     for ( c of edu_cn_1c )
     {
-        createEmptyKey(c, summary_data.map2);
+        createKey(c, summary_data.map2);
         
         const mapObj = summary_data.map2 [c];
         
@@ -130,7 +130,7 @@ async function start()
     
     for ( c of edu_cn_2c )
     {
-        createEmptyKey(c, summary_data.map2);
+        createKey(c, summary_data.map2);
         
         const mapObj = summary_data.map2 [c];
         
@@ -142,7 +142,7 @@ async function start()
 
     for ( c of edu_cn_3c )
     {
-        createEmptyKey(c, summary_data.map2);
+        createKey(c, summary_data.map2);
         
         const mapObj = summary_data.map2 [c];
         
@@ -232,14 +232,6 @@ function createKey( key , mapObj)
     {
         mapObj[key] = { 
             "rel" : []
-        };
-    }
-}
-function createEmptyKey( key , mapObj)
-{
-    if ( mapObj[key] === undefined)
-    {
-        mapObj[key] = { 
         };
     }
 }
