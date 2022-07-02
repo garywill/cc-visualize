@@ -96,6 +96,16 @@ async function start()
     
     
     
+    function eduTxtToArr(txt) {
+        txt = new Set( Array.from(txt) ); 
+        txt.delete('\n');
+        txt.delete('\r');
+        txt.delete(' ');
+        txt.delete('\t');
+        txt.delete('、');
+        txt = [... txt ];
+        return txt;
+    }
 //     cat cn-1c.txt |awk '{print $2}'  | grep -E "^$" -v   | cut -c -1 > cn通用规范汉字表_一级.txt
 //     cat cn-2c.txt |awk '{print $2}'  | grep -E "^$" -v   | cut -c -1 > cn通用规范汉字表_二级.txt
 //     cat cn-3c.txt |awk '{print $2}'  | grep -E "^$" -v   | cut -c -1 > cn通用规范汉字表_三级.txt   
@@ -103,15 +113,6 @@ async function start()
     var edu_cn_2c = fs.readFileSync("../edu-data/cn通用规范汉字表_二级.txt").toString();
     var edu_cn_3c = fs.readFileSync("../edu-data/cn通用规范汉字表_三级.txt").toString();
     
-    function eduTxtToArr(txt) {
-        txt = new Set( Array.from(txt) ); 
-        txt.delete('\n');
-        txt.delete('\r');
-        txt.delete(' ');
-        txt.delete('\t');
-        txt = [... txt ];
-        return txt;
-    }
     edu_cn_1c = eduTxtToArr( edu_cn_1c);
     edu_cn_2c = eduTxtToArr( edu_cn_2c);
     edu_cn_3c = eduTxtToArr( edu_cn_3c);
@@ -150,6 +151,22 @@ async function start()
         
         // 三级表不一定是简体字
     }
+    
+    
+//     cat hk.txt |awk '{print $2}'  | grep -E "^$" -v > hk常用字字形表.txt
+    var edu_hk = fs.readFileSync("../edu-data/hk常用字字形表.txt").toString();
+    edu_hk = eduTxtToArr ( edu_hk );
+    
+    for ( c of edu_hk )
+    {
+        createKey(c, summary_data.map2);
+        
+        const mapObj = summary_data.map2 [c];
+        
+        mapObj ['isEdu_HK'] = true;
+        
+    }
+    
 
     
     summary_data.map2 = sortMapObj(summary_data.map2);

@@ -46,7 +46,7 @@
 
 > 本工具目前无法保证数据是100%准确的。如果发现错误之处，可以开issue告知。然后请先尝试向上游（数据来源）报告和修复。也可以在本工具中（预处理脚本内）使用手动更正方案
 
-## 原理
+## 数据说明
 
 汉字、字符关系数据来源：
 
@@ -54,7 +54,7 @@
 
 - [Unicode Character Database (UCD)](https://www.unicode.org/ucd/) （及其子集Unihan）
 
-- 中华地区中文教育常用字
+- 中华地区官方中文教育制定的常用字表
 
 - 可以再加....
 
@@ -125,9 +125,22 @@ UCD提供txt（文件数量多）和[xml](https://www.unicode.org/Public/15.0.0/
 
 其他未采用的Unihan变体参数： kSemanticVariant, kSpecializedSemanticVariant, kSpoofingVariant
 
-### 中华地区中文教育常用字
+### 中华地区官方中文教育制定的常用字表
 
-[《通用规范汉字表》](https://zh.wikisource.org/wiki/%E9%80%9A%E7%94%A8%E8%A7%84%E8%8C%83%E6%B1%89%E5%AD%97%E8%A1%A8)（官方链接提供的[原文件](http://www.gov.cn/gzdt/att/att/site1/20130819/tygfhzb.pdf)是图片PDF，因此采用wikisource.org文本）。分为三级：一级字表 3500字；二级字表 3000字；三级字表 1605字。其中一、二级在此认为皆是简体字，三级不视为一定是简体。
+#### 地区代号CN
+
+[《通用规范汉字表》](https://zh.wikisource.org/wiki/%E9%80%9A%E7%94%A8%E8%A7%84%E8%8C%83%E6%B1%89%E5%AD%97%E8%A1%A8)（数据内容取自非官方链接，因官方链接提供的[原文件](http://www.gov.cn/gzdt/att/att/site1/20130819/tygfhzb.pdf)是图片PDF）。分为三级：
+- 一级字表 3500字
+- 二级字表 3000字
+- 三级字表 1605字
+
+其中一、二级在此认为皆是简体字，三级不视为一定是简体
+
+#### 地区代号HK
+
+[《常用字字形表》](https://zh.wikisource.org/wiki/zh:%E5%B8%B8%E7%94%A8%E5%AD%97%E5%AD%97%E5%BD%A2%E8%A1%A8?uselang=zh) 4759字（实际加上同义字后更多）（数据内容取自非官方链接）
+
+
 
 ### 总数据
 
