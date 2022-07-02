@@ -32,9 +32,6 @@ async function start()
         
         if ( cObj['isChi'] && ! cObj['isTrad'] && cObj['isSimp'] ) 
             cObj['isTrad'] = true;
-        
-        if ( cObj['isChi'] && ( cObj['isTrad'] || cObj['isSimp'] ) )
-            delete cObj['isChi'];
     }
     
     // cat summary-data-map.js |grep -o 'is.*'|uniq|sort|uniq
@@ -193,6 +190,31 @@ async function start()
         
         mapObj ['isEdu_TW_2'] = true;
     }
+    
+    
+    
+    
+    for (c in summary_data.map2)
+    {
+        const cObj = summary_data.map2[c];
+        
+        if ( cObj['isChi']
+            && ( 
+                   cObj['isTrad'] 
+                || cObj['isSimp'] 
+                || cObj['isEdu_CN_1c']
+                || cObj['isEdu_CN_2c']
+                || cObj['isEdu_CN_3c']
+                || cObj['isEdu_HK']
+                || cObj['isEdu_TW_1']
+                || cObj['isEdu_TW_2']
+            ) 
+        )
+            delete cObj['isChi'];
+    }    
+    
+    
+    
     
     summary_data.map2 = sortMapObj(summary_data.map2);
     fs.writeFileSync("summary-data-map2.js" , ( "summary_data.map2 = \n" + JSON.stringify(summary_data.map2) + "\n;" )

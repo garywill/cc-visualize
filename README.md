@@ -145,7 +145,7 @@ UCD提供txt（文件数量多）和[xml](https://www.unicode.org/Public/15.0.0/
 
 ### 总数据
 
-结合`opencc.map2`及`uncode_data.map2`生成总数据表使用
+结合`opencc.map2`及`uncode_data.map2`、再加入中华地区制定的字表，生成总数据表`summary_data.map2`使用
 
 ## 代码说明
 
