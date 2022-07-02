@@ -246,8 +246,6 @@ async function start()
         .replaceAll("},", "},\n")
     );
     
-    // TODO 添加手动的字
-    // TODO 挑出奇怪的独源字或无中国源的字
 }
 start();
 

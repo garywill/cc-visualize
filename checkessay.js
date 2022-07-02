@@ -90,12 +90,15 @@ function show_check_results(only_unusual = false)
             
             if (charObj.isUnusual)
             {
+                div_essayChar.classList.add("div_essayChar_unusual");
                 for ( name of Object.keys(charObj.cInfo.unusuals) )
                 {
                     if ( charObj.cInfo.unusuals[name] == true && unusual_cond[name].isCurrentlyEnabled )
                     {
                         unusual_span.style.display="";
                         unusual_span.textContent += unusual_cond[name].short_desc;
+                        if (name == "blk_is_cjkext")
+                            unusual_span.textContent += charObj.cInfo.blk.split(' ')[4];
                     }
                 }
             }
@@ -116,23 +119,23 @@ function show_check_results(only_unusual = false)
             tips += '\n';
 
             
-            div_origChar.className += genClassNamesAccordingCInfo(essayChar);
+            genClassNamesAccordingCInfo(essayChar, div_origChar);
 
             if (summary_data.map2[essayChar] && summary_data.map2[essayChar]['rel'].length > 0) //有关联字
             {
                 tips += "关联字：\n";
                 
-                div_essayChar.className += " div_essay_char_haverel";
+                div_essayChar.classList.add ( "div_essay_char_haverel" );
                 
                 summary_data.map2[essayChar]['rel'].forEach( function(relChar) {
                     
                     tips += getCharTipLine(relChar);
                     
                     var div_oneRelChar = document.createElement("div");
-                    div_oneRelChar.className = "div_one_rel_char";
+                    div_oneRelChar.classList.add ( "div_one_rel_char" );
                     div_oneRelChar.textContent = relChar;
                     
-                    div_oneRelChar.className += genClassNamesAccordingCInfo(relChar);
+                    genClassNamesAccordingCInfo(relChar, div_oneRelChar) ;
                     
                     
                     ruby_rt.appendChild(div_oneRelChar);
@@ -149,18 +152,15 @@ function show_check_results(only_unusual = false)
     }
     
 }
-function genClassNamesAccordingCInfo(c)
+function genClassNamesAccordingCInfo(c, charHtmlNode)
 {
-    var classNames = " "; 
-//     const mapObj = summary_data.map2 [c];
     const cInfo = getCInfo(c);
     
     for (name of Object.keys(cInfo.unusuals) )
     {
         if ( cInfo.unusuals [name] == true )
-            classNames += ` UCcss_${name}`;
+            charHtmlNode.classList.add(  `UCcss_${name}` );
     }
-    return classNames;
 }
 
 function getCharTipLine(c)

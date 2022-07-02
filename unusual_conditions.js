@@ -1,7 +1,7 @@
 const unusual_cond = {
     
     "blk_is_cjkext": {
-        full_desc: "属于汉字扩展区（一般为少见字）",
+        full_desc: "属于汉字扩展区（一般不是很常见的字）",
         short_desc: "扩",
         default_checked: true,
         skipBelow: false,
