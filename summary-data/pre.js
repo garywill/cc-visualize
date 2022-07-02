@@ -165,6 +165,8 @@ async function start()
         
         mapObj ['isEdu_HK'] = true;
         
+        if (mapObj ['isSimp'] && !mapObj ['isTrad'] )
+            mapObj ['isTrad'] = true;
     }
     
 
