@@ -5047,7 +5047,7 @@ summary_data.map2 =
 "琿":{"rel":["珲"],"isTrad":true},
 "瑋":{"rel":["玮"],"isTrad":true},
 "瑒":{"rel":["玚"],"isTrad":true},
-"瑙":{"rel":["𰡻"],"isTrad":true,"isEdu_CN_1c":true},
+"瑙":{"rel":["𰡻"],"isTrad":true,"isEdu_CN_1c":true,"isSimp":true},
 "瑞":{"isEdu_CN_1c":true},
 "瑟":{"isEdu_CN_1c":true},
 "瑣":{"rel":["琐"],"isTrad":true},
