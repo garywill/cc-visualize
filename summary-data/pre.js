@@ -5,7 +5,6 @@ var summary_data = {
     map2: {}, //繁简+兼 划 日  等 
     map3: {}, //把对map2来说不必要的关联也加进来
 };
-const chi_chars = ['醋', '予', '疏', '欠', '弁', '缶', '浜']; // 一些可能会被误判成日本简化字的中文字
 
 var fs = require('fs');
 
@@ -25,11 +24,7 @@ async function start()
         summary_data.map2 [c] = combineCharObj(c, unicode_data.map2, opencc.map2);
     }
     
-    for (c of chi_chars)
-    {
-        createKey(c, summary_data.map2);
-        summary_data.map2[c] ['isChi'] = true;
-    }
+
     
     for (c in summary_data.map2)
     {
