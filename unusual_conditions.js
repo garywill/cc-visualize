@@ -17,7 +17,7 @@ const unusual_cond = {
         default_checked: false,
     },
     "is_simp_n_trad": {
-        full_desc: "是繁简合字",
+        full_desc: "是繁简合字（即，在转换表中既作为繁体也作为简体出现）",
         short_desc: "合",
         default_checked: false,
     },

@@ -1,6 +1,6 @@
 # 全文每个汉字关联字可视化
 
-- 使用：Web tool。直接打开 https://garywill.github.io/cc-visualize/
+- 使用(in beta)：Web tool。直接打开 https://garywill.github.io/cc-visualize/
 - CLI：计划中。有待将js代码的web部分与可复用部分解耦，并分离到不同文件中
 
 
@@ -11,7 +11,8 @@
 2. 分辨网上泛滥的，机器简转繁造成的，大量“文献”所含有的大量错字
 
 3. 找出大段文本中的非寻常字符：仅日本用的简化版汉字、兼容区汉字符、非中非英的其他语言符号等、扩展区的汉字（少用字）、笔划偏旁字符
-    > Unicode的坑，汉字也有类似punycode attack的问题。已经发现有输入法码表中混入了不应有的字符。这也是做这个功能起因之一
+    > Unicode的坑，除西文字符外，汉字也有**同形字符攻击**问题。已经发现有输入法码表中混入了不应有的字符。这也是做这个功能起因之一（见下相关背景资料）
+    > 
     > ![兀](https://user-images.githubusercontent.com/32130780/175266740-caad17d0-39c8-4d5d-a02a-ec04a16ddab5.png)
 
 ## 截图预览
@@ -21,24 +22,27 @@
 ![Screenshot](Screenshot.png)
 
 颜色：
+- 淡绿色：繁简合字（即，在转换表中既作为繁体也作为简体出现）
 - 淡蓝色：繁体
 - 淡黄色：中文简体
-  > 受某一边数据可能遗漏的影响，被标作简体的字，不一定仅是简体字。（按理说，繁体亦然）
-- 淡绿色：既是繁体也是中文简体
+  > 受某一边数据可能遗漏的影响，被标作简体的字，不一定仅是简体字（按理说，繁体亦然）。
+  > 
+  > 被标作繁简合字的，也可能并非在繁中、简中两个文化圈中都是常见字
 
 可能为非寻常字符的颜色：
-- 红色：仅日文用简化字
+- 红色：仅日文用简化字（也有可能是不常用的中文异体字或上古字，与日本简化同形）
 - 红紫色：兼容汉字符 
 - 蓝紫色：汉字笔划偏旁字符
 - 橙色边框：扩展区汉字（一般为少见字）
 - 灰色：未定义编码字符
 
+> 本工具目前无法保证数据是100%准确的。如果发现错误之处，可以开issue告知。然后请先尝试向上游（数据来源）报告和修复。也可以在本工具中（预处理脚本内）使用手动更正方案。另外目前还存在已采用的权威数据源数量不足的问题
 
 ## 原理
 
 汉字、字符关系数据来源：
 
-- [OpenCC](https://github.com/BYVoid/OpenCC)（Open Chinese Convert）
+- [OpenCC （Open Chinese Convert）](https://github.com/BYVoid/OpenCC)
 
 - [Unicode Character Database (UCD)](https://www.unicode.org/ucd/) （及其子集Unihan）
 
@@ -75,13 +79,15 @@ OpenCC含有中文繁简关系、日本用字与中文汉字关系
 
 ### Unicode Character Database (UCD)
 
+当前UCD版本：15.0
+
 UCD提供txt（文件数量多）和[xml](https://www.unicode.org/Public/15.0.0/ucdxml/)（单个大文件）两种数据格式。
 
 含有任意字符所属语言区块、每个区块的码的范围。含有正常汉字字符（CJK统一表意字符区）与康熙部首区、兼容表意字符区、汉字笔划偏旁字符区。还有繁简、Z变体、语义变体、特殊主义变体之间的关系、笔划偏旁字符对应的独立汉字。还有每个字的提交者是来自哪个国家的研究组
 
 下载了xml并进行缩小，删除不需要的信息。然后生成JSON格式的汉字关联表
 
-采用的UCD参数
+采用的Unihan变体参数
 - kSimplifiedVariant 这个字对应的简体字
 - kTraditionalVariant 这个字对应的繁体字
 - kCompatibilityVariant 这个兼容区字对应的统一区字
@@ -107,10 +113,7 @@ UCD提供txt（文件数量多）和[xml](https://www.unicode.org/Public/15.0.0/
 "门":{"rel":["門"],"isSimp":true},
 ```
 
-其他未采用的UCD参数
-- kSemanticVariant
-- kSpecializedSemanticVariant
-- kSpoofingVariant
+其他未采用的Unihan变体参数： kSemanticVariant, kSpecializedSemanticVariant, kSpoofingVariant
 
 
 ### 总数据
@@ -123,9 +126,7 @@ UCD提供txt（文件数量多）和[xml](https://www.unicode.org/Public/15.0.0/
 
 
 
-## 同类其他工具和数据资料
-
-其他的能够查到汉字变体和关联关系的工具
+## 其他的能够查到汉字变体、关联关系、资料的工具 
 
 - [Unicode Utilities: Character Properties](https://util.unicode.org/UnicodeJsps/character.jsp)
 - [Unicode Utilities: Confusables](https://util.unicode.org/UnicodeJsps/confusables.jsp)
@@ -134,7 +135,16 @@ UCD提供txt（文件数量多）和[xml](https://www.unicode.org/Public/15.0.0/
 - [Unicopedia Sinca](https://github.com/tonton-pixel/unicopedia-sinica)
 - [字嗨](https://zi-hi.com/sp/uni/)
 
+## 相关背景知识
+
+- [Unicode相容字符](https://zh.wikipedia.org/wiki/Unicode%E7%9B%B8%E5%AE%B9%E5%AD%97%E7%AC%A6)
+  > 在“CJK Compatibility Ideographs”块中，也包含一些[不是相容字符的字符](https://zh.wikipedia.org/wiki/Unicode%E7%9B%B8%E5%AE%B9%E5%AD%97%E7%AC%A6#%E7%9B%B8%E5%AE%B9%E5%9D%97)
+- [Homoglyph](https://en.wikipedia.org/wiki/Homoglyph)
+- [IDN homograph attack](https://en.wikipedia.org/wiki/IDN_homograph_attack)
+- [Duplicate characters in Unicode](https://en.wikipedia.org/wiki/Duplicate_characters_in_Unicode)
+- [Punycode Attack](https://www.google.com/search?q=punycode+attack) | [Punycode Phishing](https://www.google.com/search?q=punycode+phishing)
+
 ## 其他
 
-1. [**大术专搜**](https://github.com/garywill/BigSearch/blob/master/src/README_zh.md)（一个搜索、查询工具）中收集的汉语工具部分
+1. [**大术专搜**](https://github.com/garywill/BigSearch/blob/master/src/README_zh.md)（推荐）（一个搜索、查询工具）中收集的汉语工具部分
 2. [收集的汉字资源、字体、阅读器 等](https://gitlab.com/garywill/cc-resources/-/releases)
