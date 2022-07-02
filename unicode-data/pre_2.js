@@ -88,9 +88,15 @@ async function start()
     {
         const blk = charNode.getAttribute("blk");
         const cp =  charNode.getAttribute("cp");
+        const first_cp =  charNode.getAttribute("first-cp");
+        const last_cp =  charNode.getAttribute("last-cp");
         const UIdeo =  charNode.getAttribute("UIdeo");
         // grep -E "^ blk=" ucd.repertoire.xml |uniq|sort
 //         if (  blk.includes("CJK") ||  blk.includes("Kangxi") )
+        
+        if (!cp || first_cp || last_cp)
+            continue;
+        
         for (kVarN of kVarNames) 
         {
             const kVarContent =  charNode.getAttribute(kVarN) ;
