@@ -67,6 +67,11 @@ const unusual_cond = {
         short_desc: "其",
         default_checked: true,
     },
+    "blk_pua": {
+        full_desc: "属于私用区块（正式收录前暂用的私码字）",
+        short_desc: "私",
+        default_checked: true, 
+    },
     "blk_nobelong": {
         full_desc: "不属于任何合法区块",
         short_desc: "非",
@@ -264,7 +269,18 @@ unusual_cond['blk_nobelong'].func = function(c, mapObj, cInfo) {
         return true;
 };
 
-
+unusual_cond['blk_pua'].func = function(c, mapObj, cInfo) {
+    var blk = cInfo.blk;
+    
+    const blks = [
+        "Private Use Area",
+        "Supplementary Private Use Area-A",
+        "Supplementary Private Use Area-B",
+    ];
+    
+    if ( blks.includes(blk) )
+        return true;
+};
 
 unusual_cond['blk_others'].func = function(c, mapObj, cInfo) {
     const blks = [
@@ -292,6 +308,10 @@ unusual_cond['blk_others'].func = function(c, mapObj, cInfo) {
 //         "Latin-1 Supplement",
         "Basic Latin",
         "Enclosed Alphanumerics",
+        
+        "Private Use Area",
+        "Supplementary Private Use Area-A",
+        "Supplementary Private Use Area-B",
         
     ];
     
