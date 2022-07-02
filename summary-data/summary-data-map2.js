@@ -3304,7 +3304,7 @@ summary_data.map2 =
 "并":{"rel":["並","併","倂"],"isSimp":true,"isTrad":true,"isEdu_CN_1c":true},
 "幸":{"rel":["倖"],"isSimp":true,"isTrad":true,"isEdu_CN_1c":true},
 "幹":{"rel":["乾","干","榦"],"isTrad":true},
-"幺":{"rel":["么","麼","麽"],"isTrad":true,"isEdu_CN_2c":true},
+"幺":{"rel":["么","麼","麽"],"isTrad":true,"isEdu_CN_2c":true,"isSimp":true},
 "幻":{"isEdu_CN_1c":true},
 "幼":{"isEdu_CN_1c":true},
 "幽":{"isEdu_CN_1c":true},

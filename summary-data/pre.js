@@ -136,6 +136,8 @@ async function start()
         
         mapObj ['isEdu_CN_2c'] = true;
         
+        if (mapObj ['isTrad'] && !mapObj ['isSimp'] )
+            mapObj ['isSimp'] = true;
     }
 
     
