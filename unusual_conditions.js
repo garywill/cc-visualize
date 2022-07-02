@@ -1,9 +1,4 @@
 const unusual_cond = {
-//     "is_en": {
-//         full_desc: "是基本西文ASCII",
-//         short_desc: "西",
-//         default_checked: false,
-//     },
     
     "blk_is_cjkext": {
         full_desc: "属于汉字扩展区（一般为少见字）",
@@ -44,7 +39,7 @@ const unusual_cond = {
         default_checked: true,
     },
     "is_comp": {
-        full_desc: "属于兼容区汉字符 或 此兼容汉字符有所应该用以替代的统一汉字符",
+        full_desc: "兼容汉字符，应用对应的统一汉字符替代",
         short_desc: "兼",
         default_checked: true,
     },
@@ -199,14 +194,17 @@ unusual_cond['is_comp'].func = function(c, mapObj, cInfo) {
         blk = getCpBlock( c2utf16(c).hex );
     
 //     if ( blks.includes(blk) )
-    
-    if ( blk && blk.includes("CJK Compatibility") 
-        || 
-        ( mapObj !== undefined 
-                && mapObj ['isComp'] 
-        )
-    )
+    if ( mapObj !== undefined  && mapObj ['isComp']  )
         return true;
+        
+    if ( blk && blk.includes("CJK Compatibility") )
+    {
+        if ( mapObj !== undefined  && mapObj['isUnif'] )
+            return false;
+            
+        return true;
+        
+    }
 };
 
 unusual_cond['is_rad'].func = function(c, mapObj, cInfo) {
