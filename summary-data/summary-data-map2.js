@@ -3618,7 +3618,7 @@ summary_data.map2 =
 "庄":{"rel":["莊"],"isSimp":true,"isTrad":true,"isEdu_CN_1c":true},
 "庆":{"rel":["慶"],"isSimp":true,"isEdu_CN_1c":true},
 "庇":{"rel":[],"isEdu_CN_1c":true,"isEdu_HK":true,"isEdu_TW_1":true},
-"床":{"rel":["牀"],"isSimp":true,"isEdu_CN_1c":true,"isEdu_TW_1":true},
+"床":{"rel":["牀"],"isSimp":true,"isEdu_CN_1c":true,"isEdu_TW_1":true,"isTrad":true},
 "庋":{"rel":[],"isEdu_CN_2c":true},
 "序":{"rel":[],"isEdu_CN_1c":true,"isEdu_HK":true,"isEdu_TW_1":true},
 "庐":{"rel":["廬","𪪏"],"isSimp":true,"isTrad":true,"isEdu_CN_1c":true},
