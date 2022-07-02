@@ -143,7 +143,9 @@ UCD提供txt（文件数量多）和[xml](https://www.unicode.org/Public/15.0.0/
 #### 地区代号TW
 
 - [《常用國字標準字體表》](https://language.moe.gov.tw/001/Upload/Files/site_content/download/mandr/教育部4808個常用字.ods)（甲表） 4808字
+- [《次常用國字標準字體表》](https://zh.wikisource.org/wiki/%E6%AC%A1%E5%B8%B8%E7%94%A8%E5%9C%8B%E5%AD%97%E6%A8%99%E6%BA%96%E5%AD%97%E9%AB%94%E8%A1%A8)（乙表） 6338字 (6329+9) （数据内容取自非官方链接）
 
+甲表中的字在此视为皆是繁体字，乙表不然
 
 ### 总数据
 
