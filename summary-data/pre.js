@@ -102,6 +102,7 @@ async function start()
     
     
     var edu_cn_1c = fs.readFileSync("../edu-data/cn通用规范汉字表_一级.txt").toString();
+    var edu_cn_2c = fs.readFileSync("../edu-data/cn通用规范汉字表_二级.txt").toString();
     
     function eduTxtToArr(txt) {
         txt = new Set( Array.from(txt) ); 
@@ -113,6 +114,7 @@ async function start()
         return txt;
     }
     edu_cn_1c = eduTxtToArr( edu_cn_1c);
+    edu_cn_2c = eduTxtToArr( edu_cn_2c);
     
     for ( c of edu_cn_1c )
     {
@@ -126,6 +128,15 @@ async function start()
             mapObj ['isSimp'] = true;
     }
     
+    for ( c of edu_cn_2c )
+    {
+        createEmptyKey(c, summary_data.map2);
+        
+        const mapObj = summary_data.map2 [c];
+        
+        mapObj ['isEdu_CN_2c'] = true;
+        
+    }
 
     
     summary_data.map2 = sortMapObj(summary_data.map2);
