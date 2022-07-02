@@ -200,7 +200,8 @@ async function start()
         
         if ( cObj['isChi']
             && ( 
-                   cObj['isTrad'] 
+                   !cObj['isVari_JP']
+                || cObj['isTrad'] 
                 || cObj['isSimp'] 
                 || cObj['isEdu_CN_1c']
                 || cObj['isEdu_CN_2c']
