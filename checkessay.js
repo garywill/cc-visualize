@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', async (event) => {
     };
 }); 
 
+var charsCInfoCache = {};
+
 function show_check_results(only_unusual = false)
 {
     readUserCond();
@@ -99,7 +101,7 @@ function show_check_results(only_unusual = false)
             }
             
             var tips = `Line ${charObj.line_num} Col ${charObj.col_num}\n\n`;
-            tips += genCharTipLine(essayChar, charObj);
+            tips += getCharTipLine(essayChar);
             
             for ( unusual_name  of Object.keys(charObj.cInfo.unusuals) )
             {
@@ -124,7 +126,7 @@ function show_check_results(only_unusual = false)
                 
                 summary_data.map2[essayChar]['rel'].forEach( function(relChar) {
                     
-                    tips += genCharTipLine(relChar);
+                    tips += getCharTipLine(relChar);
                     
                     var div_oneRelChar = document.createElement("div");
                     div_oneRelChar.className = "div_one_rel_char";
@@ -161,38 +163,54 @@ function genClassNamesAccordingCInfo(c)
     return classNames;
 }
 
-function genCharTipLine(c, charObj)
+function getCharTipLine(c)
 {
-    var result = "";
-    
-    var hex = charObj ? charObj.cInfo.hex : c2utf16(c).hex ;
-    var blk = charObj ? charObj.cInfo.blk : getCpBlock(hex);
-    
-    var cProp = "";
-    const mapObj = summary_data.map2[c];
-    
-    if (mapObj)
+    var cInfo = getCInfo(c);
+    if (  cInfo.tipLine === undefined )
     {
-        if (mapObj ['isChi'])
-            cProp += '中';
-        if (mapObj ['isTrad'])
-            cProp += '繁';
-        if (mapObj ['isSimp'])
-            cProp += '简';
-        if (mapObj ['isVari_HK'])
-            cProp += "港";
-        if (mapObj ['isVari_TW'])
-            cProp += "台";
-        if (mapObj ['isVari_JP'])
-            cProp += "日";    
-        if (mapObj ['isComp'])
-            cProp += "兼";
-        if (mapObj ['isRad'])
-            cProp += "划";
+        var cProp = [] ;
+        const mapObj = summary_data.map2[c];
+        
+        if (mapObj)
+        {
+            if (mapObj ['isEdu_CN_1c'])
+                cProp .push( "陆表一" );
+            if (mapObj ['isEdu_CN_2c'])
+                cProp .push( "陆表二" );
+            if (mapObj ['isEdu_CN_3c'])
+                cProp .push( "陆表三" );
+            if (mapObj ['isEdu_HK'])
+                cProp .push( "港表" );
+            if (mapObj ['isEdu_TW_1'])
+                cProp .push( "台表甲" );
+            if (mapObj ['isEdu_TW_2'])
+                cProp .push( "台表乙" );
+            
+            if (mapObj ['isTrad'])
+                cProp .push( '繁' );
+            if (mapObj ['isSimp'])
+                cProp .push( '简' );
+            
+            if (mapObj ['isChi'])
+                cProp .push( '汉' );
+            if (mapObj ['isVari_HK'])
+                cProp .push( "港变" );
+            if (mapObj ['isVari_TW'])
+                cProp .push( "台变" );
+            if (mapObj ['isVari_JP'])
+                cProp .push( "日" );    
+            
+            if (mapObj ['isComp'])
+                cProp .push( "兼" );
+            if (mapObj ['isRad'])
+                cProp .push( "划" );
+        }
+        
+        cProp = cProp.join(' ')
+        
+        cInfo.tipLine = `${c}\t${cInfo.hex}\t（${cProp}）\t属于${cInfo.blk}\n` ;
     }
-    
-    result += `${c} ${hex} （${cProp}） 属于${blk}\n`;
-    return result;
+    return cInfo.tipLine;
 }
 
 
@@ -222,7 +240,6 @@ function c2utf16(c) {
 //     var dec = parseInt(hex, 16);
 //     return { dec: dec, hex: hex.toUpperCase() };
 // }
-var charsCInfoCache = {};
 function essay_to_arr(essay, only_unusual = false) 
 {
     var result_arr = [];
