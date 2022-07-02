@@ -168,6 +168,15 @@ async function init_opencc()
                 map2[left]['isTrad'] = true;
             
             var right_arr = obj[left];
+            
+            if (zone == "HK" || zone == "TW")
+            {
+                for (c of right_arr)
+                {
+                    if ( map2[c] && map2 [c]['isSimp'] && ! map2 [c]['isTrad'] )
+                        map2 [c] ['isTrad'] = true;
+                }
+            }
         
             var candi = [];
             candi = right_arr;
