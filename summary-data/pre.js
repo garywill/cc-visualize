@@ -169,6 +169,18 @@ async function start()
             mapObj ['isTrad'] = true;
     }
     
+    // cat tw2-wiki.txt |column -t -s '|' | awk '{print $2}' | grep -E "^$" -v > tw次常用國字標準字體表.txt
+    var edu_tw_1 = fs.readFileSync("../edu-data/tw常用國字標準字體表.txt").toString();
+    edu_tw_1 = eduTxtToArr ( edu_tw_1 );
+    for ( c of edu_tw_1 )
+    {
+        createKey(c, summary_data.map2);
+        
+        const mapObj = summary_data.map2 [c];
+        
+        mapObj ['isEdu_TW_1'] = true;
+        
+    }
 
     
     summary_data.map2 = sortMapObj(summary_data.map2);

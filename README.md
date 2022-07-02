@@ -140,6 +140,9 @@ UCD提供txt（文件数量多）和[xml](https://www.unicode.org/Public/15.0.0/
 
 [《常用字字形表》](https://zh.wikisource.org/wiki/zh:%E5%B8%B8%E7%94%A8%E5%AD%97%E5%AD%97%E5%BD%A2%E8%A1%A8?uselang=zh) 4759字（实际加上同义字后更多）（数据内容取自非官方链接）
 
+#### 地区代号TW
+
+- [《常用國字標準字體表》](https://language.moe.gov.tw/001/Upload/Files/site_content/download/mandr/教育部4808個常用字.ods)（甲表） 4808字
 
 
 ### 总数据
