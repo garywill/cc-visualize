@@ -6,10 +6,6 @@ function getCpBlock(cp) //eg cp="4e00"
     for ( b of unicode_data.blocks)
     {
         var start = Number( "0x" + b["first_cp"] );
-        
-        if (  cp_int < start )
-            return null;
-        
         var end = Number( "0x" + b["last_cp"] );
         
         if ( start <= cp_int && cp_int <= end)

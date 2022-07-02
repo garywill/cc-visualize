@@ -50,6 +50,25 @@ async function start()
             first_cp: block.getAttribute("first-cp"),
             last_cp: block.getAttribute("last-cp"),
         });
+        unicode_data.blocks.sort(function(a, b) {
+            if ( isPrioBlk(a.name) && !isPrioBlk(b.name) )
+                return -1 ;
+            else
+                return 0 ;
+            
+            function isPrioBlk(blkname) {
+                    const blks = [
+                        "Kangxi Radicals",
+                        "Halfwidth and Fullwidth Forms",
+                        "General Punctuation",
+                        "Basic Latin",
+                        "Enclosed Alphanumerics",
+                    ];
+                    if (blks.includes (blkname) || blkname.includes("CJK") )
+                        return true;
+            }
+        });
+        
         blocksInfoTxt += `${block.getAttribute("first-cp")}\t${block.getAttribute("last-cp")}\t${block.getAttribute("name")}\n`;
     }
     fs.writeFileSync("unicode-data-blocks.js",( "unicode_data.blocks =\n" + JSON.stringify( unicode_data.blocks) + "\n;")

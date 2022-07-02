@@ -120,13 +120,14 @@ function getCharUnusuals(c, cInfo)
     if ( blk == "Basic Latin" )
         return result;
     
+    const mapObj = summary_data.map2[c];
     for (name of Object.keys(unusual_cond))
     {
         const condObj = unusual_cond[name];
         
         if ( condObj['func'] )
         {
-            var oneResult = condObj.func(c, summary_data.map2[c], cInfo) ;
+            var oneResult = condObj.func(c, mapObj, cInfo) ;
             if (oneResult)
             {
                 result[ name ] =  oneResult;
