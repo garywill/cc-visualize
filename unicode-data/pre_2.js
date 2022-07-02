@@ -47,8 +47,8 @@ async function start()
     for ( block of Array.from(blockNodes)) {
         unicode_data.blocks.push( {
             name: block.getAttribute("name"),
-            first_cp: block.getAttribute("first-cp"),
-            last_cp: block.getAttribute("last-cp"),
+            first_cp: Number( "0x" + block.getAttribute("first-cp") ),
+            last_cp: Number( "0x" + block.getAttribute("last-cp") ),
         });
         unicode_data.blocks.sort(function(a, b) {
             if ( isPrioBlk(a.name) && !isPrioBlk(b.name) )
@@ -116,8 +116,8 @@ async function start()
         if ( blk.includes("CJK_Compat") && UIdeo == "Y" )
             unicode_data.charsAreUnif.push( utf16hex2char(cp) );
     }
-    console.log(unicode_data.charsAreUnif);
 
+    
 //     console.log(unicode_data.unihan_variants_raw);
     fs.writeFileSync("unicode-data-unihan-all-vars-raw.json", JSON.stringify(unicode_data.unihan_variants_raw, null, 2) );
     
