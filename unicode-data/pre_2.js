@@ -63,6 +63,9 @@ async function start()
                         "General Punctuation",
                         "Basic Latin",
                         "Enclosed Alphanumerics",
+                        "Supplementary Private Use Area-A",
+                        "Supplementary Private Use Area-B",
+                        "Private Use Area",
                     ];
                     if (blks.includes (blkname) || blkname.includes("CJK") )
                         return true;

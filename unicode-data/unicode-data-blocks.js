@@ -10,6 +10,7 @@ unicode_data.blocks =
 {"name":"CJK Compatibility","first_cp":13056,"last_cp":13311},
 {"name":"CJK Unified Ideographs Extension A","first_cp":13312,"last_cp":19903},
 {"name":"CJK Unified Ideographs","first_cp":19968,"last_cp":40959},
+{"name":"Private Use Area","first_cp":57344,"last_cp":63743},
 {"name":"CJK Compatibility Ideographs","first_cp":63744,"last_cp":64255},
 {"name":"CJK Compatibility Forms","first_cp":65072,"last_cp":65103},
 {"name":"Halfwidth and Fullwidth Forms","first_cp":65280,"last_cp":65519},
@@ -21,6 +22,8 @@ unicode_data.blocks =
 {"name":"CJK Compatibility Ideographs Supplement","first_cp":194560,"last_cp":195103},
 {"name":"CJK Unified Ideographs Extension G","first_cp":196608,"last_cp":201551},
 {"name":"CJK Unified Ideographs Extension H","first_cp":201552,"last_cp":205743},
+{"name":"Supplementary Private Use Area-A","first_cp":983040,"last_cp":1048575},
+{"name":"Supplementary Private Use Area-B","first_cp":1048576,"last_cp":1114111},
 {"name":"Latin-1 Supplement","first_cp":128,"last_cp":255},
 {"name":"Latin Extended-A","first_cp":256,"last_cp":383},
 {"name":"Latin Extended-B","first_cp":384,"last_cp":591},
@@ -162,7 +165,6 @@ unicode_data.blocks =
 {"name":"High Surrogates","first_cp":55296,"last_cp":56191},
 {"name":"High Private Use Surrogates","first_cp":56192,"last_cp":56319},
 {"name":"Low Surrogates","first_cp":56320,"last_cp":57343},
-{"name":"Private Use Area","first_cp":57344,"last_cp":63743},
 {"name":"Alphabetic Presentation Forms","first_cp":64256,"last_cp":64335},
 {"name":"Arabic Presentation Forms-A","first_cp":64336,"last_cp":65023},
 {"name":"Variation Selectors","first_cp":65024,"last_cp":65039},
@@ -323,7 +325,5 @@ unicode_data.blocks =
 {"name":"Symbols and Pictographs Extended-A","first_cp":129648,"last_cp":129791},
 {"name":"Symbols for Legacy Computing","first_cp":129792,"last_cp":130047},
 {"name":"Tags","first_cp":917504,"last_cp":917631},
-{"name":"Variation Selectors Supplement","first_cp":917760,"last_cp":917999},
-{"name":"Supplementary Private Use Area-A","first_cp":983040,"last_cp":1048575},
-{"name":"Supplementary Private Use Area-B","first_cp":1048576,"last_cp":1114111}]
+{"name":"Variation Selectors Supplement","first_cp":917760,"last_cp":917999}]
 ;
