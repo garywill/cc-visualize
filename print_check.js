@@ -13,6 +13,7 @@ function print_stati()
     print_one_cond_charset('is_comp');
     print_one_cond_charset('is_rad');
     print_one_cond_charset('blk_pua');
+    print_one_cond_charset('cjk_is_rare');
 }
 
 function print_one_cond_charset(condName)
