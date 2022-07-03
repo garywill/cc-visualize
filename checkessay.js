@@ -94,10 +94,10 @@ function show_check_results(only_unusual = false)
                 div_essayChar.classList.add("div_essayChar_unusual");
                 for ( name of Object.keys(charObj.cInfo.unusuals) )
                 {
-                    if ( charObj.cInfo.unusuals[name] == true && unusual_cond[name].isCurrentlyEnabled )
+                    if ( charObj.cInfo.unusuals[name] == true && UnCond[name].isCurrentlyUserChecked )
                     {
                         unusual_span.style.display="";
-                        unusual_span.textContent += '⚠' + unusual_cond[name].short_desc;
+                        unusual_span.textContent += '⚠' + UnCond[name].short_desc;
                         if (name == "blk_is_cjkext")
                             unusual_span.textContent += charObj.cInfo.blk.split(' ')[4];
                     }
@@ -111,8 +111,8 @@ function show_check_results(only_unusual = false)
             {
                 if ( charObj.cInfo.unusuals [unusual_name])
                 {
-                    var warn = unusual_cond [unusual_name] .isCurrentlyEnabled ? '⚠' : '';
-                    var line = `${warn}${unusual_cond [unusual_name] .full_desc}\n` ;
+                    var warn = UnCond [unusual_name] .isCurrentlyUserChecked ? '⚠' : '';
+                    var line = `${warn}${UnCond [unusual_name] .full_desc}\n` ;
                     
                     tips += line;
                 }
@@ -294,7 +294,7 @@ function isCurrentlyThisUnusual(unusualsObj)
 {
     for (name of Object.keys(unusualsObj) )
     {
-        if ( unusual_cond [name] . isCurrentlyEnabled )
+        if ( UnCond [name] . isCurrentlyUserChecked )
         {
             if (unusualsObj[name])
                 return true;

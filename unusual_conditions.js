@@ -1,4 +1,3 @@
-const unusual_cond = {
     
     "blk_is_cjkext": {
         full_desc: "属于汉字扩展区（一般不是很常见的字）",
@@ -6,6 +5,7 @@ const unusual_cond = {
         default_checked: true,
         skipBelow: false,
     },
+const UnCond = {
     "is_simp": {
         full_desc: "是中文简体字",
         short_desc: "简",
@@ -82,31 +82,32 @@ const unusual_cond = {
 
 if (isWeb)
 onDCL(function() {
-    const form = $$("#form_unusual_cond");
+    const form = $$("#form_UnCond");
     
-    for (name of Object.keys(unusual_cond))
+    for (name of Object.keys(UnCond))
     {
-        const condObj = unusual_cond[name];
+        const condObj = UnCond[name];
         
         if ( ! condObj.func )
             continue;
         
-        var checkbox_span = htmlStr2dom(`
+        var span_cb = htmlStr2dom(`
         <li title="${escapeHtml(name)}">
-            <input type="checkbox" class="unusual_cond_checkbox" name="${name}"  >${escapeHtml(condObj['full_desc'])}</input>
+            <input type="checkbox" class="cb_UnCond" name="${name}"  >${escapeHtml(condObj['full_desc'])}</input>
         </li>
         `);
-        checkbox_span.q$("input").checked = condObj.default_checked;
-        form.appendChild(checkbox_span);
+        span_cb.q$("input").checked = condObj.default_checked;
+       
+        form.appendChild(span_cb);
     }
 });
 function readUserCond() 
 {
-    const checkboxes = Array.from( $$$("#form_unusual_cond .unusual_cond_checkbox") );
+    const checkboxes = Array.from( $$$("#form_UnCond .cb_UnCond") );
     for (cb of checkboxes)
     {
         const name = cb.getAttribute("name");
-        unusual_cond [name] . isCurrentlyEnabled = cb.checked;
+        UnCond [name] . isCurrentlyUserChecked = cb.checked;
     }
 }
 
@@ -125,9 +126,9 @@ function getCharUnusuals(c, cInfo)
     
     const mapObj = summary_data.map2[c];
     
-    for (name of Object.keys(unusual_cond))
+    for (name of Object.keys(UnCond))
     {
-        const condObj = unusual_cond[name];
+        const condObj = UnCond[name];
         
         if ( condObj['func'] )
         {
@@ -159,7 +160,7 @@ function getIfShowCode(c, cInfo) // webui only
         return true;
 }
 
-unusual_cond['is_jp'].func = function(c, mapObj, cInfo) {
+UnCond['is_jp'].func = function(c, mapObj, cInfo) {
     return ( mapObj !== undefined 
         && mapObj ['isVari_JP'] 
         && !mapObj ['isChi'] 
@@ -175,19 +176,19 @@ unusual_cond['is_jp'].func = function(c, mapObj, cInfo) {
         && !mapObj ['isVari_HK']
     );
 };
-unusual_cond['is_simp'].func = function(c, mapObj, cInfo) {
+UnCond['is_simp'].func = function(c, mapObj, cInfo) {
     return ( mapObj !== undefined 
         && mapObj ['isSimp']
         && !mapObj ['isTrad']
     );
 };
-unusual_cond['is_trad'].func = function(c, mapObj, cInfo) {
+UnCond['is_trad'].func = function(c, mapObj, cInfo) {
     return ( mapObj !== undefined 
         && mapObj ['isTrad']
         && !mapObj ['isSimp']
     );
 };
-unusual_cond['is_simp_n_trad'].func = function(c, mapObj, cInfo) {
+UnCond['is_simp_n_trad'].func = function(c, mapObj, cInfo) {
     return ( mapObj !== undefined 
         && mapObj ['isSimp']
         && mapObj ['isTrad']
@@ -196,7 +197,7 @@ unusual_cond['is_simp_n_trad'].func = function(c, mapObj, cInfo) {
 
 
 
-unusual_cond['is_comp'].func = function(c, mapObj, cInfo) { 
+UnCond['is_comp'].func = function(c, mapObj, cInfo) { 
 //     const blks = [
 //         "CJK Compatibility Ideographs Supplement",
 //         "CJK Compatibility",
@@ -219,7 +220,7 @@ unusual_cond['is_comp'].func = function(c, mapObj, cInfo) {
     }
 };
 
-unusual_cond['is_rad'].func = function(c, mapObj, cInfo) {
+UnCond['is_rad'].func = function(c, mapObj, cInfo) {
     const blks = [
         "CJK Radicals Supplement",
         "Kangxi Radicals",
@@ -235,7 +236,7 @@ unusual_cond['is_rad'].func = function(c, mapObj, cInfo) {
     )
         return true;
 };
-unusual_cond['blk_is_cjkext'].func = function(c, mapObj, cInfo) {
+UnCond['blk_is_cjkext'].func = function(c, mapObj, cInfo) {
 //     const blks = [
 //         "CJK Unified Ideographs Extension A",
 //         "CJK Unified Ideographs Extension B",
@@ -255,7 +256,7 @@ unusual_cond['blk_is_cjkext'].func = function(c, mapObj, cInfo) {
         return true;
 };
 
-unusual_cond['blk_nobelong'].func = function(c, mapObj, cInfo) {
+UnCond['blk_nobelong'].func = function(c, mapObj, cInfo) {
     var blk = cInfo.blk;
     
     const blks = [
@@ -268,7 +269,7 @@ unusual_cond['blk_nobelong'].func = function(c, mapObj, cInfo) {
         return true;
 };
 
-unusual_cond['blk_pua'].func = function(c, mapObj, cInfo) {
+UnCond['blk_pua'].func = function(c, mapObj, cInfo) {
     var blk = cInfo.blk;
     
     const blks = [
@@ -281,7 +282,7 @@ unusual_cond['blk_pua'].func = function(c, mapObj, cInfo) {
         return true;
 };
 
-unusual_cond['blk_others'].func = function(c, mapObj, cInfo) {
+UnCond['blk_others'].func = function(c, mapObj, cInfo) {
     const blks = [
         "CJK Radicals Supplement",
         "CJK Symbols and Punctuation",
