@@ -1,4 +1,5 @@
 var isOptim = isWeb ? true : false;  // 开启优化 或 完整判断 。 如果更改，需要启动本工具时就改
+var mapInUse = summary_data.map2;
 
 var UnCond = {  // 优化模式时，默认（无skipBelowAll: false时）为，匹配中一个后，不再检查后面的
     
@@ -104,7 +105,7 @@ function getCharUnusuals(c, cInfo)
     if ( blk == "Basic Latin" )
         return ;
     
-    const mapObj = summary_data.map2[c];
+    const mapObj = mapInUse[c];
     
     for (name of Object.keys(UnCond))
     {

@@ -127,11 +127,11 @@ function show_check_results(only_unusual = false)
             
             genClassNamesAccordingCInfo(essayChar, div_origChar);
 
-            if (summary_data.map2[essayChar] && summary_data.map2[essayChar]['rel'].length > 0) //有关联字
+            if (mapInUse[essayChar] && mapInUse[essayChar]['rel'].length > 0) //有关联字
             {
                 tips += "关联字：\n";
                 
-                summary_data.map2[essayChar]['rel'].forEach( function(relChar) {
+                mapInUse[essayChar]['rel'].forEach( function(relChar) {
                     
                     tips += getCharTipLine(relChar);
                     
@@ -173,7 +173,7 @@ function getCharTipLine(c)
     if (  cInfo.tipLine === undefined )
     {
         var cProp = [] ;
-        const mapObj = summary_data.map2[c];
+        const mapObj = mapInUse[c];
         
         if (mapObj)
         {
