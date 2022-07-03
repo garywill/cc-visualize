@@ -283,10 +283,10 @@ function getCInfo(c)
             hex: hex,
             blk: blk,
             age: age,
-            unusuals: undefined,
+            unusuals: { } ,
             showCode: undefined, // webUI only
         }
-        cInfo.unusuals = getCharUnusuals(c, cInfo);
+        getCharUnusuals(c, cInfo);
         if (isWeb)
             cInfo.showCode = getIfShowCode(c, cInfo);
         

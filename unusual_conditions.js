@@ -95,12 +95,12 @@ function getCharUnusuals(c, cInfo)
     if ( !cInfo)
         cInfo = getCInfo(c);
     
-    var result = {};
+//     var result = {};
     
     var blk = cInfo.blk;
     
     if ( blk == "Basic Latin" )
-        return result;
+        return ;
     
     const mapObj = summary_data.map2[c];
     
@@ -113,16 +113,17 @@ function getCharUnusuals(c, cInfo)
             var oneResult = condObj.func(c, mapObj, cInfo) ;
             if (oneResult)
             {
-                result[ name ] =  oneResult;
+//                 result[ name ] =  oneResult;
+                cInfo.unusuals [name] = oneResult;
                 if ( condObj.skipBelowAll !== false )
-                    return result;
+                    break;
             }
 
         }
     }
 
     
-    return result;
+//     return result;
 }
 function getIfShowCode(c, cInfo) // webui only
 {
