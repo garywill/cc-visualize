@@ -21,6 +21,10 @@
     background-color: #dcdcdc85;
 }
 
+.tr_result:nth-child(odd) {
+    background-color: #055bff14;
+}
+
 .div_essayChar
 {
     /*! display: inline-block; */

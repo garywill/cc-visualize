@@ -14,8 +14,8 @@ function show_check_results(only_unusual = false)
 {
     readUserCond();
     
-    const container = document.getElementById("div_result")
-    container.innerHTML = "";
+    const result_cont = document.getElementById("table_result")
+    result_cont.innerHTML = "";
     
     const essay = document.getElementById("input_essay").value;
     var essay_arr = essay_to_arr(essay);
@@ -35,12 +35,18 @@ function show_check_results(only_unusual = false)
             continue;
             
         
-        var p = htmlStr2dom(`
-            <div class="p_results">
-                <div class="result_filename"></div>
-                <div class="result_linenum">${lineObj.line_num}</div>
-            </div>
+        var faketable = htmlStr2dom(`
+            <table>
+            <tr class="tr_result">
+                <td class="result_linenum">${lineObj.line_num}
+                    <a name="L${lineObj.line_num}"></a>
+                </td>
+                <td class="p_result"></td>
+            </tr>
+            </table>
         `);
+        var tr = faketable.q$("tr");
+        var p = tr.q$(".p_result");
         
         for ( var iCharObj = 0; iCharObj < charsObjs.length; iCharObj ++)
         {
@@ -51,6 +57,7 @@ function show_check_results(only_unusual = false)
             var div_essayChar = htmlStr2dom(`
                 <ruby class="div_essayChar">
                     <div class="div_origChar_n_aboveText">
+                        <a name="L${lineObj.line_num}C${charObj.col_num}" ></a>
                         <div class="div_commentsAboveChar">
                             <div class="div_aCommentAboveChar">
                                 <span class="span_aCommentAboveChar span_unusualWarn"  style="display: none;" ></span>
@@ -145,7 +152,7 @@ function show_check_results(only_unusual = false)
             p.appendChild(div_essayChar);
         }
         
-        container.appendChild(p);
+        result_cont.appendChild(tr);
     }
     
 }
