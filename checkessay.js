@@ -49,42 +49,42 @@ function show_check_results(only_unusual = false)
             
 
             var div_essayChar = htmlStr2dom(`
-                <ruby class="div_essay_char">
+                <ruby class="div_essayChar">
                     <div class="div_origChar_n_aboveText">
-                        <div class="div_comments_above_char">
-                            <div class="a_comment_above_char">
-                                <span class="span_a_comment_above_char" id="unusual"  style="display: none;" ></span>
+                        <div class="div_commentsAboveChar">
+                            <div class="div_aCommentAboveChar">
+                                <span class="span_aCommentAboveChar" id="unusual"  style="display: none;" ></span>
                             </div>
 
                         </div>
-                        <div class="div_orig_char">${essayChar != ' ' ? escapeHtml(essayChar) : '&nbsp' }</div>
+                        <div class="div_origChar">${essayChar != ' ' ? escapeHtml(essayChar) : '&nbsp' }</div>
                     </div>
                     <rt></rt>
                 </ruby>
             `);
             
-            var div_comments_above_char = div_essayChar.q$(".div_comments_above_char");
+            var div_commentsAboveChar = div_essayChar.q$(".div_commentsAboveChar");
             if ( charObj.cInfo.showCode == true )
             {
                 var codeDiv = htmlStr2dom(`
-                    <div class="a_comment_above_char"  >                                                                                
-                        <span class="span_a_comment_above_char" id="code" ">${charObj.cInfo.hex}</span>              
+                    <div class="div_aCommentAboveChar"  >                                                                                
+                        <span class="span_aCommentAboveChar" id="code" ">${charObj.cInfo.hex}</span>              
                     </div>   
                 `);
-                div_comments_above_char.insertBefore(codeDiv, div_comments_above_char.firstChild);
+                div_commentsAboveChar.insertBefore(codeDiv, div_commentsAboveChar.firstChild);
             }
             if ( charObj.cInfo.unusuals['blk_others'] == true )
             {
                 var blkDiv = htmlStr2dom(`
-                    <div class="a_comment_above_char"  >                                                                                
-                        <span class="span_a_comment_above_char" id="blk" >${escapeHtml(charObj.cInfo.blk)}</span>
+                    <div class="div_aCommentAboveChar"  >                                                                                
+                        <span class="span_aCommentAboveChar" id="blk" >${escapeHtml(charObj.cInfo.blk)}</span>
                     </div>   
                 `);
-                div_comments_above_char.insertBefore(blkDiv, div_comments_above_char.firstChild);
+                div_commentsAboveChar.insertBefore(blkDiv, div_commentsAboveChar.firstChild);
             }
             
             var div_origChar_n_aboveText = div_essayChar.q$(".div_origChar_n_aboveText");
-            var div_origChar = div_essayChar.q$(".div_orig_char");
+            var div_origChar = div_essayChar.q$(".div_origChar");
             var ruby_rt = div_essayChar.q$("rt");
             var unusual_span = div_essayChar.q$("#unusual");
             
@@ -126,14 +126,12 @@ function show_check_results(only_unusual = false)
             {
                 tips += "关联字：\n";
                 
-                div_essayChar.classList.add ( "div_essay_char_haverel" );
-                
                 summary_data.map2[essayChar]['rel'].forEach( function(relChar) {
                     
                     tips += getCharTipLine(relChar);
                     
                     var div_oneRelChar = document.createElement("div");
-                    div_oneRelChar.classList.add ( "div_one_rel_char" );
+                    div_oneRelChar.classList.add ( "div_oneRelChar" );
                     div_oneRelChar.textContent = relChar;
                     
                     genClassNamesAccordingCInfo(relChar, div_oneRelChar) ;

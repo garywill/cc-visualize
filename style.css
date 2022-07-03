@@ -21,7 +21,7 @@
     background-color: #dcdcdc85;
 }
 
-.div_essay_char
+.div_essayChar
 {
     /*! display: inline-block; */
     /*! vertical-align: text-bottom; */
@@ -37,17 +37,8 @@
 .div_origChar_n_aboveText {
     display: inline-block;
 }
-.div_essay_char_haverel {
-    /*! border: 1px solid gray; */
-    /*
-    padding: 2px;
-    margin: 2px;
-    */
-}
-.div_essay_char_haverel .div_orig_char {
-    /*! font-weight: bold; */
-}
-.div_one_rel_char {
+
+.div_oneRelChar {
     font-size: 120%;
     display: inline-block;
 }
@@ -90,18 +81,16 @@
     font-weight: bold;
 }
 
-.div_orig_char {
+.div_origChar {
     ruby-position: under;
     border-bottom: 1px dashed grey;
 }
-/*            .div_orig_char.simp {
-    border-bottom: 1px solid orange;
-}*/
+
 
 
 
         
-.div_comments_above_char {
+.div_commentsAboveChar {
     font-family: 'sans';
     font-size: 10px;
     margin-left: 3px;
@@ -110,10 +99,10 @@
     margin-top: 10px;
     color:grey
 }
-.a_comment_above_char {
+.div_aCommentAboveChar {
     line-height: 100%;
 } 
-.span_a_comment_above_char {
+.span_aCommentAboveChar {
     background-color: white;
 }
 
