@@ -28,6 +28,8 @@ function start()
     
 //     checkTextFile("TextFileName.txt");
     
+    //eval(fs.readFileSync("test/test.js").toString());
+    
 }
 start();
 
