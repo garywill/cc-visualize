@@ -215,32 +215,7 @@ function getCharTipLine(c)
 }
 
 
-function c2utf16(c) { 
-    var code;
-    
-    var dec; 
 
-    dec = c.codePointAt(0);
-    
-    var hex = dec.toString(16);
-    if (hex.length %2 == 1)
-        hex = "0" + hex;
-    return { dec: dec, hex: hex.toUpperCase() };
-}
-
-// function c2utf8(c){       
-//     const en = new TextEncoder();
-//     var a8 = en.encode(c);
-//     var b = [];
-//     a8.forEach(function(n,i){
-//         b[i] = n.toString(16);
-//         if (b[i].length<2)
-//             b[i] = "0" + b[i];
-//     });
-//     var hex = b.join('');
-//     var dec = parseInt(hex, 16);
-//     return { dec: dec, hex: hex.toUpperCase() };
-// }
 function essay_to_arr(essay, only_unusual = false) 
 {
     var result_arr = [];

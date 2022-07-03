@@ -385,18 +385,7 @@ async function start()
 start();
 
 
-function c2utf16(c) { 
-    var code;
-    
-    var dec; 
 
-    dec = c.codePointAt(0);
-    
-    var hex = dec.toString(16);
-    if (hex.length %2 == 1)
-        hex = "0" + hex;
-    return { dec: dec, hex: hex.toUpperCase() };
-}
 
 function utf16hex2char(hexStr) // 输入可以是 3F2F U+3AB2 1A7323<xxxx
 {
