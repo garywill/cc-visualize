@@ -1,4 +1,15 @@
 var isOptim = isWeb ? true : false;  // 开启优化 或 完整判断 。 如果更改，需要启动本工具时就改
+function optimOff() {
+    isOptim = false;
+    reset();
+}
+function optimOn() {
+    isOptim = true;
+    reset();
+}
+
+
+
 var mapInUse = summary_data.map2;
 
 var UnCond = {  // 优化模式时，默认（无skipBelowAll: false时）为，匹配中一个后，不再检查后面的
@@ -49,7 +60,7 @@ var UnCond = {  // 优化模式时，默认（无skipBelowAll: false时）为，
         default_checked: true,
     },
     "blk_pua": {
-        full_desc: "属于私用区块（正式收录前暂用的私码字）",
+        full_desc: "属于私用区块（正式收录前暂用码，已收录后应弃用）",
         short_desc: "私",
         default_checked: true, 
     },
@@ -84,12 +95,25 @@ onDCL(function() {
 });
 function readUserCond() 
 {
-    const checkboxes = Array.from( $$$("#form_UnCond .cb_UnCond") );
-    for (cb of checkboxes)
+    var userCond = [];
+    if (isWeb)
     {
-        const name = cb.getAttribute("name");
-        UnCond [name] . isCurrentlyUserChecked = cb.checked;
+        const checkboxes = Array.from( $$$("#form_UnCond .cb_UnCond") );
+        for (cb of checkboxes)
+        {
+            const name = cb.getAttribute("name");
+            if (cb.checked)
+            userCond.push( name );
+        }
     }
+    else if (isNode)
+    {
+        for (name in UnCond)
+        {
+            userCond.push( name );
+        }
+    }
+    return userCond;
 }
 
 
@@ -244,7 +268,6 @@ UnCond['cjk_notedu_or_isext'].func = function(c, mapObj, cInfo) {
 UnCond['char_illegal'].func = function(c, mapObj, cInfo) {
 //     if (isOptim && mapObj)
 //         return false;
-    
     var blk = cInfo.blk;
     var age = cInfo.age;
     const blks = [

@@ -1,37 +1,209 @@
 if (isWeb)
 document.addEventListener('DOMContentLoaded', async (event) => {
     document.getElementById("btn_checkessay").onclick = function() {
+        const result_cont = document.getElementById("table_result");
+        result_cont.innerHTML = ""; 
+    
+        var essay = document.getElementById("input_essay").value;
+        startNewCheck(essay);
         show_check_results(false);
+        print_stati();
     };
     document.getElementById("btn_checkessay_unusualonly").onclick = function() {
+        const result_cont = document.getElementById("table_result");
+        result_cont.innerHTML = ""; 
+        
+        var essay = document.getElementById("input_essay").value;
+        startNewCheck(essay);
         show_check_results(true);
+        print_stati();
     };
 }); 
 
-var charsCInfoCache = {};
+var charsCInfoCache = {}; // 静态，不因userchecks改变
 
-function show_check_results(only_unusual = false)
+var Check = { // 每次开始check都变
+    userCond: [], // 本次用户启用的条件。如果和上次一样，就不需要清除charsCrrtUnusualStatus
+    charsCrrtUnusualStatusCache: {}, //本次条件下的每个字符（重复出现只存一次）的 isCrrtUnusual (bool) , warnText (eg. ⚠少⚠日), 
+    
+    
+    
+    essayArr: {}, //本次 essay文本+注释条件 下的
+                    // 每行、每字符转换成一个个object的数组（二维）。
+                    // 显示时根据其中的char为索引找charsCrrtUnusualStatus
+                    // 以line_num作下标
+                    
+    essayLineCount: 0, //本次 essay文本+注释条件 下的
+    essayCmtLineCount: 0, //本次 essay文本+注释条件 下的
+    essayCharsCount: 0, //本次 essay文本+注释条件 下的
+    
+    linesCrrtStatus: {}, //本次 条件 + essay文本 + 注释条件 下的
+                        //每一行的非寻常标记  ( 1: "hUnus(有非寻常字符)|cmt(已注释)|norm(正常行)" ) 
+                        // 以line_num作下标
+    
+    
+    
+    condCharsStati: {}, // 本次 essay文本 （不管userCond, 只管所有条件）下，每个条件的字符集+count
+                        // 如果要统计准确，应该关优化，用完整模式
+};
+var freshCheckJSON = JSON.stringify(Check);
+
+function reset() {
+    charsCInfoCache = {};
+    Check = JSON.parse(freshCheckJSON);
+}
+function startNewCheck(essay)
 {
-    readUserCond();
-    
-    const result_cont = document.getElementById("table_result")
-    result_cont.innerHTML = "";
-    
-    const essay = document.getElementById("input_essay").value;
-    var essay_arr = essay_to_arr(essay);
-    
-    if (! only_unusual &&   essay_arr.length > 2000 )
+    Check.essayArr = {};
+    Check.essayLineCount = 0;
+    Check.essayCmtLineCount = 0 ;
+    Check.essayCharsCount = 0;
+    Check.linesCrrtStatus = {};
+    for (name of Object.keys(UnCond))
     {
-        if ( ! confirm(`一共有${essay_arr.length}行文本要显示，可能会卡住浏览器。\n确定要继续吗？`) )
+        Check.condCharsStati [name] = {
+            charSet: new Set(),
+            condCount: 0, 
+        }; 
+    } 
+    //- -------
+    
+    var new_userCond = readUserCond();
+    if (new_userCond != Check.userCond)
+    {
+        Check.charsCrrtUnusualStatusCache = {};
+    }
+    Check.userCond = new_userCond; // 覆盖旧的
+    
+    genEssayArr(essay); // Check.essayArr
+    
+    //---------- 
+    genCrrtUnusualInfos();
+    
+}
+
+function genCrrtUnusualInfos()
+{
+    for (line_num of Object.keys(Check.essayArr) )
+    {
+        const lineObj = Check.essayArr[line_num];
+        Check.linesCrrtStatus [line_num] = "norm";
+        for (col_num of Object.keys(lineObj.charsObjs) )
+        {
+            const charObj = lineObj.charsObjs[col_num];
+            const c = charObj.char;
+            const cInfo = charObj.cInfo;
+            const allCInfoUnNames = Object.keys( cInfo.unusuals ); // cInfo里unusuals已加进去的条件名（若关优化不会完整）
+            
+            for ( name of allCInfoUnNames) 
+            {
+                Check.condCharsStati [name] .charSet.add(c);
+                Check.condCharsStati [name] .condCount ++;
+            } 
+            
+            if ( ! Check.charsCrrtUnusualStatusCache [c] )
+            {
+                var isCrrtUnusual = false;
+                var warnTextS = [''];
+                
+                for ( name of allCInfoUnNames) 
+                { 
+                    if ( Check.userCond.includes(name) )  // 当前用户启用的这个条件
+                    {
+                        isCrrtUnusual = true;
+                        
+                        if (isWeb)
+                        {
+                            var wt;
+                            if (name == "cjk_notedu_or_isext" && cInfo.blk.includes("CJK Unified Ideographs Extension") )
+                                wt = cInfo.blk.split(' ')[4];
+                            else
+                                wt = UnCond [name] .short_desc;
+                            warnTextS .push(wt);
+                        } 
+                    }
+                } 
+                Check.charsCrrtUnusualStatusCache [c] = {
+                    isCrrtUnusual: isCrrtUnusual,      
+                };
+                if (isCrrtUnusual)
+                    Check.charsCrrtUnusualStatusCache [c] .warnText = warnTextS.join('⚠');
+            }
+            if ( Check.charsCrrtUnusualStatusCache [c] .isCrrtUnusual )
+                 Check.linesCrrtStatus [line_num] = "hUnus";
+            
+        }
+    }
+}
+
+var isLineCommented = function (line_string) 
+{ return false; }
+
+function genEssayArr(essay) 
+{
+    essay = essay.replaceAll("\r\n", "\n");
+    essay = essay.replaceAll("\r", "\n");
+    
+    const lines_strs = essay.split("\n");
+    for (var iLine = 0; iLine < lines_strs.length; iLine++)
+    {
+        const line_num = iLine + 1;
+        const line_string = lines_strs[iLine];
+        if ( isLineCommented(line_string) )
+        {
+            Check.linesCrrtStatus [line_num] = "cmt";
+            Check.essayCmtLineCount ++ ;
+            continue;
+        }
+        
+        Check.essayLineCount ++;
+        
+        var result_lineObj = {
+            line_num: line_num,
+            charsObjs: {},
+        };
+        const line_chars = Array.from(line_string);
+
+        for (var iChar = 0; iChar < line_chars.length ; iChar++)
+        {
+            Check.essayCharsCount ++ ;
+            
+            const col_num = iChar + 1;
+            const originalChar = line_chars[iChar];
+            
+            var result_charObj = {
+                line_num: line_num,
+                col_num: col_num,
+                char:  originalChar,
+                cInfo: getCInfo(originalChar),
+            };
+            
+            
+            result_lineObj.charsObjs [col_num] = result_charObj ;
+        }
+        Check.essayArr [line_num] = result_lineObj;
+    }
+}
+
+function show_check_results(only_unusual = false) 
+{
+    const result_cont = document.getElementById("table_result");
+    
+    const essay_arr = Check.essayArr;
+    const lineIndexes = Object.keys(essay_arr);
+    
+    if (! only_unusual &&   lineIndexes.length > 2000 )
+    {
+        if ( ! confirm(`一共有${lineIndexes.length}行文本要显示，可能会卡住浏览器。\n确定要继续吗？`) )
             return;
     }
     
-    for (var iLine = 0; iLine < essay_arr.length; iLine++)
+    for (line_num of lineIndexes)
     {
-        const lineObj = essay_arr[iLine]; 
+        const lineObj = essay_arr[line_num]; 
         const charsObjs = lineObj.charsObjs;
         
-        if (only_unusual && ! lineObj.thisLineCurrentlyHasUnusual)
+        if (only_unusual && Check.linesCrrtStatus [line_num] == "norm" || Check.linesCrrtStatus == "cmt")
             continue;
             
         
@@ -48,9 +220,10 @@ function show_check_results(only_unusual = false)
         var tr = faketable.q$("tr");
         var p = tr.q$(".p_result");
         
-        for ( var iCharObj = 0; iCharObj < charsObjs.length; iCharObj ++)
+        const charIndexes = Object.keys( charsObjs );
+        for (col_num of charIndexes)
         {
-            const charObj = charsObjs[iCharObj];
+            const charObj = charsObjs[col_num];
             const essayChar = charObj.char;
             
 
@@ -96,17 +269,11 @@ function show_check_results(only_unusual = false)
             var unusual_span = div_essayChar.q$(".span_unusualWarn");
             
             
-            if (charObj.isCurrentlyUnusual)
+            if (Check.charsCrrtUnusualStatusCache [essayChar] .isCrrtUnusual )
             {
                 div_essayChar.classList.add("div_essayChar_unusual");
-                for ( name of Object.keys(charObj.cInfo.unusuals) )
-                {
-                    if ( charObj.cInfo.unusuals[name] == true && UnCond[name].isCurrentlyUserChecked )
-                    {
-                        unusual_span.style.display="";
-                        unusual_span.textContent += '⚠' + UnCond[name].short_desc;
-                    }
-                }
+                unusual_span.style.display = "";
+                unusual_span.textContent = Check.charsCrrtUnusualStatusCache [essayChar].warnText;
             }
             
             var tips = [];
@@ -116,7 +283,7 @@ function show_check_results(only_unusual = false)
             {
                 if ( charObj.cInfo.unusuals [unusual_name])
                 {
-                    var warn = UnCond [unusual_name] .isCurrentlyUserChecked ? '⚠' : '';
+                    var warn = Check.userCond.includes(unusual_name) ? '⚠' : '';
                     var line = `${warn}${UnCond [unusual_name] .full_desc}` ;
                     
                     tips.push( line );
@@ -243,49 +410,7 @@ function getCharWebComplTip(c)
 }
 
 
-function essay_to_arr(essay, only_unusual = false) 
-{
-    var result_arr = [];
-    
-    essay = essay.replaceAll("\r\n", "\n");
-    essay = essay.replaceAll("\r", "\n");
-    
-    const lines_strs = essay.split("\n");
-    for (var iLine = 0; iLine < lines_strs.length; iLine++)
-    {
-        const line_string = lines_strs[iLine];
-        const line_chars = Array.from(line_string);
-        
-        var result_lineObj = {
-            line_num: iLine+1,
-            charsObjs: [],
-            thisLineCurrentlyHasUnusual: false,
-        };
 
-        for (var iChar = 0; iChar < line_chars.length ; iChar++)
-        {
-            const originalChar = line_chars[iChar];
-            
-            var result_charObj = {
-                line_num: iLine+1,
-                col_num: iChar + 1,
-                char:  originalChar,
-                cInfo: getCInfo(originalChar),
-                isCurrentlyUnusual: undefined,
-            };
-            
-            result_charObj.isCurrentlyUnusual = isCurrentlyThisUnusual(result_charObj.cInfo.unusuals);
-            
-            if (result_charObj.isCurrentlyUnusual)
-                result_lineObj.thisLineCurrentlyHasUnusual = true;
-            result_lineObj.charsObjs.push( result_charObj ) ;
-        }
-        
-        result_arr.push(result_lineObj);
-    }
-
-    return result_arr;
-}
 function getCInfo(c)
 {
     if ( ! charsCInfoCache [c] )
@@ -318,15 +443,4 @@ function getCInfo(c)
     return charsCInfoCache [c];
 }
 
-function isCurrentlyThisUnusual(unusualsObj)
-{
-    for (name of Object.keys(unusualsObj) )
-    {
-        if ( UnCond [name] . isCurrentlyUserChecked )
-        {
-            if (unusualsObj[name])
-                return true;
-        }
-    }
-    return false;
-}
+

@@ -11,3 +11,19 @@ eval(fs.readFileSync("summary-data/summary-data-map2.js").toString());
 
 eval(fs.readFileSync("unusual_conditions.js").toString());
 eval(fs.readFileSync("checkessay.js").toString());
+
+eval(fs.readFileSync("print_check.js").toString());
+
+function start() 
+{
+    optimOff();
+    
+    
+}
+start();
+
+function checkTextFile(fileName)
+{
+    startNewCheck ( fs.readFileSync(fileName).toString() );
+    print_stati();
+}
