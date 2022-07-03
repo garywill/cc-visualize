@@ -202,10 +202,10 @@ UnCond['is_simp_n_trad'].func = function(c, mapObj, cInfo) {
 
 UnCond['is_comp'].func = function(c, mapObj, cInfo) { 
 //     const blks = [
-//         "CJK Compatibility Ideographs Supplement",
-//         "CJK Compatibility",
-//         "CJK Compatibility Forms",
-//         "CJK Compatibility Ideographs",
+//         "CJK Compatibility", // 日文、汉字日期合并 等 
+//         "CJK Compatibility Forms",  // 竖排用之类的一些标点
+//         "CJK Compatibility Ideographs", // 汉字
+//         "CJK Compatibility Ideographs Supplement", // 汉字
 //     ];
     var blk = cInfo.blk;
     
@@ -213,7 +213,7 @@ UnCond['is_comp'].func = function(c, mapObj, cInfo) {
     if ( mapObj !== undefined  && mapObj ['isComp']  )
         return true;
         
-    if ( blk && blk.includes("CJK Compatibility") )
+    if ( blk && blk.includes("CJK Compatibility Ideographs") )
     {
         if ( mapObj !== undefined  && mapObj['isUnif'] )
             return false;
@@ -308,17 +308,17 @@ UnCond['blk_others'].func = function(c, mapObj, cInfo) {
         "CJK Symbols and Punctuation",
         "CJK Strokes",
         "Enclosed CJK Letters and Months",
-        "CJK Compatibility",
-        "CJK Unified Ideographs Extension A",
-        "CJK Unified Ideographs",
+//         "CJK Compatibility",
+//         "CJK Compatibility Forms",
         "CJK Compatibility Ideographs",
-        "CJK Compatibility Forms",
+        "CJK Compatibility Ideographs Supplement",
+        "CJK Unified Ideographs",
+        "CJK Unified Ideographs Extension A",
         "CJK Unified Ideographs Extension B",
         "CJK Unified Ideographs Extension C",
         "CJK Unified Ideographs Extension D",
         "CJK Unified Ideographs Extension E",
         "CJK Unified Ideographs Extension F",
-        "CJK Compatibility Ideographs Supplement",
         "CJK Unified Ideographs Extension G",
         "CJK Unified Ideographs Extension H",
         "Kangxi Radicals",
