@@ -46,18 +46,21 @@ async function start()
         createKey(c, summary_data.map2);
         const mapObj = summary_data.map2 [c];
         mapObj ['isEdu_CN_1c'] = true;
+        mapObj ['isEdu'] = true;
     }
     for ( c of edu_cn_2c )
     {
         createKey(c, summary_data.map2);
         const mapObj = summary_data.map2 [c];
         mapObj ['isEdu_CN_2c'] = true;
+        mapObj ['isEdu'] = true;
     }
     for ( c of edu_cn_3c )
     {
         createKey(c, summary_data.map2);
         const mapObj = summary_data.map2 [c];
         mapObj ['isEdu_CN_3c'] = true;
+        mapObj ['isEdu'] = true;
     }
     
     for ( c of edu_hk )
@@ -65,6 +68,7 @@ async function start()
         createKey(c, summary_data.map2);
         const mapObj = summary_data.map2 [c];
         mapObj ['isEdu_HK'] = true;
+        mapObj ['isEdu'] = true;
     }
 
     for ( c of edu_tw_1 )
@@ -72,12 +76,14 @@ async function start()
         createKey(c, summary_data.map2);
         const mapObj = summary_data.map2 [c];
         mapObj ['isEdu_TW_1'] = true;
+        mapObj ['isEdu'] = true;
     }
     for ( c of edu_tw_2 )
     {
         createKey(c, summary_data.map2);
         const mapObj = summary_data.map2 [c];
         mapObj ['isEdu_TW_2'] = true;
+        mapObj ['isEdu'] = true;
     }
     
 //     console.log(summary_data.map2);
