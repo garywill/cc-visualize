@@ -17,7 +17,7 @@ var mapInUse = summary_data.map2;
 var UnCond = {  // 优化模式时，默认（无skipBelowAll: false时）为，匹配中一个后，不再检查后面的
     
     "cjk_notedu_or_isext": {
-        full_desc: "不是常见字（此字不在中华地区教育表中 或 属于扩展区）",
+        full_desc: "不是常见汉字（此字不在中华地区教育表中 或 属于扩展区）",
         short_desc: "少",
         default_checked: true,
         skipBelowAll: false,
@@ -33,13 +33,13 @@ var UnCond = {  // 优化模式时，默认（无skipBelowAll: false时）为，
         default_checked: false,
     },
     "is_simp_n_trad": {
-        full_desc: "是繁简合字（即，同时作为繁体和简体出现过）",
+        full_desc: "是繁简合字",
         short_desc: "合",
         default_checked: false,
     },
 
     "is_jp": {
-        full_desc: "是日本新字形（即，仅日文使用的简化字）",
+        full_desc: "是日本新字体（即，仅日文使用的简化字）",
         short_desc: "日",
         default_checked: true,
     },
