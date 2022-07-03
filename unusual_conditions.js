@@ -162,11 +162,16 @@ function getIfShowCode(c, cInfo) // webui only
         "General Punctuation",
         "Halfwidth and Fullwidth Forms",
         "Latin-1 Supplement",
-        "Private Use Area",
-        "Supplementary Private Use Area-A",
-        "Supplementary Private Use Area-B",
+//         "Private Use Area",
+//         "Supplementary Private Use Area-A",
+//         "Supplementary Private Use Area-B",
+        
     ];
     if ( blks.includes(cInfo.blk) )
+        return true;
+    if (cInfo.unusuals ['char_illegal'] || cInfo.unusuals ['blk_pua'])
+        return true;
+    if (!cInfo.age || !cInfo.blk)
         return true;
 }
 
