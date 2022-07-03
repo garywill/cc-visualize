@@ -29,7 +29,7 @@
 {
     /*! display: inline-block; */
     /*! vertical-align: text-bottom; */
-    min-width: 5px;
+    min-width: 10px;
     min-height: 20px;
     text-align: center;
     line-height: 100%;
@@ -61,17 +61,28 @@
     background-color: #91ff9166;
 }
 .UCcss_is_jp {
-    background-color: #e82b2b;
+    background-color: #ff8181;
 }
-
+.UCcss_is_Cc {
+    background-color: #ff2b2b;
+    min-width:30px;
+}
+.UCcss_is_Mn {
+    background-color: #2181ff;
+    min-width:15px;
+}
+.UCcss_blk_pua {
+    min-width: 30px;
+}
 .UCcss_char_illegal {
     background-color: #666;
+    min-width:30px;
 }
 .UCcss_is_comp {
     background-color: #d0006b;
 }
 .UCcss_is_rad {
-    background-color: #753eff;
+    background-color: #6b39ea;
 }
 .UCcss_cjk_notedu_or_isext {
     border-left: 3px dashed #d38600;
@@ -86,10 +97,10 @@
 }
 
 .div_origChar {
+    min-width: 10px;
     ruby-position: under;
     border-bottom: 1px dashed grey;
 }
-
 
 
 

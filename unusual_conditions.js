@@ -55,17 +55,28 @@ var UnCond = {  // 优化模式时，默认（无skipBelowAll: false时）为，
         short_desc: "兼",
         default_checked: true,
     },
-    //  做完上面，如果优化模式，且map中有，可跳过下面全部
-    "blk_others": {
-        full_desc: "不属于中文文献（及编程）常用到的区块",
-        short_desc: "其",
-        default_checked: true,
-    },
     "blk_pua": {
         full_desc: "属于私用码段（正式收录前暂用码，已收录后应弃用）",
         short_desc: "私",
         default_checked: true, 
     },
+    "is_Cc": {
+        full_desc: "是控制字符（包括不常用空白、零宽、排版控制等）", 
+        short_desc: "控", 
+        default_checked: true, 
+    }, 
+    "is_Mn" : { 
+        full_desc: "是组合字符（无宽度无间距，用于给前一字符加声调等）", 
+        short_desc: "饰", 
+        default_checked: true, 
+    }, 
+    "is_other_chars": {
+        full_desc: "不属于中文文献（及编程）正常常用到的字符或区块",
+        short_desc: "其",
+        default_checked: true,
+    },
+    
+    // -------------------- 
     "char_illegal": {
         full_desc: "不属于任何合法区块 或 是保留码位",
         short_desc: "非",
@@ -127,9 +138,6 @@ function getCharUnusuals(c, cInfo)
 //     var result = {};
     
     var blk = cInfo.blk;
-    
-    if ( blk == "Basic Latin" )
-        return ;
     
     const mapObj = mapInUse[c];
     
@@ -306,7 +314,7 @@ UnCond['blk_pua'].func = function(c, mapObj, cInfo) {
         return true;
 };
 
-UnCond['blk_others'].func = function(c, mapObj, cInfo) {
+UnCond['is_other_chars'].func = function(c, mapObj, cInfo) {
 //     if ( isOptim && mapObj)
 //         return false;
     
@@ -340,12 +348,32 @@ UnCond['blk_others'].func = function(c, mapObj, cInfo) {
         "Supplementary Private Use Area-A",
         "Supplementary Private Use Area-B",
         
+        "High Surrogates",
+        "High Private Use Surrogates",
+        "Low Surrogates",
+        
     ];
     
     var blk = cInfo.blk;
     
     if ( ! blk )
+        return false;  // 无blk的情况在「非」里
+    
+    if (  we_ve_accepted_symbols.includes(c) )
         return false;
+ 
     if ( ! blks.includes(blk) )
         return true;
 };
+UnCond['is_Cc'].func = function(c, mapObj, cInfo) {
+    var dec = cInfo.dec;
+    if (unicode_data.Cc . includes (dec) )
+        return true;
+}
+UnCond['is_Mn'].func = function(c, mapObj, cInfo) {
+    var dec = cInfo.dec;
+    if (unicode_data.Mn . includes (dec) )
+        return true;
+} 
+
+var we_ve_accepted_symbols = ['©', '®', '°', '±', '·', '÷', '≠', '℃', '≈'];

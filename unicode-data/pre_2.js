@@ -30,7 +30,14 @@ var unicode_data = {
     
     chars_kHKGlyph: [], 
     chars_kTGH: {1: [], 2: [], 3: [] }, 
+    
+    Cc: [], 
+    Mn: [], 
 };
+
+// 这些都算作控制字符
+const gcs_Cc = [   'Cc', 'Cf',  'Zl', 'Zp', 'Zs'   ];
+
 
 const blks_prio = [
     "CJK Radicals Supplement",
@@ -162,12 +169,25 @@ async function start()
             else if (6501 <= ind && ind <= 8105)
                 unicode_data.chars_kTGH [3] .push( utf16hex2char(cp) );
         }
+        
+        const gc = charNode.getAttribute("gc");
+        const cp_int = Number ( "0x" + cp );
+        if ( gcs_Cc . includes(gc) )
+        {
+            unicode_data.Cc . push(cp_int);
+        }
+        if ( gc == "Mn" )
+        {
+            unicode_data.Mn . push(cp_int);
+        }
     }
-
     
-//     console.log(unicode_data.unihan_variants_raw);
-    
-    
+    fs.writeFileSync("unicode-data-Cc.js",( "unicode_data.Cc =\n" + JSON.stringify( unicode_data.Cc) + "\n;")
+        .replaceAll(",", ",\n")
+    );    
+    fs.writeFileSync("unicode-data-Mn.js",( "unicode_data.Mn =\n" + JSON.stringify( unicode_data.Mn) + "\n;")
+        .replaceAll(",", ",\n")
+    );    
     
     var previous_age = undefined;
     var previous_cp = 0 ;

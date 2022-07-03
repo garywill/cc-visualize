@@ -226,7 +226,8 @@ function show_check_results(only_unusual = false)
             const charObj = charsObjs[col_num];
             const essayChar = charObj.char;
             
-
+            const showChar = charObj.cInfo.showChar ? charObj.cInfo.showChar : essayChar ;
+            
             var div_essayChar = htmlStr2dom(`
                 <ruby class="div_essayChar">
                     <div class="div_origChar_n_aboveText">
@@ -237,23 +238,23 @@ function show_check_results(only_unusual = false)
                             </div>
 
                         </div>
-                        <div class="div_origChar">${essayChar != ' ' ? escapeHtml(essayChar) : '&nbsp' }</div>
+                        <div class="div_origChar">${essayChar != ' ' ? escapeHtml(showChar) : '&nbsp' }</div>
                     </div>
                     <rt></rt>
                 </ruby>
             `);
             
             var div_commentsAboveChar = div_essayChar.q$(".div_commentsAboveChar");
-            if ( charObj.cInfo.showCode == true )
+            if ( charObj.cInfo.showCode || charObj.cInfo.showText )
             {
                 var codeDiv = htmlStr2dom(`
                     <div class="div_aCommentAboveChar"  >                                                                                
-                        <span class="span_aCommentAboveChar" id="code" ">${charObj.cInfo.hex}</span>              
+                        <span class="span_aCommentAboveChar" id="code" ">${charObj.cInfo.showText ? charObj.cInfo.showText :   charObj.cInfo.hex}</span>              
                     </div>   
                 `);
                 div_commentsAboveChar.insertBefore(codeDiv, div_commentsAboveChar.firstChild);
             }
-            if ( charObj.cInfo.unusuals['blk_others'] == true )
+            if ( charObj.cInfo.unusuals['is_other_chars'] == true )
             {
                 var blkDiv = htmlStr2dom(`
                     <div class="div_aCommentAboveChar"  >                                                                                
@@ -429,15 +430,35 @@ function getCInfo(c)
         age = getCpAge(dec); 
          
         var cInfo = {
+            dec: dec, 
             hex: hex,
             blk: blk,
             age: age,
             unusuals: { } ,
         }
-        getCharUnusuals(c, cInfo);
-        if (isWeb)
-            cInfo.showCode = getIfShowCode(c, cInfo);
         
+        charsCInfoCache [c] = cInfo;
+        
+        if (dec == 0x09) {
+            cInfo.showText = "制表符";
+        } else if (dec == 0x0A) {
+            cInfo.showText = "\\n";
+        } else if (dec == 0x0D) {
+            cInfo.showText = "\\r";
+        } else if (dec == 0x20) {
+            cInfo.showText = "空";
+        } else if ( 0x20 < dec && dec <= 0x7E ) {
+            // nothing
+        } else if ( dec == 0x3000 ) {
+            cInfo.showText = "全角空"
+        } else {
+            getCharUnusuals(c, cInfo);
+            if (isWeb)
+                cInfo.showCode = getIfShowCode(c, cInfo);
+            
+            if (cInfo.unusuals ['is_Cc'] || cInfo.unusuals ['is_Mn'])
+                cInfo.showChar = '▫';
+        }  
         charsCInfoCache [c] = cInfo;
     }
     return charsCInfoCache [c];
