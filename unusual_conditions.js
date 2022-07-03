@@ -1,34 +1,24 @@
-var isOptim = isWeb ? true : false;  // 开启优化 或 完整判断 。 如果更改，需要启动本工具时就改
-function optimOff() {
-    isOptim = false;
-    console.warn("已切换至完整检查模式");
-    reset();
-}
-function optimOn() {
-    isOptim = true;
-    console.warn("已切换至优化（非完整）检查模式");
-    reset();
-}
 
 
 
 var mapInUse = summary_data.map2;
 
-var UnCond = {  // 优化模式时，默认（无skipBelowAll: false时）为，匹配中一个后，不再检查后面的
-    
-    "cjk_is_rare": {
-        full_desc: "可能只在汉字库较全或新的设备才显示的汉字",
-        short_desc: "少",
+var UnCond = {  
+    "is_rad": {
+        full_desc: "属于笔划偏旁部首区（若作为句中完整的字，应该用对应的统一字符）",
+        short_desc: "划",
         default_checked: true,
-        skipBelowAll: false,
     },
-    "noncjk_is_rare": {
-        full_desc: "可能只在较新的设备才显示的非汉字字符",
-        short_desc: "新",
+    "is_comp": {
+        full_desc: "是兼容汉字符（可以时应当用对应的同形统一汉字符替代）",
+        short_desc: "兼",
         default_checked: true,
-        skipBelowAll: false,
     },
-    
+    "is_jp": {
+        full_desc: "是日本新字体（即，仅日文使用的简化字）",
+        short_desc: "日",
+        default_checked: true,
+    },
     "is_simp": {
         full_desc: "是简体字",
         short_desc: "简",
@@ -44,29 +34,12 @@ var UnCond = {  // 优化模式时，默认（无skipBelowAll: false时）为，
         short_desc: "合",
         default_checked: false,
     },
-
-    "is_jp": {
-        full_desc: "是日本新字体（即，仅日文使用的简化字）",
-        short_desc: "日",
+    "cjk_is_rare": {
+        full_desc: "可能只在汉字库较全或新的设备才显示的汉字",
+        short_desc: "少",
         default_checked: true,
     },
-    
-    
-    "is_rad": {
-        full_desc: "属于笔划偏旁部首区（若作为句中完整的字，应该用对应的统一字符）",
-        short_desc: "划",
-        default_checked: true,
-    },
-    "is_comp": {
-        full_desc: "是兼容汉字符（可以时应当用对应的同形统一汉字符替代）",
-        short_desc: "兼",
-        default_checked: true,
-    },
-    "blk_pua": {
-        full_desc: "属于私用码段（正式收录前暂用码，已收录后应弃用）",
-        short_desc: "私",
-        default_checked: true, 
-    },
+    // 上面以CJK Ideo为标志，其余启用下面 
     "is_Cc": {
         full_desc: "是控制字符（包括不常用空白、零宽、排版控制等）", 
         short_desc: "控", 
@@ -82,14 +55,23 @@ var UnCond = {  // 优化模式时，默认（无skipBelowAll: false时）为，
         short_desc: "其",
         default_checked: true,
     },
-    
+    "noncjk_is_rare": {
+        full_desc: "可能只在较新的设备才显示的非汉字字符",
+        short_desc: "新",
+        default_checked: true,
+    },    
     // -------------------- 
+    //  这是CJK Ideo与否都用。放在最先
+    "blk_pua": {
+        full_desc: "属于私用码段（正式收录前暂用码，已收录后应弃用）",
+        short_desc: "私",
+        default_checked: true, 
+    },    
     "char_illegal": {
         full_desc: "不属于任何合法区块 或 是保留码位",
         short_desc: "非",
         default_checked: true,
     },
-    
 };
 
 if (isWeb)
@@ -100,12 +82,9 @@ onDCL(function() {
     {
         const condObj = UnCond[name];
         
-        if ( ! condObj.func )
-            continue;
-        
         var span_cb = htmlStr2dom(`
         <li title="${escapeHtml(name)}">
-            <input type="checkbox" class="cb_UnCond" name="${name}"  >${escapeHtml(condObj['full_desc'])}</input>
+            <input type="checkbox" class="cb_UnCond" name="${name}"  >[${escapeHtml(condObj['short_desc'])}] ${escapeHtml(condObj['full_desc'])}</input>
         </li>
         `);
         span_cb.q$("input").checked = condObj.default_checked;
@@ -144,31 +123,70 @@ function getCharUnusuals(c, cInfo)
     
 //     var result = {};
     
-    var blk = cInfo.blk;
+    const dec = cInfo.dec;
+    const blk = cInfo.blk;
+    const age = cInfo.age;
+    const unObj = cInfo.unusuals;
     
     const mapObj = mapInUse[c];
     
-    for (name of Object.keys(UnCond))
+    if ( ! blk || surrBlks.includes(blk) )
+        unObj ['char_illegal'] = true;
+    else if ( privBlks.includes(blk) )
+        unObj ['blk_pua'] = true;
+    else if ( !age )
+        unObj ['char_illegal'] = true;
+    else
     {
-        const condObj = UnCond[name];
-        
-        if ( condObj['func'] )
+        // 是汉字（CJK 表意文字） （ 未包括笔划）
+        if ( blk.includes("CJK") && blk.includes("Ideographs") )
         {
-            var oneResult = condObj.func(c, mapObj, cInfo) ;
-            if (oneResult)
+            // 简 繁 合  日
+            if (mapObj !== undefined)
             {
-//                 result[ name ] =  oneResult;
-                cInfo.unusuals [name] = oneResult;
-                if ( condObj.skipBelowAll !== false && isOptim)
-                    break;
+                if (mapObj ['isSimp'] && mapObj ['isTrad'])
+                    unObj ['is_simp_n_trad'] = true;
+                else if (mapObj ['isSimp'] )
+                    unObj ['is_simp'] = true;
+                else if (mapObj ['isTrad'] )
+                    unObj ['is_trad'] = true;
+                else if ( UnCond['is_jp'].func (c, mapObj, cInfo) )
+                    unObj ['is_jp'] = true;
             }
-
+            
+            // 兼
+            if ( UnCond['is_comp'].func (c, mapObj, cInfo) )
+                unObj ['is_comp'] = true;
+                
+            // 汉字 少
+            if ( UnCond['cjk_is_rare'].func (c, mapObj, cInfo) )
+                unObj ['cjk_is_rare'] = true;
         }
-        if ( name == "is_comp" && isOptim && mapObj) // NOTE 注意name可能要随条件或条件顺序变化改变
-            break;
+        else if ( UnCond['is_rad'].func (c, mapObj, cInfo) ) // 笔划
+        {
+            unObj ['is_rad'] = true;
+            
+            // 汉字 少
+            if ( UnCond['cjk_is_rare'].func (c, mapObj, cInfo) )
+                unObj ['cjk_is_rare'] = true;
+        }
+        else // 非汉字 （CJK 表意文字）， 也非笔划
+        {
+            if (unicode_data.Cc . includes (dec) )
+                unObj ['is_Cc'] = true;
+            else if (unicode_data.Mn . includes (dec) )
+                unObj ['is_Mn'] = true;
+            else
+            {
+                if (UnCond['is_other_chars'].func (c, mapObj, cInfo))
+                    unObj ['is_other_chars'] = true;;
+                
+                if (parseFloat(age) > 8.0 )
+                    unObj ['noncjk_is_rare'] = true;
+            }
+        }
     }
 
-    
 //     return result;
 }
 function getIfShowCode(c, cInfo) // webui only
@@ -207,24 +225,6 @@ UnCond['is_jp'].func = function(c, mapObj, cInfo) {
         && !mapObj ['isVari_HK']
     );
 };
-UnCond['is_simp'].func = function(c, mapObj, cInfo) {
-    return ( mapObj !== undefined 
-        && mapObj ['isSimp']
-        && !mapObj ['isTrad']
-    );
-};
-UnCond['is_trad'].func = function(c, mapObj, cInfo) {
-    return ( mapObj !== undefined 
-        && mapObj ['isTrad']
-        && !mapObj ['isSimp']
-    );
-};
-UnCond['is_simp_n_trad'].func = function(c, mapObj, cInfo) {
-    return ( mapObj !== undefined 
-        && mapObj ['isSimp']
-        && mapObj ['isTrad']
-    );
-};
 
 
 
@@ -258,7 +258,6 @@ UnCond['is_rad'].func = function(c, mapObj, cInfo) {
         "CJK Strokes",
     ];
     var blk = cInfo.blk;
-    
     if ( blks.includes(blk) 
         ||
         ( mapObj !== undefined 
@@ -282,53 +281,24 @@ UnCond['cjk_is_rare'].func = function(c, mapObj, cInfo) {
     var age = cInfo.age;
     
 //     if ( blks.includes(blk) )
-    if (blk && blk.includes("CJK Unified Ideographs Extension") && blk.split(' ')[4] != "A" )
+    if (blk.includes("CJK Unified Ideographs Extension") && blk.split(' ')[4] != "A" )
         return true;
     
-    if (blk && blk.includes("CJK") && blk.includes("Ideographs") && parseFloat(age) > 3.0 )
+    if (  parseFloat(age) > 3.0 ) //前提已经排除了非汉。（CJK表意 和 笔划 都可能调用这里
         return true;
 
 };
-UnCond['noncjk_is_rare'].func = function(c, mapObj, cInfo) {
-    var blk = cInfo.blk;
-    var age = cInfo.age;
-    
-    if (blk && ! ( blk.includes("CJK") && blk.includes("Ideographs") ) && parseFloat(age) > 8.0 )
-        return true;
-} 
-UnCond['char_illegal'].func = function(c, mapObj, cInfo) {
-//     if (isOptim && mapObj)
-//         return false;
-    var blk = cInfo.blk;
-    var age = cInfo.age;
-    const blks = [
-        "High Surrogates",
-        "High Private Use Surrogates",
-        "Low Surrogates",
-    ];
-    
-    if ( ! blk || blks.includes(blk) )
-        return true;
-    
-    if ( !age && !cInfo.unusuals['blk_pua'] )
-        return true;
-};
+var surrBlks = [
+    "High Surrogates",
+    "High Private Use Surrogates",
+    "Low Surrogates",
+];
+var privBlks = [
+    "Private Use Area",
+    "Supplementary Private Use Area-A",
+    "Supplementary Private Use Area-B",
+];
 
-UnCond['blk_pua'].func = function(c, mapObj, cInfo) {
-//     if ( isOptim && mapObj)
-//         return false;
-    
-    var blk = cInfo.blk;
-    
-    const blks = [
-        "Private Use Area",
-        "Supplementary Private Use Area-A",
-        "Supplementary Private Use Area-B",
-    ];
-    
-    if ( blks.includes(blk) )
-        return true;
-};
 
 UnCond['is_other_chars'].func = function(c, mapObj, cInfo) {
 //     if ( isOptim && mapObj)
@@ -371,25 +341,12 @@ UnCond['is_other_chars'].func = function(c, mapObj, cInfo) {
     ];
     
     var blk = cInfo.blk;
-    
-    if ( ! blk )
-        return false;  // 无blk的情况在「非」里
-    
+
     if (  we_ve_accepted_symbols.includes(c) )
         return false;
  
     if ( ! blks.includes(blk) )
         return true;
 };
-UnCond['is_Cc'].func = function(c, mapObj, cInfo) {
-    var dec = cInfo.dec;
-    if (unicode_data.Cc . includes (dec) )
-        return true;
-}
-UnCond['is_Mn'].func = function(c, mapObj, cInfo) {
-    var dec = cInfo.dec;
-    if (unicode_data.Mn . includes (dec) )
-        return true;
-} 
 
 var we_ve_accepted_symbols = ['©', '®', '°', '±', '·', '÷', '≠', '℃', '≈'];

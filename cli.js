@@ -23,8 +23,6 @@ isLineCommented = function (line_string)
 
 function start() 
 {
-//     optimOn();
-    optimOff();
     
     startNewCheck("这是一段测试文本。這是一段測試，就幾句話怎樣？\n简体与繁体都打几个字上来");
     print_stati();
