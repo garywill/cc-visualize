@@ -98,8 +98,6 @@ function show_check_results(only_unusual = false)
                     {
                         unusual_span.style.display="";
                         unusual_span.textContent += '⚠' + UnCond[name].short_desc;
-                        if (name == "blk_is_cjkext")
-                            unusual_span.textContent += charObj.cInfo.blk.split(' ')[4];
                     }
                 }
             }

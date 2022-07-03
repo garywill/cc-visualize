@@ -1,11 +1,11 @@
+const UnCond = {  // 默认（无skipBelowAll: false时）为，匹配中一个后，不再检查后面的
     
-    "blk_is_cjkext": {
-        full_desc: "属于汉字扩展区（一般不是很常见的字）",
-        short_desc: "扩",
+    "cjk_notedu_or_isext": {
+        full_desc: "不是常见字（此字不在中华地区教育表中 或 属于扩展区）",
+        short_desc: "少",
         default_checked: true,
-        skipBelow: false,
+        skipBelowAll: false,
     },
-const UnCond = {
     "is_simp": {
         full_desc: "是中文简体字",
         short_desc: "简",
@@ -21,11 +21,7 @@ const UnCond = {
         short_desc: "合",
         default_checked: false,
     },
-//     "rel_multi": {
-//         full_desc: "繁简关系有多个对应字的字",
-//         short_desc: "多",
-//         default_checked: false,
-//     },
+
     "is_jp": {
         full_desc: "是仅日文使用的简化字",
         short_desc: "日",
@@ -44,24 +40,6 @@ const UnCond = {
         default_checked: true,
     },
     
-    
-
-    
-    
-
-    
-//     "irg_no_gsource": {
-//         full_desc: "中国大陆/马来西亚研究组未提供字源的字",
-//         short_desc: "外",
-//         default_checked: true,
-//     },
-//     "irg_onlyone": {
-//         full_desc: "仅一个地区或国家的研究组提供了字源的字",
-//         short_desc: "独",
-//         default_checked: true,
-//     },
-
-
     "blk_others": {
         full_desc: "属于中文文献一般不会用到的区块",
         short_desc: "其",
@@ -136,7 +114,7 @@ function getCharUnusuals(c, cInfo)
             if (oneResult)
             {
                 result[ name ] =  oneResult;
-                if ( condObj.skipBelow !== false )
+                if ( condObj.skipBelowAll !== false )
                     return result;
             }
 
@@ -163,15 +141,10 @@ function getIfShowCode(c, cInfo) // webui only
 UnCond['is_jp'].func = function(c, mapObj, cInfo) {
     return ( mapObj !== undefined 
         && mapObj ['isVari_JP'] 
-        && !mapObj ['isChi'] 
-        && !mapObj ['isEdu_CN_1c']
-        && !mapObj ['isEdu_CN_2c']
-        && !mapObj ['isEdu_CN_3c']
-        && !mapObj ['isEdu_HK']
-        && !mapObj ['isEdu_TW_1']
-        && !mapObj ['isEdu_TW_2']
+        && !mapObj ['isEdu']
         && !mapObj ['isSimp']
         && !mapObj ['isTrad']
+        && !mapObj ['isChi'] 
         && !mapObj ['isVari_TW']
         && !mapObj ['isVari_HK']
     );
@@ -236,7 +209,7 @@ UnCond['is_rad'].func = function(c, mapObj, cInfo) {
     )
         return true;
 };
-UnCond['blk_is_cjkext'].func = function(c, mapObj, cInfo) {
+UnCond['cjk_notedu_or_isext'].func = function(c, mapObj, cInfo) {
 //     const blks = [
 //         "CJK Unified Ideographs Extension A",
 //         "CJK Unified Ideographs Extension B",
@@ -250,10 +223,16 @@ UnCond['blk_is_cjkext'].func = function(c, mapObj, cInfo) {
     var blk = cInfo.blk;
     
 //     if ( blks.includes(blk) )
-    if ( ! blk )
-        return false;
-    if (blk.includes("CJK Unified Ideographs Extension"))
+    if (blk && blk.includes("CJK Unified Ideographs Extension"))
         return true;
+    
+    if (     ( blk && blk.includes("CJK Unified Ideographs") ) 
+          || ( mapObj !== undefined && mapObj ['isUnif'] )
+    )
+    {
+        if ( !mapObj || !mapObj['isEdu'] )
+            return true;
+    }
 };
 
 UnCond['blk_nobelong'].func = function(c, mapObj, cInfo) {
