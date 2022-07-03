@@ -86,9 +86,7 @@ onDCL(function() {
     
     for (name of Object.keys(unusual_cond))
     {
-//         console.log(name);
         const condObj = unusual_cond[name];
-//         console.log(condObj);
         
         if ( ! condObj.func )
             continue;
@@ -147,7 +145,7 @@ function getCharUnusuals(c, cInfo)
     
     return result;
 }
-function getIfShowCode(c, cInfo)
+function getIfShowCode(c, cInfo) // webui only
 {
     const blks = [
         "General Punctuation",

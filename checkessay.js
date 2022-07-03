@@ -31,7 +31,7 @@ function show_check_results(only_unusual = false)
         const lineObj = essay_arr[iLine]; 
         const charsObjs = lineObj.charsObjs;
         
-        if (only_unusual && ! lineObj.this_line_has_unusual)
+        if (only_unusual && ! lineObj.thisLineCurrentlyHasUnusual)
             continue;
             
         
@@ -89,7 +89,7 @@ function show_check_results(only_unusual = false)
             var unusual_span = div_essayChar.q$("#unusual");
             
             
-            if (charObj.isUnusual)
+            if (charObj.isCurrentlyUnusual)
             {
                 div_essayChar.classList.add("div_essayChar_unusual");
                 for ( name of Object.keys(charObj.cInfo.unusuals) )
@@ -222,39 +222,37 @@ function essay_to_arr(essay, only_unusual = false)
     essay = essay.replaceAll("\r", "\n");
     
     const lines_strs = essay.split("\n");
-    for (var line_index = 0; line_index < lines_strs.length; line_index++)
+    for (var iLine = 0; iLine < lines_strs.length; iLine++)
     {
-        const line_string = lines_strs[line_index];
+        const line_string = lines_strs[iLine];
         const line_chars = Array.from(line_string);
         
-        var result_line_obj = {
-            line_num: line_index+1,
+        var result_lineObj = {
+            line_num: iLine+1,
             charsObjs: [],
-            this_line_has_unusual: false,
+            thisLineCurrentlyHasUnusual: false,
         };
 
-        for (var char_index = 0; char_index < line_chars.length ; char_index++)
+        for (var iChar = 0; iChar < line_chars.length ; iChar++)
         {
-            const originalChar = line_chars[char_index];
+            const originalChar = line_chars[iChar];
             
-            var result_char_obj = {
-                line_num: line_index+1,
-                col_num: char_index + 1,
+            var result_charObj = {
+                line_num: iLine+1,
+                col_num: iChar + 1,
                 char:  originalChar,
                 cInfo: getCInfo(originalChar),
-                isUnusual: undefined,
+                isCurrentlyUnusual: undefined,
             };
             
-            result_char_obj.isUnusual = isCurrentlyThisUnusual(result_char_obj.cInfo.unusuals);
-            if (result_char_obj.isUnusual)
-            {
-                result_line_obj.this_line_has_unusual = true;
-            }
+            result_charObj.isCurrentlyUnusual = isCurrentlyThisUnusual(result_charObj.cInfo.unusuals);
             
-            result_line_obj.charsObjs.push( result_char_obj ) ;
+            if (result_charObj.isCurrentlyUnusual)
+                result_lineObj.thisLineCurrentlyHasUnusual = true;
+            result_lineObj.charsObjs.push( result_charObj ) ;
         }
         
-        result_arr.push(result_line_obj);
+        result_arr.push(result_lineObj);
     }
 
     return result_arr;
