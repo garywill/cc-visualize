@@ -23,7 +23,7 @@ var UnCond = {  // 优化模式时，默认（无skipBelowAll: false时）为，
         skipBelowAll: false,
     },
     "is_simp": {
-        full_desc: "是中文简体字",
+        full_desc: "是简体字",
         short_desc: "简",
         default_checked: false,
     },
