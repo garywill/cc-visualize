@@ -80,6 +80,7 @@ const unusual_cond = {
     
 };
 
+if (isWeb)
 onDCL(function() {
     const form = $$("#form_unusual_cond");
     

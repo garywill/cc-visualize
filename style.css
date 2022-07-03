@@ -1,0 +1,123 @@
+.serif {
+    font-family: 'serif';
+}
+#essay {
+    font-size: 17px;
+}
+
+#div_result {
+    font-size: 40px;
+    line-height: 150%;
+    background-color: #dcdcdc85;
+}
+
+.div_essay_char
+{
+    /*! display: inline-block; */
+    /*! vertical-align: text-bottom; */
+    min-width: 5px;
+    min-height: 20px;
+    text-align: center;
+    line-height: 100%;
+    border: 1px solid white;
+    background-color: white;
+    /*! text-decoration: underline; */
+    ruby-position: under;
+}
+.div_origChar_n_aboveText {
+    display: inline-block;
+}
+.div_essay_char_haverel {
+    /*! border: 1px solid gray; */
+    /*
+    padding: 2px;
+    margin: 2px;
+    */
+}
+.div_essay_char_haverel .div_orig_char {
+    /*! font-weight: bold; */
+}
+.div_one_rel_char {
+    font-size: 120%;
+    display: inline-block;
+}
+.div_essayChar_unusual {
+    border-color: pink;
+    border-width: 2px;
+    border-radius: 9px;
+}
+.UCcss_is_simp {
+    background-color: #ffd47070;
+}
+.UCcss_is_trad {
+    background-color: #8b9ed545;
+}
+.UCcss_is_simp_n_trad {
+    background-color: #91ff9166;
+}
+.UCcss_is_jp {
+    background-color: #e82b2b;
+}
+
+.UCcss_blk_nobelong {
+    background-color: #666;
+}
+.UCcss_is_comp {
+    background-color: #d0006b;
+}
+.UCcss_is_rad {
+    background-color: #753eff;
+}
+.UCcss_blk_is_cjkext {
+    border-left: 3px dashed #d38600;
+    border-right: 3px dashed #d38600;
+    border-top: 3px dashed #d38600;
+}
+            
+#unusual {
+    font-size: 15px;
+    color: #ff0808;
+    font-weight: bold;
+}
+
+.div_orig_char {
+    ruby-position: under;
+    border-bottom: 1px dashed grey;
+}
+/*            .div_orig_char.simp {
+    border-bottom: 1px solid orange;
+}*/
+
+
+
+        
+.div_comments_above_char {
+    font-family: 'sans';
+    font-size: 10px;
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-bottom:3px;
+    margin-top: 10px;
+    color:grey
+}
+.a_comment_above_char {
+    line-height: 100%;
+} 
+.span_a_comment_above_char {
+    background-color: white;
+}
+
+.result_linenum {
+    display: inline-block;
+    font-size: 10px;
+}
+#blk{
+    font-size: 8px;
+    max-width: 34px;
+    max-height: 26px;
+    overflow: hidden; 
+    display: inline-block;
+    word-break: break-word;
+    white-space: break-spaces;
+    word-wrap: break-word;
+} 

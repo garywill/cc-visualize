@@ -1,3 +1,4 @@
+if (isWeb)
 document.addEventListener('DOMContentLoaded', async (event) => {
     document.getElementById("btn_checkessay").onclick = function() {
         show_check_results(false);
