@@ -109,31 +109,30 @@ function show_check_results(only_unusual = false)
                 }
             }
             
-            var tips = `Line ${charObj.line_num} Col ${charObj.col_num}\n\n`;
-            tips += getCharTipLine(essayChar);
+            var tips = [];
+            tips.push(`Line ${charObj.line_num} Col ${charObj.col_num}`);
             
             for ( unusual_name  of Object.keys(charObj.cInfo.unusuals) )
             {
                 if ( charObj.cInfo.unusuals [unusual_name])
                 {
                     var warn = UnCond [unusual_name] .isCurrentlyUserChecked ? '⚠' : '';
-                    var line = `${warn}${UnCond [unusual_name] .full_desc}\n` ;
+                    var line = `${warn}${UnCond [unusual_name] .full_desc}` ;
                     
-                    tips += line;
+                    tips.push( line );
                 }
             }
-            tips += '\n';
+            
+            tips.push( getCharWebComplTip(essayChar) );
 
             
             genClassNamesAccordingCInfo(essayChar, div_origChar);
 
             if (mapInUse[essayChar] && mapInUse[essayChar]['rel'].length > 0) //有关联字
             {
-                tips += "关联字：\n";
                 
                 mapInUse[essayChar]['rel'].forEach( function(relChar) {
                     
-                    tips += getCharTipLine(relChar);
                     
                     var div_oneRelChar = document.createElement("div");
                     div_oneRelChar.classList.add ( "div_oneRelChar" );
@@ -147,7 +146,7 @@ function show_check_results(only_unusual = false)
             }
             
 
-            div_essayChar.title = tips;
+            div_essayChar.title = tips.join('\n');
             
             p.appendChild(div_essayChar);
         }
@@ -170,10 +169,11 @@ function genClassNamesAccordingCInfo(c, charHtmlNode)
 function getCharTipLine(c)
 {
     var cInfo = getCInfo(c);
+    const mapObj = mapInUse[c];
+    
     if (  cInfo.tipLine === undefined )
     {
         var cProp = [] ;
-        const mapObj = mapInUse[c];
         
         if (mapObj)
         {
@@ -212,11 +212,35 @@ function getCharTipLine(c)
         
         cProp = cProp.join(' ')
         
-        cInfo.tipLine = `${c}\t${cInfo.hex}\t（${cProp}）\t属于${cInfo.blk}\t${cInfo.age}\n` ;
+        cInfo.tipLine = `${c}\t${cInfo.hex}\t（${cProp}）\t属于${cInfo.blk}\t${cInfo.age}` ;
     }
     return cInfo.tipLine;
 }
-
+function getCharWebComplTip(c) 
+{
+    var cInfo = getCInfo(c);
+    const mapObj = mapInUse[c];
+ 
+    if ( cInfo.webComplTip === undefined )
+    {
+        var lines = [];
+        
+        var origCharTipLine = getCharTipLine(c);
+        lines.push(origCharTipLine);
+        
+        if (mapObj && mapObj['rel'].length > 0 )
+        {
+            lines.push ( '\n关联字：' );
+            
+            for (relChar of mapObj['rel'])
+            {
+                lines.push ( getCharTipLine(relChar) );
+            }
+        }
+        cInfo.webComplTip =  lines.join('\n');
+    }
+    return cInfo.webComplTip;
+}
 
 
 function essay_to_arr(essay, only_unusual = false) 
@@ -284,7 +308,6 @@ function getCInfo(c)
             blk: blk,
             age: age,
             unusuals: { } ,
-            showCode: undefined, // webUI only
         }
         getCharUnusuals(c, cInfo);
         if (isWeb)

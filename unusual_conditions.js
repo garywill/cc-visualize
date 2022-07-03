@@ -44,7 +44,7 @@ var UnCond = {  // 优化模式时，默认（无skipBelowAll: false时）为，
     },
     //  做完上面，如果优化模式，且map中有，可跳过下面全部
     "blk_others": {
-        full_desc: "属于中文文献一般不会用到的区块",
+        full_desc: "属于中文文献（及编程）一般不会用到的区块",
         short_desc: "其",
         default_checked: true,
     },
@@ -54,7 +54,7 @@ var UnCond = {  // 优化模式时，默认（无skipBelowAll: false时）为，
         default_checked: true, 
     },
     "char_illegal": {
-        full_desc: "不属于任何合法区块，或保留字符",
+        full_desc: "不属于任何合法区块 或 是保留码位",
         short_desc: "非",
         default_checked: true,
     },
