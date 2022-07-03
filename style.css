@@ -1,7 +1,7 @@
 .serif {
     font-family: 'serif';
 }
-#essay {
+#input_essay {
     font-size: 17px;
 }
 
@@ -75,7 +75,7 @@
     border-top: 3px dashed #d38600;
 }
             
-#unusual {
+.span_unusualWarn {
     font-size: 15px;
     color: #ff0808;
     font-weight: bold;
@@ -110,7 +110,7 @@
     display: inline-block;
     font-size: 10px;
 }
-#blk{
+.span_blk{
     font-size: 8px;
     max-width: 34px;
     max-height: 26px;

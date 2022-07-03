@@ -17,7 +17,7 @@ function show_check_results(only_unusual = false)
     const container = document.getElementById("div_result")
     container.innerHTML = "";
     
-    const essay = document.getElementById("essay").value;
+    const essay = document.getElementById("input_essay").value;
     var essay_arr = essay_to_arr(essay);
     
     if (! only_unusual &&   essay_arr.length > 2000 )
@@ -53,7 +53,7 @@ function show_check_results(only_unusual = false)
                     <div class="div_origChar_n_aboveText">
                         <div class="div_commentsAboveChar">
                             <div class="div_aCommentAboveChar">
-                                <span class="span_aCommentAboveChar" id="unusual"  style="display: none;" ></span>
+                                <span class="span_aCommentAboveChar span_unusualWarn"  style="display: none;" ></span>
                             </div>
 
                         </div>
@@ -77,7 +77,7 @@ function show_check_results(only_unusual = false)
             {
                 var blkDiv = htmlStr2dom(`
                     <div class="div_aCommentAboveChar"  >                                                                                
-                        <span class="span_aCommentAboveChar" id="blk" >${escapeHtml(charObj.cInfo.blk)}</span>
+                        <span class="span_aCommentAboveChar span_blk" >${escapeHtml(charObj.cInfo.blk)}</span>
                     </div>   
                 `);
                 div_commentsAboveChar.insertBefore(blkDiv, div_commentsAboveChar.firstChild);
@@ -86,7 +86,7 @@ function show_check_results(only_unusual = false)
             var div_origChar_n_aboveText = div_essayChar.q$(".div_origChar_n_aboveText");
             var div_origChar = div_essayChar.q$(".div_origChar");
             var ruby_rt = div_essayChar.q$("rt");
-            var unusual_span = div_essayChar.q$("#unusual");
+            var unusual_span = div_essayChar.q$(".span_unusualWarn");
             
             
             if (charObj.isCurrentlyUnusual)
