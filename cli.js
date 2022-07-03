@@ -14,10 +14,19 @@ eval(fs.readFileSync("checkessay.js").toString());
 
 eval(fs.readFileSync("print_check.js").toString());
 
+
+// 在定制修改用于判断文本文件中一行字符串是否应被忽略的条件
+isLineCommented = function (line_string)
+{ return false; }
+
 function start() 
 {
     optimOff();
     
+    startNewCheck("这是一段测试文本。這是一段測試，就幾句話怎樣？\n简体与繁体都打几个字上来");
+    print_stati();
+    
+//     checkTextFile("TextFileName.txt");
     
 }
 start();

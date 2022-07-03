@@ -1,10 +1,12 @@
 var isOptim = isWeb ? true : false;  // 开启优化 或 完整判断 。 如果更改，需要启动本工具时就改
 function optimOff() {
     isOptim = false;
+    console.warn("已切换至完整检查模式");
     reset();
 }
 function optimOn() {
     isOptim = true;
+    console.warn("已切换至优化（非完整）检查模式");
     reset();
 }
 
@@ -37,30 +39,30 @@ var UnCond = {  // 优化模式时，默认（无skipBelowAll: false时）为，
     },
 
     "is_jp": {
-        full_desc: "是仅日文使用的简化字",
+        full_desc: "是日本新字形（即，仅日文使用的简化字）",
         short_desc: "日",
         default_checked: true,
     },
     
     
     "is_rad": {
-        full_desc: "属于笔划偏旁部首区汉字符 或 此笔划偏旁部首字符有对应的完整统一汉字符",
+        full_desc: "属于笔划偏旁部首区（若作为句中完整的字，应该用对应的统一字符）",
         short_desc: "划",
         default_checked: true,
     },
     "is_comp": {
-        full_desc: "兼容汉字符（应当用对应的统一汉字符替代）",
+        full_desc: "是兼容汉字符（可以时应当用对应的同形统一汉字符替代）",
         short_desc: "兼",
         default_checked: true,
     },
     //  做完上面，如果优化模式，且map中有，可跳过下面全部
     "blk_others": {
-        full_desc: "属于中文文献（及编程）一般不会用到的区块",
+        full_desc: "不属于中文文献（及编程）常用到的区块",
         short_desc: "其",
         default_checked: true,
     },
     "blk_pua": {
-        full_desc: "属于私用区块（正式收录前暂用码，已收录后应弃用）",
+        full_desc: "属于私用码段（正式收录前暂用码，已收录后应弃用）",
         short_desc: "私",
         default_checked: true, 
     },
