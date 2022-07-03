@@ -50,8 +50,8 @@ const UnCond = {  // 默认（无skipBelowAll: false时）为，匹配中一个�
         short_desc: "私",
         default_checked: true, 
     },
-    "blk_nobelong": {
-        full_desc: "不属于任何合法区块",
+    "char_illegal": {
+        full_desc: "不属于任何合法区块，或保留字符",
         short_desc: "非",
         default_checked: true,
     },
@@ -236,9 +236,9 @@ UnCond['cjk_notedu_or_isext'].func = function(c, mapObj, cInfo) {
     }
 };
 
-UnCond['blk_nobelong'].func = function(c, mapObj, cInfo) {
+UnCond['char_illegal'].func = function(c, mapObj, cInfo) {
     var blk = cInfo.blk;
-    
+    var age = cInfo.age;
     const blks = [
         "High Surrogates",
         "High Private Use Surrogates",
@@ -246,6 +246,9 @@ UnCond['blk_nobelong'].func = function(c, mapObj, cInfo) {
     ];
     
     if ( ! blk || blks.includes(blk) )
+        return true;
+    
+    if ( !age && !cInfo.unusuals['blk_pua'] )
         return true;
 };
 
