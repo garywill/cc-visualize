@@ -39,7 +39,7 @@ const unusual_cond = {
         default_checked: true,
     },
     "is_comp": {
-        full_desc: "兼容汉字符，应用对应的统一汉字符替代",
+        full_desc: "兼容汉字符（应当用对应的统一汉字符替代）",
         short_desc: "兼",
         default_checked: true,
     },
@@ -94,9 +94,9 @@ onDCL(function() {
             continue;
         
         var checkbox_span = htmlStr2dom(`
-        <div>
-            <input type="checkbox" class="unusual_cond_checkbox" name="${name}" >${escapeHtml(condObj['full_desc'])}</input>
-        </div>
+        <li title="${escapeHtml(name)}">
+            <input type="checkbox" class="unusual_cond_checkbox" name="${name}"  >${escapeHtml(condObj['full_desc'])}</input>
+        </li>
         `);
         checkbox_span.q$("input").checked = condObj.default_checked;
         form.appendChild(checkbox_span);

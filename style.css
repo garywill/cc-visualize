@@ -5,9 +5,19 @@
     font-size: 17px;
 }
 
+
+#form_unusual_cond {
+    margin: 0px;
+}
+#form_unusual_cond li {
+    list-style: none;
+}
+
+
 #div_result {
     font-size: 40px;
     line-height: 150%;
+    min-height: 20px;
     background-color: #dcdcdc85;
 }
 

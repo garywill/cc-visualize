@@ -53,7 +53,7 @@ function show_check_results(only_unusual = false)
                     <div class="div_origChar_n_aboveText">
                         <div class="div_comments_above_char">
                             <div class="a_comment_above_char">
-                                <span class="span_a_comment_above_char" id="unusual"  style="display: none;" >⚠</span>
+                                <span class="span_a_comment_above_char" id="unusual"  style="display: none;" ></span>
                             </div>
 
                         </div>
@@ -97,7 +97,7 @@ function show_check_results(only_unusual = false)
                     if ( charObj.cInfo.unusuals[name] == true && unusual_cond[name].isCurrentlyEnabled )
                     {
                         unusual_span.style.display="";
-                        unusual_span.textContent += unusual_cond[name].short_desc;
+                        unusual_span.textContent += '⚠' + unusual_cond[name].short_desc;
                         if (name == "blk_is_cjkext")
                             unusual_span.textContent += charObj.cInfo.blk.split(' ')[4];
                     }
@@ -308,10 +308,11 @@ function getCInfo(c)
             blk: blk,
             age: age,
             unusuals: undefined,
-            showCode: undefined,
+            showCode: undefined, // webUI only
         }
         cInfo.unusuals = getCharUnusuals(c, cInfo);
-        cInfo.showCode = getIfShowCode(c, cInfo);
+        if (isWeb)
+            cInfo.showCode = getIfShowCode(c, cInfo);
         
         charsCInfoCache [c] = cInfo;
     }
