@@ -1,4 +1,6 @@
-const UnCond = {  // 默认（无skipBelowAll: false时）为，匹配中一个后，不再检查后面的
+var isOptim = isWeb ? true : false;  // 开启优化 或 完整判断 。 如果更改，需要启动本工具时就改
+
+var UnCond = {  // 优化模式时，默认（无skipBelowAll: false时）为，匹配中一个后，不再检查后面的
     
     "cjk_notedu_or_isext": {
         full_desc: "不是常见字（此字不在中华地区教育表中 或 属于扩展区）",
@@ -39,7 +41,7 @@ const UnCond = {  // 默认（无skipBelowAll: false时）为，匹配中一个�
         short_desc: "兼",
         default_checked: true,
     },
-    
+    //  做完上面，如果优化模式，且map中有，可跳过下面全部
     "blk_others": {
         full_desc: "属于中文文献一般不会用到的区块",
         short_desc: "其",
@@ -115,11 +117,13 @@ function getCharUnusuals(c, cInfo)
             {
 //                 result[ name ] =  oneResult;
                 cInfo.unusuals [name] = oneResult;
-                if ( condObj.skipBelowAll !== false )
+                if ( condObj.skipBelowAll !== false && isOptim)
                     break;
             }
 
         }
+        if ( name == "is_comp" && isOptim && mapObj) // NOTE 注意name可能要随条件或条件顺序变化改变
+            break;
     }
 
     
@@ -237,6 +241,9 @@ UnCond['cjk_notedu_or_isext'].func = function(c, mapObj, cInfo) {
 };
 
 UnCond['char_illegal'].func = function(c, mapObj, cInfo) {
+//     if (isOptim && mapObj)
+//         return false;
+    
     var blk = cInfo.blk;
     var age = cInfo.age;
     const blks = [
@@ -253,6 +260,9 @@ UnCond['char_illegal'].func = function(c, mapObj, cInfo) {
 };
 
 UnCond['blk_pua'].func = function(c, mapObj, cInfo) {
+//     if ( isOptim && mapObj)
+//         return false;
+    
     var blk = cInfo.blk;
     
     const blks = [
@@ -266,6 +276,9 @@ UnCond['blk_pua'].func = function(c, mapObj, cInfo) {
 };
 
 UnCond['blk_others'].func = function(c, mapObj, cInfo) {
+//     if ( isOptim && mapObj)
+//         return false;
+    
     const blks = [
         "CJK Radicals Supplement",
         "CJK Symbols and Punctuation",
