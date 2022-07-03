@@ -115,7 +115,7 @@ function genCrrtUnusualInfos()
                         if (isWeb)
                         {
                             var wt;
-                            if (name == "cjk_notedu_or_isext" && cInfo.blk.includes("CJK Unified Ideographs Extension") )
+                            if (name == "cjk_is_rare" && cInfo.blk.includes("CJK Unified Ideographs Extension") )
                                 wt = cInfo.blk.split(' ')[4];
                             else
                                 wt = UnCond [name] .short_desc;

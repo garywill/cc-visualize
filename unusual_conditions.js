@@ -16,12 +16,19 @@ var mapInUse = summary_data.map2;
 
 var UnCond = {  // 优化模式时，默认（无skipBelowAll: false时）为，匹配中一个后，不再检查后面的
     
-    "cjk_notedu_or_isext": {
-        full_desc: "不是常见汉字（此字不在中华地区教育表中 或 属于扩展区）",
+    "cjk_is_rare": {
+        full_desc: "可能只在汉字库较全或新的设备才显示的汉字",
         short_desc: "少",
         default_checked: true,
         skipBelowAll: false,
     },
+    "noncjk_is_rare": {
+        full_desc: "可能只在较新的设备才显示的非汉字字符",
+        short_desc: "新",
+        default_checked: true,
+        skipBelowAll: false,
+    },
+    
     "is_simp": {
         full_desc: "是简体字",
         short_desc: "简",
@@ -169,16 +176,22 @@ function getIfShowCode(c, cInfo) // webui only
     const blks = [
         "General Punctuation",
         "Halfwidth and Fullwidth Forms",
-        "Latin-1 Supplement",
-//         "Private Use Area",
-//         "Supplementary Private Use Area-A",
-//         "Supplementary Private Use Area-B",
-        
+    ];
+    const conds = [
+        "noncjk_is_rare",
+        "blk_pua",
+        "is_Cc",
+        "is_Mn",
+        "char_illegal"
     ];
     if ( blks.includes(cInfo.blk) )
         return true;
-    if (cInfo.unusuals ['char_illegal'] || cInfo.unusuals ['blk_pua'])
-        return true;
+    
+    for (name of Object.keys ( (cInfo.unusuals ) ) )
+    {
+        if ( conds.includes (name) )
+            return true;
+    }   
     if (!cInfo.age || !cInfo.blk)
         return true;
 }
@@ -254,7 +267,7 @@ UnCond['is_rad'].func = function(c, mapObj, cInfo) {
     )
         return true;
 };
-UnCond['cjk_notedu_or_isext'].func = function(c, mapObj, cInfo) {
+UnCond['cjk_is_rare'].func = function(c, mapObj, cInfo) {
 //     const blks = [
 //         "CJK Unified Ideographs Extension A",
 //         "CJK Unified Ideographs Extension B",
@@ -266,20 +279,23 @@ UnCond['cjk_notedu_or_isext'].func = function(c, mapObj, cInfo) {
 //         "CJK Unified Ideographs Extension H",
 //     ];
     var blk = cInfo.blk;
+    var age = cInfo.age;
     
 //     if ( blks.includes(blk) )
-    if (blk && blk.includes("CJK Unified Ideographs Extension"))
+    if (blk && blk.includes("CJK Unified Ideographs Extension") && blk.split(' ')[4] != "A" )
         return true;
     
-    if (     ( blk && blk.includes("CJK Unified Ideographs") ) 
-          || ( mapObj !== undefined && mapObj ['isUnif'] )
-    )
-    {
-        if ( !mapObj || !mapObj['isEdu'] )
-            return true;
-    }
-};
+    if (blk && blk.includes("CJK") && blk.includes("Ideographs") && parseFloat(age) > 3.0 )
+        return true;
 
+};
+UnCond['noncjk_is_rare'].func = function(c, mapObj, cInfo) {
+    var blk = cInfo.blk;
+    var age = cInfo.age;
+    
+    if (blk && ! ( blk.includes("CJK") && blk.includes("Ideographs") ) && parseFloat(age) > 8.0 )
+        return true;
+} 
 UnCond['char_illegal'].func = function(c, mapObj, cInfo) {
 //     if (isOptim && mapObj)
 //         return false;

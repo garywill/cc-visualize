@@ -84,7 +84,7 @@
 .UCcss_is_rad {
     background-color: #6b39ea;
 }
-.UCcss_cjk_notedu_or_isext {
+.UCcss_cjk_is_rare , .UCcss_noncjk_is_rare {
     border-left: 3px dashed #d38600;
     border-right: 3px dashed #d38600;
     border-top: 3px dashed #d38600;
