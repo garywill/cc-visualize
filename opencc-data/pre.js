@@ -5,9 +5,7 @@ var opencc = {
     map3: {},
 };
 
-// document.addEventListener('DOMContentLoaded', async (event) => {
-    init_opencc();
-// });
+init_opencc();
     
 async function init_opencc() 
 {
@@ -40,7 +38,6 @@ async function init_opencc()
         HKV = fs.readFileSync('HKVariants.txt', 'utf8' )
         TWV = fs.readFileSync('TWVariants.txt', 'utf8' )
         JPV = fs.readFileSync('JPVariants.txt', 'utf8' )
-//         console.log(JPV);
         
         await afterLoadText();
         
@@ -96,13 +93,11 @@ async function init_opencc()
         mapTnS(TSj, "TS");
         map = sortMapObj(map);
         opencc.map = map;
-//         console.log(map);
-        fs.writeFileSync( "opencc-data-map.js", ( "opencc.map = \n" + JSON.stringify(map) + "\n;" )
-            .replaceAll("},", "},\n")
-        );
+//         fs.writeFileSync( "opencc-data-map.js", ( "opencc.map = \n" + JSON.stringify(map) + "\n;" )
+//             .replaceAll("},", "},\n")
+//         );
         console.log("完成map");
         
-        //     map2 = Object.assign({}, map);
         map2 = JSON.parse(JSON.stringify(map));
         
         checkVariants(HKVj, "HK");
@@ -115,7 +110,6 @@ async function init_opencc()
         );
         console.log("完成map2");
         
-        //     map3 = Object.assign({}, map2);
         map3 = JSON.parse(JSON.stringify(map2));
         
         finishMap3();
@@ -145,8 +139,6 @@ async function init_opencc()
                 write_newSet.delete(write_char);
                 map3[write_char]['rel'] = [...write_newSet].sort();
             }
-            //         if (newSet.has("发"))
-            //             console.log(newSet);
         }
         
     }
@@ -180,14 +172,12 @@ async function init_opencc()
         
             var candi = [];
             candi = right_arr;
-            //candi.unshift(left);
             candi = new Set(candi) ;
             candi.delete(left);
             
             
             var candi_filtered = new Set(candi);
             
-            //for (i=candi.length-1; i>=0; i--)
             for (char of candi)
             {
                 if ( haveTSRelation(map, char, left) )
@@ -199,7 +189,6 @@ async function init_opencc()
             
             for( char of candi_filtered )
             {
-                //console.log(char,  left,  zone);
                 createKey(char, map2);
                 map2[char]['isVari_'+zone] = true;
             }

@@ -67,12 +67,12 @@ async function start()
     // xml nore 部分 变js原始string
     var ucd_nore_data_raw_string  =  fs.readFileSync('ucd.no-repertoire.xml',  'utf8');
     
-    fs.writeFileSync("unicode-data-ucd.no-repertoire.xml.js", "unicode_data.xml_nore = `\n" + ucd_nore_data_raw_string.replaceAll("`", "\\`") + "\n`;" );
+//     fs.writeFileSync("unicode-data-ucd.no-repertoire.xml.js", "unicode_data.xml_nore = `\n" + ucd_nore_data_raw_string.replaceAll("`", "\\`") + "\n`;" );
     
     // xml re 部分 变js原始string
     var ucd_data_raw_string =  fs.readFileSync('ucd.repertoire.xml',  'utf8');
     
-    fs.writeFileSync("unicode-data-ucd.repertoire.xml.js", "unicode_data.xml_re = `\n" + ucd_data_raw_string.replaceAll("`", "\\`") + "\n`;" );
+//     fs.writeFileSync("unicode-data-ucd.repertoire.xml.js", "unicode_data.xml_re = `\n" + ucd_data_raw_string.replaceAll("`", "\\`") + "\n`;" );
     
     const domparser = new DOMParser();
     
@@ -166,7 +166,6 @@ async function start()
 
     
 //     console.log(unicode_data.unihan_variants_raw);
-    fs.writeFileSync("unicode-data-unihan-all-vars-raw.json", JSON.stringify(unicode_data.unihan_variants_raw, null, 2) );
     
     
     
@@ -317,25 +316,25 @@ async function start()
         }
 
     }
-    fs.writeFileSync("unicode-data-ST.js" , ( "unicode_data.ST = \n" + JSON.stringify(unicode_data.ST) + "\n;" )
-        .replaceAll("{", "{\n") 
-        .replaceAll("}", "\n}")
-        .replaceAll("],", "],\n")
-    );
-    fs.writeFileSync("unicode-data-TS.js" , ( "unicode_data.TS = \n" + JSON.stringify(unicode_data.TS) + "\n;" )
-        .replaceAll("{", "{\n") 
-        .replaceAll("}", "\n}")
-        .replaceAll("],", "],\n")
-    );
+//     fs.writeFileSync("unicode-data-ST.js" , ( "unicode_data.ST = \n" + JSON.stringify(unicode_data.ST) + "\n;" )
+//         .replaceAll("{", "{\n") 
+//         .replaceAll("}", "\n}")
+//         .replaceAll("],", "],\n")
+//     );
+//     fs.writeFileSync("unicode-data-TS.js" , ( "unicode_data.TS = \n" + JSON.stringify(unicode_data.TS) + "\n;" )
+//         .replaceAll("{", "{\n") 
+//         .replaceAll("}", "\n}")
+//         .replaceAll("],", "],\n")
+//     );
     
     
     // 生成一个繁简map。
     mapTnS(unicode_data.map, unicode_data.ST, "ST");
     mapTnS(unicode_data.map, unicode_data.TS, "TS");
     unicode_data.map = sortMapObj(unicode_data.map);
-    fs.writeFileSync("unicode-data-map.js" , ( "unicode_data.map = \n" + JSON.stringify(unicode_data.map) + "\n;" )
-        .replaceAll("},", "},\n")
-    );
+//     fs.writeFileSync("unicode-data-map.js" , ( "unicode_data.map = \n" + JSON.stringify(unicode_data.map) + "\n;" )
+//         .replaceAll("},", "},\n")
+//     );
     
     
     
