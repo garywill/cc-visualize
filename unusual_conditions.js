@@ -20,7 +20,7 @@ var UnCond = {
         default_checked: true,
     },
     "is_simp": {
-        full_desc: "是简体字",
+        full_desc: "是简体字 （不保证百分百准确）",
         short_desc: "简",
         default_checked: false,
     },

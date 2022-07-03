@@ -92,6 +92,7 @@
             
 .span_unusualWarn {
     font-size: 15px;
+    display: inline-block;
     color: #ff0808;
     font-weight: bold;
 }

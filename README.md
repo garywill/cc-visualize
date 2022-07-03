@@ -18,10 +18,10 @@
   - 在全文中查看字符信息，如Unicode码、所属区块、收录的Unicode版本
   
   - 找出大段文本（Unicode的）中的非寻常字符，如
-    - 零宽字符、控制字符、奇怪空格、组合字符等
+    - 零宽字符、控制字符、不可打印字符、奇怪空格、组合字符等
       > 注意：若经复制粘贴、转换、浏览器控件，可能会丢掉或改变一些字符
     - 非汉、又非ASCII的不常用字符（对中文&编程用户）
-    - 仅日本用的简化版汉字、兼容区汉字符、少用汉字、笔划偏旁字符 等
+    - 兼容区汉字符、少用汉字、笔划偏旁字符、仅日本用的简化版汉字 等
       > 计算机汉字字符编码的坑，除西文字符外，汉字也有“**同形字符攻击**”问题。已经发现有输入法码表中含有可能混淆人的字符。这也是做这个功能起因之一（见下相关背景资料）
       > 
       > ![兀](https://user-images.githubusercontent.com/32130780/175266740-caad17d0-39c8-4d5d-a02a-ec04a16ddab5.png)
@@ -31,16 +31,18 @@
 
 ![Screenshot](https://repository-images.githubusercontent.com/395479775/5b0eff04-c615-4b80-bc87-091443360351)
 
-![Screenshot](Screenshot.png)
+![Screenshot](screenshots/Screenshot.png)
 
-![Screenshot](Screenshot2.png)
+![Screenshot](screenshots/Screenshot4.png)
 
-![Screenshot](Screenshot3.png)
+![Screenshot](screenshots/Screenshot2.png)
+
+![Screenshot](screenshots/Screenshot3.png)
 
 UI对字符类型的示意：
 - 淡绿色：繁简合字
 - 淡蓝色：繁体
-- 淡黄色：简体
+- 淡黄色：简体 （不保证百分百准确）
   > 目前对一个字是简体还是合字、是繁体还是合字的判断，无法做到很准确。原则是尝试以当今各地区使用状况为准，【并非】考古或严谨的汉语汉字研究
 - 可能为**非寻常**字符：
   - 红紫色：是兼容汉字符（可以时应当用对应的同形统一汉字符替代）
@@ -103,7 +105,7 @@ UI对字符类型的示意：
 
 ## 进阶用户
 
-CLI用法为`node cli.js`（不需要再安装其他npm包）。可自行打开文件修改定制
+CLI用法为`node cli.js`（不需要再安装其他npm包）。可自行简单编辑入口文件`cli.js`以定制
 
 在web中，每次检查完成后，在web控制台也会输出与cli类似的检查结果统计
 
@@ -124,7 +126,7 @@ CLI用法为`node cli.js`（不需要再安装其他npm包）。可自行打开�
 
 1. 本工具是制作及运行在UTF-8环境。UI中的hex字符编码常为省略`U+`后的标准表示（即同UTF-16码）
     
-1. 一些新的组合表情符号暂时无法正确处理
+1. 组合表情符号、组合字母（例如带声调那种）会被拆开
 
 ## 字符编码数据来源及处理说明
 
@@ -298,5 +300,7 @@ UCD提供txt（文件数量多）和[xml](https://www.unicode.org/Public/15.0.0/
 
 ## 其他
 
-1. [**大术专搜**](https://github.com/garywill/BigSearch/blob/master/src/README_zh.md)（推荐）（一个搜索、查询工具）中收集的汉语工具部分
-2. [收集的汉字资源、字体、阅读器 等](https://gitlab.com/garywill/cc-resources/-/releases)
+- [**大术专搜**](https://github.com/garywill/BigSearch/blob/master/src/README_zh.md)（推荐）（一个搜索、查询工具）中收集的汉语工具部分
+- [收集的汉字资源、字体、阅读器 等](https://gitlab.com/garywill/cc-resources/-/releases)
+
+- [View non-printable unicode characters](https://www.soscisurvey.de/tools/view-chars.php)

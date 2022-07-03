@@ -192,9 +192,9 @@ function show_check_results(only_unusual = false)
     const essay_arr = Check.essayArr;
     const lineIndexes = Object.keys(essay_arr);
     
-    if (! only_unusual &&   lineIndexes.length > 2000 )
+    if (! only_unusual &&   lineIndexes.length > 2000 )  // TODO 太多时只显示前一部分 或翻页
     {
-        if ( ! confirm(`一共有${lineIndexes.length}行文本要显示，可能会卡住浏览器。\n确定要继续吗？`) )
+        if ( ! confirm(`一共有${lineIndexes.length}行文本要显示，可能会卡住浏览器。\n确定要继续吗？\n（若取消，一样可以在F12中看字符检视统计结果）`) )
             return;
     }
     
@@ -285,7 +285,7 @@ function show_check_results(only_unusual = false)
                 if ( charObj.cInfo.unusuals [unusual_name])
                 {
                     var warn = Check.userCond.includes(unusual_name) ? '⚠' : '';
-                    var line = `${warn}${UnCond [unusual_name] .full_desc}` ;
+                    var line = `${warn}${UnCond [unusual_name] .full_desc} [${UnCond [unusual_name] .short_desc}]` ;
                     
                     tips.push( line );
                 }
