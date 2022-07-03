@@ -199,7 +199,7 @@ UCD提供txt（文件数量多）和[xml](https://www.unicode.org/Public/15.0.0/
 
 - 地区代号CN
 
-  [《通用规范汉字表》](https://zh.wikisource.org/wiki/%E9%80%9A%E7%94%A8%E8%A7%84%E8%8C%83%E6%B1%89%E5%AD%97%E8%A1%A8)（2013）（数据内容取自非官方链接，因官方链接提供的[原文件](http://www.gov.cn/gzdt/att/att/site1/20130819/tygfhzb.pdf)是图片PDF）。分为三级：
+  [《通用规范汉字表》](https://zh.wikipedia.org/wiki/通用规范汉字表)（2013）（数据内容取自UCD的`kTGH`参数。因官方链接提供的[原文件](http://www.gov.cn/gzdt/att/att/site1/20130819/tygfhzb.pdf)是图片PDF）。分为三级：
   - 一级字表 3500字
   - 二级字表 3000字
   - 三级字表 1605字
@@ -208,7 +208,7 @@ UCD提供txt（文件数量多）和[xml](https://www.unicode.org/Public/15.0.0/
 
 - 地区代号HK
 
-  [《常用字字形表》](https://zh.wikisource.org/wiki/zh:%E5%B8%B8%E7%94%A8%E5%AD%97%E5%AD%97%E5%BD%A2%E8%A1%A8?uselang=zh) 4759字（实际加上同义字后更多）（数据内容取自非官方链接）
+  [《常用字字形表》](https://zh.wikipedia.org/wiki/常用字字形表) 4759字（实际加上同义字后更多）（本工具数据内容取自UCD的`kHKGlyph`参数）
 
 - 地区代号TW
 

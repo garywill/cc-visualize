@@ -27,6 +27,9 @@ var unicode_data = {
     charsAreUnif: [],
     
     ages: [],
+    
+    chars_kHKGlyph: [], 
+    chars_kTGH: {1: [], 2: [], 3: [] }, 
 };
 
 const blks_prio = [
@@ -144,6 +147,21 @@ async function start()
         }
         if ( blk.includes("CJK_Compat") && UIdeo == "Y" )
             unicode_data.charsAreUnif.push( utf16hex2char(cp) );
+        
+        if (charNode.getAttribute("kHKGlyph"))
+            unicode_data.chars_kHKGlyph.push( utf16hex2char(cp) );
+        
+        if (charNode.getAttribute("kTGH"))
+        {
+            const kTGH = charNode.getAttribute("kTGH");
+            var ind = parseInt ( kTGH.split(":")[1] );
+            if (1 <= ind && ind <= 3500)
+                unicode_data.chars_kTGH [1] .push( utf16hex2char(cp) );
+            else if ( 3501 <= ind && ind <= 6500)
+                unicode_data.chars_kTGH [2] .push( utf16hex2char(cp) );
+            else if (6501 <= ind && ind <= 8105)
+                unicode_data.chars_kTGH [3] .push( utf16hex2char(cp) );
+        }
     }
 
     
@@ -375,7 +393,36 @@ async function start()
         unicode_data.map2[c] ['isUnif'] = true;
         
     }
+    
+    for (c of unicode_data.chars_kHKGlyph)
+    {
+        createKey(c, unicode_data.map2);
+        unicode_data.map2[c] ['isEdu_HK'] = true;
+        unicode_data.map2[c] ['isEdu'] = true;
+    }
 
+    for (c of unicode_data.chars_kTGH [1])
+    {
+        createKey(c, unicode_data.map2);
+        unicode_data.map2[c] ['isEdu_CN_1c'] = true;
+        unicode_data.map2[c] ['isEdu'] = true;
+    }
+
+    for (c of unicode_data.chars_kTGH [2])
+    {
+        createKey(c, unicode_data.map2);
+        unicode_data.map2[c] ['isEdu_CN_2c'] = true;
+        unicode_data.map2[c] ['isEdu'] = true;
+    }
+
+    for (c of unicode_data.chars_kTGH [3])
+    {
+        createKey(c, unicode_data.map2);
+        unicode_data.map2[c] ['isEdu_CN_3c'] = true;
+        unicode_data.map2[c] ['isEdu'] = true;
+    }
+
+    
     unicode_data.map2 = sortMapObj(unicode_data.map2);
     fs.writeFileSync("unicode-data-map2.js" , ( "unicode_data.map2 = \n" + JSON.stringify(unicode_data.map2) + "\n;" )
         .replaceAll("},", "},\n")

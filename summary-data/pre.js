@@ -17,12 +17,13 @@ eval(fs.readFileSync('../unicode-data/unicode-data-map2.js').toString());
 //     cat cn-1c.txt |awk '{print $2}'  | grep -E "^$" -v   | cut -c -1 > cn通用规范汉字表_一级.txt
 //     cat cn-2c.txt |awk '{print $2}'  | grep -E "^$" -v   | cut -c -1 > cn通用规范汉字表_二级.txt
 //     cat cn-3c.txt |awk '{print $2}'  | grep -E "^$" -v   | cut -c -1 > cn通用规范汉字表_三级.txt   
-var edu_cn_1c = fs.readFileSync("../edu-data/cn通用规范汉字表_一级.txt").toString();
-var edu_cn_2c = fs.readFileSync("../edu-data/cn通用规范汉字表_二级.txt").toString();
-var edu_cn_3c = fs.readFileSync("../edu-data/cn通用规范汉字表_三级.txt").toString();
+
+var edu_cn_1c = [];
+var edu_cn_2c = [];
+var edu_cn_3c = [];
+var edu_hk = [];
 
 //     cat hk.txt |awk '{print $2}'  | grep -E "^$" -v > hk常用字字形表.txt
-var edu_hk = fs.readFileSync("../edu-data/hk常用字字形表.txt").toString();
 
 // cat tw2-wiki.txt |column -t -s '|' | awk '{print $2}' | grep -E "^$" -v > tw次常用國字標準字體表.txt
 var edu_tw_1 = fs.readFileSync("../edu-data/tw常用國字標準字體表.txt").toString();
@@ -31,12 +32,19 @@ var edu_tw_2 = fs.readFileSync("../edu-data/tw次常用國字標準字體表.txt
 
 async function start()
 {
-    
-    edu_cn_1c = eduTxtToArr( edu_cn_1c);
-    edu_cn_2c = eduTxtToArr( edu_cn_2c);
-    edu_cn_3c = eduTxtToArr( edu_cn_3c);
+    for (c in unicode_data.map2)
+    {
+        const mapObj = unicode_data.map2 [c];
+        if (mapObj ['isEdu_CN_1c'] )
+            edu_cn_1c.push(c);
+        if (mapObj ['isEdu_CN_2c'] )
+            edu_cn_2c.push(c);
+        if (mapObj ['isEdu_CN_3c'] )
+            edu_cn_3c.push(c);
+        if (mapObj ['isEdu_HK'] )
+            edu_hk.push(c);
+    }
 
-    edu_hk = eduTxtToArr ( edu_hk );
 
     edu_tw_1 = eduTxtToArr ( edu_tw_1 );
     edu_tw_2 = eduTxtToArr ( edu_tw_2 );       
@@ -69,7 +77,7 @@ async function start()
         const mapObj = summary_data.map2 [c];
         mapObj ['isEdu_HK'] = true;
         mapObj ['isEdu'] = true;
-    }
+    }    
 
     for ( c of edu_tw_1 )
     {
