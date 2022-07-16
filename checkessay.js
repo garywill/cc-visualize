@@ -456,8 +456,10 @@ function getCInfo(c)
             if (isWeb)
                 cInfo.showCode = getIfShowCode(c, cInfo);
             
-            if (cInfo.unusuals ['is_Cc'] || cInfo.unusuals ['is_Mn'])
+            if (cInfo.unusuals ['is_Cc'] )
                 cInfo.showChar = '▫';
+            else if ( cInfo.unusuals ['is_Mn'] )
+                cInfo.showChar = '◌';
         }  
         charsCInfoCache [c] = cInfo;
     }

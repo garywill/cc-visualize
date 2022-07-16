@@ -53,7 +53,7 @@ var UnCond = {
     "is_other_chars": {
         full_desc: "不属于中文文献（及编程）正常常用到的字符或区块",
         short_desc: "其",
-        default_checked: true,
+        default_checked: false,
     },
     "noncjk_is_rare": {
         full_desc: "可能只在较新的设备才显示的非汉字字符",

@@ -6,6 +6,7 @@ function print_stati()
     {
         const condObj = UnCond [name];
         const condStatiObj = Check.condCharsStati [name];
+        if ( condStatiObj.condCount > 0)
         console.log(`${condObj.short_desc}\t${condStatiObj.charSet.size}字符 ${condStatiObj.condCount}处\t${condObj.full_desc}`);
     }
     
