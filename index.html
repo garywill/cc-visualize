@@ -28,7 +28,8 @@
     <body>
         <h1 style="text-align: center;">漢字！ 关联及变体～ 字符文本(全文) 可视化 检视工具（beta）</h1> 
         <div style="text-align: center;">
-            <a href="https://github.com/garywill/cc-visualize">本工具源代码及说明 （本工具供试用参考）</a>
+            <p style="color: grey; font-size: 80%;" >Licensed under AGPL</p>
+            <a href="https://github.com/garywill/cc-visualize">本工具源代码及说明 （本工具供试用参考研究勿直接用于商业或生产）</a>
             | 其他工具推荐 <a href="https://github.com/garywill/BigSearch/blob/master/src/README_zh.md">大术专搜</a>（一个搜索、查询工具）中收集的汉语工具部分
             （<a target="_blank" href="https://acsearch.ga">网页版主站</a>
             <a href="http://acsearch.tk">备用站</a>）
@@ -143,8 +144,9 @@
             </textarea>
             </div>
             <button id="btn_checkessay">全文检视</button>
-            <button id="btn_checkessay_unusualonly">仅检视非寻常字符</button>
-            <br>非寻常字符判断条件：<br>
+            <button id="btn_checkessay_normsmall">全文检视（仅突出 非寻常字符）</button>
+            <button id="btn_checkessay_unusualonly">检视（仅显示 非寻常字符 所在行）</button>
+            <br>以 非寻常字符 显示 的 判断条件：<br>
             <details>
             <summary>展开选项</summary>
                 <form >
@@ -153,10 +155,10 @@
                 </form>
             </details>
         </div>
-        
+        <br>
       
+        <div  id="div_result">
         检视结果：
-        <div class="serif" id="div_result">
             <table id="table_result"></table>
         </div>
     </body>

@@ -15,8 +15,6 @@
 
 
 #div_result {
-    font-size: 40px;
-    line-height: 150%;
     min-height: 20px;
     background-color: #dcdcdc85;
 }
@@ -24,7 +22,15 @@
 .tr_result:nth-child(odd) {
     background-color: #055bff14;
 }
-
+.tr_result {
+    font-size: 40px;
+    line-height: 150%;
+    
+}
+.tr_norm {
+    font-size: 10px;
+    line-height: 100%;
+}
 .div_essayChar
 {
     /*! display: inline-block; */
