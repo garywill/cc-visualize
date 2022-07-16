@@ -29,7 +29,7 @@ function start()
     
 //     checkTextFile("TextFileName.txt");
     
-    //eval(fs.readFileSync("test/test.js").toString());
+//     eval(fs.readFileSync("test/test.js").toString());
     
 }
 start();
@@ -37,5 +37,9 @@ start();
 function checkTextFile(fileName)
 {
     startNewCheck ( fs.readFileSync(fileName).toString() );
+    console.log("```");
+    console.log(`=== ${filename} =============`);
     print_stati();
+    console.log("================================");
+    console.log("```");
 }
