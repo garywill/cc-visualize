@@ -1,8 +1,10 @@
+[![d](https://img.shields.io/badge/discussions-going%20on-brightgreen)](https://github.com/garywill/cc-visualize/discussions/categories/batch-test-results)
+
 # 全文每個(个)漢(汉)字關(关)聯(联)字可視(视)化 及 非尋(寻)常字符檢(检)視(视)工具
 
 使用(in beta)：
 - Web tool: 直接打开 https://garywill.github.io/cc-visualize/
-- CLI: 见下[进阶用户](#进阶用户)部分 （应用例：[批量扫描测试Github上的中文仓库字符](https://github.com/garywill/cc-visualize/discussions/categories/batch-test-results)）
+- CLI: 见下[进阶用户](#进阶用户)部分 （应用例：[统计结果及讨论：批量扫描测试Github上的中文仓库字符](https://github.com/garywill/cc-visualize/discussions/categories/batch-test-results)）
 
 
 ## 作用
@@ -20,12 +22,12 @@
   - 找出大段文本（Unicode的）中的非寻常字符，如
     - 零宽字符、控制字符、不可打印字符、奇怪空格、组合字符等
       > 注意：若经复制粘贴、转换、浏览器控件，可能会丢掉或改变一些字符
-    - 非汉、又非ASCII的不常用字符（对中文&编程用户）
     - 兼容区汉字符、少用汉字、笔划偏旁字符、仅日本用的简化版汉字 等
       > 计算机汉字字符编码的坑，除西文字符外，汉字也有“**同形字符攻击**”问题。已经发现有输入法码表中含有可能混淆人的字符。这也是做这个功能起因之一（见下相关背景资料）
       > 
       > ![兀](https://user-images.githubusercontent.com/32130780/175266740-caad17d0-39c8-4d5d-a02a-ec04a16ddab5.png)
     - 私用码段字符（PUA）
+    - 非汉、又非ASCII的不常用字符（对中文&编程用户）
     
 ## 截图预览
 
@@ -103,6 +105,8 @@ UI对字符类型的示意：
 
 
 ## 进阶用户
+
+web支持GET参数：`https://garywill.github.io/cc-visualize/?s=%s`
 
 CLI用法为`node cli.js`（不需要再安装其他npm包）。可自行简单编辑入口文件`cli.js`以定制
 
@@ -282,7 +286,7 @@ UCD提供txt（文件数量多）和[xml](https://www.unicode.org/Public/15.0.0/
 
 ## 相关
 
-其他能够查到汉字变体、关联关系、资料的工具：
+其他能够查到汉字Unicode字符变体、关联关系、资料的工具：
 
 - [Unicode Utilities: Character Properties](https://util.unicode.org/UnicodeJsps/character.jsp)
 - [Unicode Utilities: Confusables](https://util.unicode.org/UnicodeJsps/confusables.jsp)
@@ -297,3 +301,13 @@ UCD提供txt（文件数量多）和[xml](https://www.unicode.org/Public/15.0.0/
 - [收集的汉字资源、字体、阅读器 等](https://gitlab.com/garywill/cc-resources/-/releases)
 
 - [View non-printable unicode characters](https://www.soscisurvey.de/tools/view-chars.php)
+
+## 有用就赏
+
+收集整理数据不易，感谢支持！
+
+<a target="_blank" href="https://github.com/garywill/receiving/blob/master/receiving_methods.md"><img src="https://gitlab.com/garywill/receiving/raw/master/receivingcode.png" alt="打赏链接" width="450"></a>
+
+其实，多赏非求，少许亦可。<br>
+进者，[参观主页](https://garywill.github.io)，玩物更多。
+
