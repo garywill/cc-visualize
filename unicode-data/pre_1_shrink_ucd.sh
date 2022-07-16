@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ ! -f "ucd.all.flat.xml" ]]; then
+     echo "Can't find ucd.all.flat.xml . Download it from https://www.unicode.org/Public/15.0.0/ucdxml/" >&2
+     exit 1
+fi
+
 cp ucd.all.flat.xml  /tmp/ucd.xml
 
 sed -i 's/<ucd xmlns=.*>$/<ucd>/g  ; s/^ *//g' /tmp/ucd.xml     # 去掉namespace。 去掉所有行的开头空格
