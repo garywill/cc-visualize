@@ -91,6 +91,7 @@ onDCL(function() {
        
         form.appendChild(span_cb);
     }
+    $$("#options_extcoll").open = true;
 });
 function readUserCond() 
 {

@@ -13,3 +13,7 @@ onDCL(function() {
     show_check_results(1);
     reset();
 });
+
+function scrollToResult() {
+    window.scrollTo ( { top:  $$("#div_result").offsetTop - 120, left: 0, behavior: "smooth" } );
+}
