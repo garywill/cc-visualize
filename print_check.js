@@ -22,8 +22,14 @@ function print_one_cond_charset(condName)
     if (Check.condCharsStati [condName] .condCount == 0)
         return;
         
+    var partText = "";
+    
+    const maxCharAmt = 30;
+    if ( Check.condCharsStati[condName].charSet.size > maxCharAmt)
+        partText = "(部分)";
+    
     console.log(`
-${UnCond[condName].short_desc}：  ${UnCond[condName].full_desc}
-'${ [ ... Check.condCharsStati[condName].charSet ] .sort().join('|') }'
+${UnCond[condName].short_desc}${partText}：  ${UnCond[condName].full_desc}
+'${ [ ... Check.condCharsStati[condName].charSet ] .sort().slice(0,maxCharAmt).join('|') }'
     `);
 }

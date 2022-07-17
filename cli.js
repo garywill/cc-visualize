@@ -24,12 +24,12 @@ isLineCommented = function (line_string)
 function start() 
 {
     
-    startNewCheck("这是一段测试文本。這是一段測試，就幾句話怎樣？\n简体与繁体都打几个字上来");
-    print_stati();
+//     startNewCheck("这是一段测试文本。這是一段測試，就幾句話怎樣？\n简体与繁体都打几个字上来");
+//     print_stati();
     
 //     checkTextFile("TextFileName.txt");
     
-    //eval(fs.readFileSync("test/test.js").toString());
+    eval(fs.readFileSync("test/test.js").toString());
     
 }
 start();
@@ -37,5 +37,9 @@ start();
 function checkTextFile(fileName)
 {
     startNewCheck ( fs.readFileSync(fileName).toString() );
+    console.log("```");
+    console.log(`=== ${filename} =============\n\n`);
     print_stati();
+    console.log("```");
+    console.log("================================\n\n");
 }
