@@ -351,6 +351,8 @@ ${display_mode <= 2 ? "您点选了让所有文本都显示" : ''}
         result_cont.appendChild(tr);
     }
     
+    scrollToResult()
+    
 }
 function genClassNamesAccordingCInfo(c, charHtmlNode)
 {
