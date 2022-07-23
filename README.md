@@ -223,15 +223,15 @@ UCD提供txt（文件数量多）和[xml](https://www.unicode.org/Public/15.0.0/
 
 下例为总合了以上地区官方中文教育制定的常用字表后的部分数据
 ```json
-"說":{"rel":["説","说"],"isEdu_HK":true,"isEdu_TW_1":true},
+"說":{"rel":["説","说"],"isEdu_HK":true,"isEdu_TW_A":true},
 "説":{"rel":["說","说"],"isEdu_HK":true},
 "说":{"rel":["說","説"],"isEdu_CN_1c":true},
 
 "裏":{"rel":["裡","里"],"isEdu_HK":true},
-"裡":{"rel":["裏","里"],"isEdu_HK":true,"isEdu_TW_1":true},
-"里":{"rel":["裏","裡"],"isEdu_CN_1c":true,"isEdu_HK":true,"isEdu_TW_1":true},
+"裡":{"rel":["裏","里"],"isEdu_HK":true,"isEdu_TW_A":true},
+"里":{"rel":["裏","裡"],"isEdu_CN_1c":true,"isEdu_HK":true,"isEdu_TW_A":true},
 
-"床":{"rel":["牀"],"isEdu_CN_1c":true,"isEdu_TW_1":true},
+"床":{"rel":["牀"],"isEdu_CN_1c":true,"isEdu_TW_A":true},
 "牀":{"rel":["床"],"isEdu_HK":true},
 ```
 

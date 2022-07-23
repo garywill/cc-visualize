@@ -384,9 +384,9 @@ function getCharTipLine(c)
                 cProp .push( "陆表三" );
             if (mapObj ['isEdu_HK'])
                 cProp .push( "港表" );
-            if (mapObj ['isEdu_TW_1'])
+            if (mapObj ['isEdu_TW_A'])
                 cProp .push( "台表甲" );
-            if (mapObj ['isEdu_TW_2'])
+            if (mapObj ['isEdu_TW_B'])
                 cProp .push( "台表乙" );
             
             if (mapObj ['isTrad'])

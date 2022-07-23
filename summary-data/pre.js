@@ -98,17 +98,17 @@ async function start()
     {
         edu_data.map2 [c] ['isEdu'] = true;
         
-        // TODO 临时
-        if ( edu_data.map2 [c] ['isEdu_TW_A'] )
-        {
-            delete  edu_data.map2 [c] ['isEdu_TW_A'] ;
-            edu_data.map2 [c] ['isEdu_TW_1'] = true;
-        }
-        if ( edu_data.map2 [c] ['isEdu_TW_B'] )
-        {
-            delete  edu_data.map2 [c] ['isEdu_TW_B'] ;
-            edu_data.map2 [c] ['isEdu_TW_2'] = true;
-        }
+//         // TODO 临时
+//         if ( edu_data.map2 [c] ['isEdu_TW_A'] )
+//         {
+//             delete  edu_data.map2 [c] ['isEdu_TW_A'] ;
+//             edu_data.map2 [c] ['isEdu_TW_1'] = true;
+//         }
+//         if ( edu_data.map2 [c] ['isEdu_TW_B'] )
+//         {
+//             delete  edu_data.map2 [c] ['isEdu_TW_B'] ;
+//             edu_data.map2 [c] ['isEdu_TW_2'] = true;
+//         }
 
     }
     summary_data.map2 = combineMap ( summary_data.map2, edu_data.map2 );
@@ -248,8 +248,8 @@ async function start()
                 || cObj['isEdu_CN_2c']
                 || cObj['isEdu_CN_3c']
                 || cObj['isEdu_HK']
-                || cObj['isEdu_TW_1']
-                || cObj['isEdu_TW_2']
+                || cObj['isEdu_TW_A']
+                || cObj['isEdu_TW_B']
             ) 
         )
             delete cObj['isChi'];
