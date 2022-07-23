@@ -1,21 +1,9 @@
 var fs = require('fs');
 
 var edu_data = {};
-eval(fs.readFileSync('../edu-data/edu-data-CN-1c.js').toString());
-eval(fs.readFileSync('../edu-data/edu-data-CN-2c.js').toString());
-eval(fs.readFileSync('../edu-data/edu-data-CN-3c.js').toString());
-eval(fs.readFileSync('../edu-data/edu-data-HK.js').toString());
-eval(fs.readFileSync('../edu-data/edu-data-TW-A.js').toString());
-eval(fs.readFileSync('../edu-data/edu-data-TW-B.js').toString());
+eval(fs.readFileSync('../edu-data/edu-data-map2.js').toString());
 
-edu_data.allCharsSet = new Set(
-    edu_data.CN_1c 
-    . concat (edu_data.CN_2c) 
-    . concat (edu_data.CN_3c) 
-    . concat (edu_data.HK) 
-    . concat (edu_data.TW_A) 
-    . concat (edu_data.TW_B) 
-)
+
 
 var opencc = {
     map: {},
@@ -189,11 +177,11 @@ async function init_opencc()
             }
             
             var filter_right_arr = new Set(right_arr) ;
-            if (zone == "JP" && edu_data.allCharsSet.has(left) )
+            if (zone == "JP" && Object.keys(edu_data.map2).includes(left)  )
             {
                 for (c of right_arr)
                 {
-                    if ( edu_data.allCharsSet.has(c) )
+                    if (Object.keys(edu_data.map2).includes(c))
                         filter_right_arr.delete(c);
                 }
             }
