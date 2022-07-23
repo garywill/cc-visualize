@@ -118,38 +118,14 @@ CLI用法为`node cli.js`（不需要再安装其他npm包）。可自行简单�
 
 ## 字符编码数据来源及处理说明
 
-- [OpenCC （Open Chinese Convert）](https://github.com/BYVoid/OpenCC)
 - [Unicode Character Database (UCD)](https://www.unicode.org/ucd/) （及其子集Unihan）
 - 中华地区官方中文教育制定的常用字表（地区代号：CN+HK+TW）
+- CNS 11643
+- [OpenCC （Open Chinese Convert）](https://github.com/BYVoid/OpenCC)
 - 可以再加....
 
 <details>
 <summary>展开详细数据来源及处理说明</summary>
-
-### OpenCC
-
-OpenCC含有中文繁简关系、日本用字与中文汉字关系
-
-下例相当于把openCC的`STCharacters.txt`和`TSCharacters.txt`合并了
-
-```json
-"干": { "rel": [ "幹", "乾", "榦" ], "isSimp": true, "isTrad": true },
-"幹": { "rel": [ "干", "乾", "榦" ], "isTrad": true },
-"乾": { "rel": [ "干", "幹", "榦" ], "isTrad": true, "isSimp": true },
-"榦": { "rel": [ "干", "幹", "乾" ], "isTrad": true },
-```
-
-`干幹乾榦`：`干`和`乾`既是简体也是繁体，`幹`和`榦`仅是繁体
-
-又，例如，`发發髮発髪`：中文繁简字皆互相关联，日本变体可关联到中文繁简字，但从中文字不需要关联到日本字。（这里又相当于把openCC的`HKVariants.txt`、`TWVariants.txt`、`JPVariants.txt`也合并了进来，期间排除了不必要的变体关联）
-
-```json
-"发": { "rel": [ "發", "髮" ], "isSimp": true },
-"發": { "rel": [ "发", "髮" ], "isTrad": true },
-"髮": { "rel": [ "发", "發" ], "isTrad": true },
-"発": { "rel": [ "發", "发", "髮" ], "isVari_JP": true },
-"髪": { "rel": [ "髮", "发", "發" ], "isVari_JP": true },
-```
 
 ### Unicode Character Database (UCD)
 
@@ -248,11 +224,11 @@ UCD提供txt（文件数量多）和[xml](https://www.unicode.org/Public/15.0.0/
 "牀":{"rel":["床"],"isEdu_HK":true},
 ```
 
-### CNS 11643 的字源数据 （尚未）
+### CNS 11643 的字源数据
 
 来自台湾的编码「中文標準交換碼」 （CNS 11643） 的[官方网站](https://www.cns11643.gov.tw/pageView.jsp?ID=59)上，可链接到[对应的数据下载页面](https://data.gov.tw/dataset/5961)（目前约10万字）。数据中包含有以上甲～丙表、以及其他教育汉字字表的字符编码信息，以及它们由CNS 11643到Unicode的转换表
 
-《國中小教科書常用字》 来自下载数据包内，有500多字。此名称在其他地方找不到说明。这一个 + CNS11643数据包内的《次常用國字標準字體表》 ≈ 真正的《次常用國字標準字體表》
+《國中小教科書常用字》 来自下载数据包内，有500多字（此名称在其他地方找不到说明）。它 + CNS11643数据包内的《次常用國字標準字體表》 ≈ 真正的《次常用國字標準字體表》
 
 
 ### CCCII （尚未）
@@ -260,6 +236,34 @@ UCD提供txt（文件数量多）和[xml](https://www.unicode.org/Public/15.0.0/
 来自台湾的编码[「中文資訊交換碼」（CCCII，以前又叫EACC）](https://en.wikipedia.org/wiki/Chinese_Character_Code_for_Information_Interchange)将正、简、异、日几种字形的汉字字符分开区域编排，且收录异体数量多。并且，在这种编码下，只要在编码上平移特定的量，就能找到所关联的汉字，不一定要专门的关联表（也因此同一字有时需要多个编码，因为繁简关系不只有一个对应）
 
 据说1987年版本收录5.3万字符。1989的稿收录7.5万字符（4.4万独立字和3.1万变体），这种编码采用的系统少，资料少
+
+
+### OpenCC
+
+OpenCC含有中文繁简关系、日本用字与中文汉字关系
+
+下例相当于把openCC的`STCharacters.txt`和`TSCharacters.txt`合并了
+
+```json
+"干": { "rel": [ "幹", "乾", "榦" ], "isSimp": true, "isTrad": true },
+"幹": { "rel": [ "干", "乾", "榦" ], "isTrad": true },
+"乾": { "rel": [ "干", "幹", "榦" ], "isTrad": true, "isSimp": true },
+"榦": { "rel": [ "干", "幹", "乾" ], "isTrad": true },
+```
+
+`干幹乾榦`：`干`和`乾`既是简体也是繁体，`幹`和`榦`仅是繁体
+
+又，例如，`发發髮発髪`：中文繁简字皆互相关联，日本变体可关联到中文繁简字，但从中文字不需要关联到日本字。（这里又相当于把openCC的`HKVariants.txt`、`TWVariants.txt`、`JPVariants.txt`也合并了进来，期间排除了不必要的变体关联）
+
+```json
+"发": { "rel": [ "發", "髮" ], "isSimp": true },
+"發": { "rel": [ "发", "髮" ], "isTrad": true },
+"髮": { "rel": [ "发", "發" ], "isTrad": true },
+"発": { "rel": [ "發", "发", "髮" ], "isVari_JP": true },
+"髪": { "rel": [ "髮", "发", "發" ], "isVari_JP": true },
+```
+
+（openCC数据的预处理应在UCD、CNS之后）
 
 ### 总数据
 
