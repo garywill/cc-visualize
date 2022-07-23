@@ -28,13 +28,17 @@ var unicode_data = {
     
     ages: [],
     
-    chars_kHKGlyph: [], 
     chars_kTGH: {1: [], 2: [], 3: [] }, 
     
     Cc: [], 
     Mn: [], 
 };
 
+var edu_data = {
+    HK_numed : {}, // 所有字，带编号
+    HK: [], // 只有单字的数组
+    HK_map: {}, 
+};
 // 这些都算作控制字符
 const gcs_Cc = [   'Cc', 'Cf',  'Zl', 'Zp', 'Zs'   ];
 
@@ -156,7 +160,17 @@ async function start()
             unicode_data.charsAreUnif.push( utf16hex2char(cp) );
         
         if (charNode.getAttribute("kHKGlyph"))
-            unicode_data.chars_kHKGlyph.push( utf16hex2char(cp) );
+        {
+            const num = parseInt(charNode.getAttribute("kHKGlyph"));
+            const c =  utf16hex2char(cp) ;
+            
+            if ( ! edu_data.HK_numed [ num ] )
+                edu_data.HK_numed [ num ] = [ c ];
+            else
+                edu_data.HK_numed [ num ] .push (c) ;
+            
+            edu_data.HK.push(c);
+        }
         
         if (charNode.getAttribute("kTGH"))
         {
@@ -182,12 +196,34 @@ async function start()
         }
     }
     
+
+    
     fs.writeFileSync("unicode-data-Cc.js",( "unicode_data.Cc =\n" + JSON.stringify( unicode_data.Cc) + "\n;")
         .replaceAll(",", ",\n")
     );    
     fs.writeFileSync("unicode-data-Mn.js",( "unicode_data.Mn =\n" + JSON.stringify( unicode_data.Mn) + "\n;")
         .replaceAll(",", ",\n")
     );    
+    
+//     fs.writeFileSync("unicode-data-as-edu-data-HKnumed.json",  JSON.stringify(edu_data.HK_numed) 
+//         .replaceAll("],", "],\n")
+//     );    
+
+    for ( i in edu_data.HK_numed )
+    {
+        const arr = edu_data.HK_numed [i];
+        if ( arr.length > 1 ) 
+        {
+            relTheseChars(edu_data.HK_map, arr);
+        }
+    }
+    edu_data.HK_map = sortMapObj(edu_data.HK_map);
+    fs.writeFileSync("unicode-data-as-edu-data-HK-rel.js" , ( "edu_data.HK_rel = \n" + JSON.stringify(edu_data.HK_map) + "\n;" )
+        .replaceAll("},", "},\n")
+    );
+    fs.writeFileSync("unicode-data-as-edu-data-HK.js" , ( "edu_data.HK = \n" + JSON.stringify(edu_data.HK) + "\n;" )
+        .replaceAll(",", ",\n")
+    );
     
     var previous_age = undefined;
     var previous_cp = 0 ;
@@ -413,7 +449,7 @@ async function start()
         
     }
     
-    for (c of unicode_data.chars_kHKGlyph)
+    for (c of edu_data.HK)
     {
         createKey(c, unicode_data.map2);
         unicode_data.map2[c] ['isEdu_HK'] = true;
@@ -561,10 +597,20 @@ function unionSet(setA, setB) {
     return _union;
 }
 
+// 在某个mapObj中，给数组中的字互相关联起来，不加任何标记
+function relTheseChars(mapObj, charsArr)
+{
+    for ( c of charsArr )
+    {
+        createKey( c,  mapObj);
+        updateCharRel(mapObj, c , charsArr);
+    }
+}
+
 function updateCharRel(mapObj, char, updatedRelSet)
 {
     var newSet = new Set(updatedRelSet);
-    newSet.delete(char);
+    newSet.delete(char);            //从数组中去掉这个当索引的字本身
     
     //     if ( mapObj[char]['rel'].length)
     //     {
