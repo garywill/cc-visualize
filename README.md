@@ -195,24 +195,30 @@ UCD提供txt（文件数量多）和[xml](https://www.unicode.org/Public/15.0.0/
 
 - 地区代号CN
 
-  [《通用规范汉字表》](https://zh.wikipedia.org/wiki/通用规范汉字表)（2013）（本工具数据内容取自UCD的`kTGH`参数。因官方链接提供的[原文件](http://www.gov.cn/gzdt/att/att/site1/20130819/tygfhzb.pdf)是图片PDF）。分为三级：
+  [《通用规范汉字表》](https://zh.wikipedia.org/wiki/通用规范汉字表)（2013）。分为三级：
   - 一级字表 3500字
   - 二级字表 3000字
   - 三级字表 1605字
 
   其中一、二级在此认为皆是简体字，三级不视为一定是简体。附件中的繁、异体对照表这里未采用
+  
+  本工具数据内容取自UCD的`kTGH`参数。因官方链接提供的[原文件](http://www.gov.cn/gzdt/att/att/site1/20130819/tygfhzb.pdf)是图片PDF
 
 - 地区代号HK
 
-  [《常用字字形表》](https://zh.wikipedia.org/wiki/常用字字形表) 4759字（实际加上同义字后更多）（本工具数据内容取自UCD的`kHKGlyph`参数）
+  [《常用字字形表》](https://zh.wikipedia.org/wiki/常用字字形表) 4759字（实际加上同义字后更多）
+  
+  本工具数据内容取自UCD的`kHKGlyph`参数
 
 - 地区代号TW
 
-  - [《常用國字標準字體表》](https://language.moe.gov.tw/001/Upload/Files/site_content/download/mandr/教育部4808個常用字.ods)（甲表）（1979） 4808字 （本工具数据取自其官方网站ods格式电子表格）
-  - [《次常用國字標準字體表》](https://zh.wikisource.org/wiki/%E6%AC%A1%E5%B8%B8%E7%94%A8%E5%9C%8B%E5%AD%97%E6%A8%99%E6%BA%96%E5%AD%97%E9%AB%94%E8%A1%A8)（乙表）（1982首次） 6000多字 （本工具数据内容取自非官方链接。另见 CNS 11643 部分）
+  - [《常用國字標準字體表》](https://language.moe.gov.tw/001/Upload/Files/site_content/download/mandr/教育部4808個常用字.ods)（甲表）（1979） 4808字 
+  - [《次常用國字標準字體表》](https://zh.wikisource.org/wiki/%E6%AC%A1%E5%B8%B8%E7%94%A8%E5%9C%8B%E5%AD%97%E6%A8%99%E6%BA%96%E5%AD%97%E9%AB%94%E8%A1%A8)（乙表）（1982首次） 6000多字 
   - （本工具未采用）《罕用國字標準字體表》（丙表）（1983） 18300+ 字； 《異體國字字表》（丁表）（1984） 18500+字； 《異體字字典》 约29000字
 
   甲表中的字在此视为皆是繁体字，其他表不然
+  
+  本工具的甲、乙表数据取自 CNS 11643
   
 
 下例为总合了以上地区官方中文教育制定的常用字表后的部分数据

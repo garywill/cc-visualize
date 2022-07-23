@@ -463,33 +463,6 @@ async function start()
         
     }
     
-    for (c of edu_data.HK)
-    {
-        createKey(c, unicode_data.map2);
-        unicode_data.map2[c] ['isEdu_HK'] = true;
-        unicode_data.map2[c] ['isEdu'] = true;
-    }
-
-    for (c of edu_data.CN_1c)
-    {
-        createKey(c, unicode_data.map2);
-        unicode_data.map2[c] ['isEdu_CN_1c'] = true;
-        unicode_data.map2[c] ['isEdu'] = true;
-    }
-
-    for (c of edu_data.CN_2c)
-    {
-        createKey(c, unicode_data.map2);
-        unicode_data.map2[c] ['isEdu_CN_2c'] = true;
-        unicode_data.map2[c] ['isEdu'] = true;
-    }
-
-    for (c of edu_data.CN_3c)
-    {
-        createKey(c, unicode_data.map2);
-        unicode_data.map2[c] ['isEdu_CN_3c'] = true;
-        unicode_data.map2[c] ['isEdu'] = true;
-    }
 
     
     unicode_data.map2 = sortMapObj(unicode_data.map2);
