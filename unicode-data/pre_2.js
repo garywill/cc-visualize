@@ -28,8 +28,6 @@ var unicode_data = {
     
     ages: [],
     
-    chars_kTGH: {1: [], 2: [], 3: [] }, 
-    
     Cc: [], 
     Mn: [], 
 };
@@ -38,6 +36,10 @@ var edu_data = {
     HK_numed : {}, // 所有字，带编号
     HK: [], // 只有单字的数组
     HK_map: {}, 
+    
+    CN_1c: [], 
+    CN_2c: [], 
+    CN_3c: [], 
 };
 // 这些都算作控制字符
 const gcs_Cc = [   'Cc', 'Cf',  'Zl', 'Zp', 'Zs'   ];
@@ -177,11 +179,11 @@ async function start()
             const kTGH = charNode.getAttribute("kTGH");
             var ind = parseInt ( kTGH.split(":")[1] );
             if (1 <= ind && ind <= 3500)
-                unicode_data.chars_kTGH [1] .push( utf16hex2char(cp) );
+                edu_data.CN_1c .push( utf16hex2char(cp) );
             else if ( 3501 <= ind && ind <= 6500)
-                unicode_data.chars_kTGH [2] .push( utf16hex2char(cp) );
+                edu_data.CN_2c .push( utf16hex2char(cp) );
             else if (6501 <= ind && ind <= 8105)
-                unicode_data.chars_kTGH [3] .push( utf16hex2char(cp) );
+                edu_data.CN_3c .push( utf16hex2char(cp) );
         }
         
         const gc = charNode.getAttribute("gc");
@@ -225,6 +227,16 @@ async function start()
         .replaceAll(",", ",\n")
     );
     
+    fs.writeFileSync("unicode-data-as-edu-data-CN-1c.js" , ( "edu_data.CN_1c = \n" + JSON.stringify(edu_data.CN_1c) + "\n;" )
+        .replaceAll(",", ",\n")
+    );
+    fs.writeFileSync("unicode-data-as-edu-data-CN-2c.js" , ( "edu_data.CN_2c = \n" + JSON.stringify(edu_data.CN_2c) + "\n;" )
+        .replaceAll(",", ",\n")
+    );
+    fs.writeFileSync("unicode-data-as-edu-data-CN-3c.js" , ( "edu_data.CN_3c = \n" + JSON.stringify(edu_data.CN_3c) + "\n;" )
+        .replaceAll(",", ",\n")
+    );
+   
     var previous_age = undefined;
     var previous_cp = 0 ;
     var current_age_start_pos = undefined;
@@ -456,21 +468,21 @@ async function start()
         unicode_data.map2[c] ['isEdu'] = true;
     }
 
-    for (c of unicode_data.chars_kTGH [1])
+    for (c of edu_data.CN_1c)
     {
         createKey(c, unicode_data.map2);
         unicode_data.map2[c] ['isEdu_CN_1c'] = true;
         unicode_data.map2[c] ['isEdu'] = true;
     }
 
-    for (c of unicode_data.chars_kTGH [2])
+    for (c of edu_data.CN_2c)
     {
         createKey(c, unicode_data.map2);
         unicode_data.map2[c] ['isEdu_CN_2c'] = true;
         unicode_data.map2[c] ['isEdu'] = true;
     }
 
-    for (c of unicode_data.chars_kTGH [3])
+    for (c of edu_data.CN_3c)
     {
         createKey(c, unicode_data.map2);
         unicode_data.map2[c] ['isEdu_CN_3c'] = true;
