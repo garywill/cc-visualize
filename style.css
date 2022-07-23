@@ -96,6 +96,9 @@
     border-right: 3px dashed #d38600;
     border-top: 3px dashed #d38600;
 }
+.UCcss_blk_pua {
+    background-color: grey;
+}
             
 .span_unusualWarn {
     font-size: 15px;
