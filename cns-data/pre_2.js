@@ -1,5 +1,7 @@
 var fs = require('fs');
 
+eval(fs.readFileSync('../pre_common/functions.js').toString());
+
 const cns2uni_files = [
 // "MapingTables/Unicode/CNS2UNICODE_Unicode 15.txt", 
 "MapingTables/Unicode/CNS2UNICODE_Unicode 2.txt", 
@@ -64,14 +66,5 @@ function cnsTxtFile2vars(cnsTxtFileName, cnsVar, charsVar)
         var c = utf16hex2char(c_uni);
         edu_tw [charsVar] .push (c);
     }
-}
-
-
-
-function utf16hex2char(hexStr) // 输入可以是 3F2F U+3AB2 
-{
-    hexStr = hexStr.replaceAll("U+", "");
-//     console.log(hexStr);
-    return String.fromCodePoint( parseInt(hexStr, 16) );
 }
 

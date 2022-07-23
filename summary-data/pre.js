@@ -7,6 +7,7 @@ var summary_data = {
 };
 
 var fs = require('fs');
+eval(fs.readFileSync('../pre_common/functions.js').toString());
 
 // file is included here:
 eval(fs.readFileSync('../opencc-data/opencc-data-map2.js').toString());
@@ -304,108 +305,5 @@ function eduTxtToArr(txt) {
     return txt;
 }
 
-function updateCharRel(mapObj, char, updatedRelSet)
-{
-    var newSet = new Set(updatedRelSet);
-    newSet.delete(char);
-
-    mapObj[char]['rel'] = [...newSet].sort();
-}
-
-//参数char可以是字符串（单个字），也可以是数组（一个元素是一个字）
-//参数mapObj指定要从哪一个表中读取
-//把输入的一个或多个字的目前表中已知的关联字都找出来
-function getAllRel( mapObj, chars)
-{
-    if ( typeof(chars) === "string" )
-        chars = [chars];
-    
-    var set = new Set();
-    
-    chars.forEach( function(char) {
-        set.add(char);
-        
-        if (mapObj[char] !== undefined)
-        {
-            mapObj[char]['rel'].forEach( function(relChar) {
-                set.add(relChar);
-            });
-        }
-    });
-    
-    return [...set];
-}
-
-function combineCharObj(c , fromMap1, fromMap2) 
-{
-    var map1obj = fromMap1[c] ? JSON.parse(JSON.stringify( fromMap1 [c] )) : { rel: [] };
-    var map2obj = fromMap2[c] ? JSON.parse(JSON.stringify( fromMap2 [c] )) : { rel: [] } ;
-    
-    var coRel = [ ... unionSet( (new Set(map1obj['rel'])) , (new Set(map2obj['rel'])) ) ] ;
-    
-    var newCObj = {
-        rel : coRel,
-    };
-    
-    delete map1obj['rel'];
-    delete map2obj['rel'];
-    
-    for (kn in map1obj) 
-    {
-        newCObj[kn] = map1obj[kn];
-    }
-    for (kn in map2obj) 
-    {
-        newCObj[kn] = map2obj[kn];
-    }
-    
-    return newCObj;
-}
-
-function unionSet(setA, setB) {
-    let _union = new Set(setA);
-    for (let elem of setB) {
-        _union.add(elem);
-    }
-    return _union;
-}
-
-function createKey( key , mapObj)
-{
-    if ( mapObj[key] === undefined)
-    {
-        mapObj[key] = { 
-            "rel" : []
-        };
-    }
-}
 
 
-function sortMapObj(mapObj) {
-    
-    var newMapObj = {};
-    const origI = Object.keys(mapObj).sort();
-    for ( c of origI )
-    {
-        if ( Array.isArray(mapObj[c]) )
-            newMapObj[c] = JSON.parse( JSON.stringify( mapObj[c] ) );
-        else
-        {
-            newMapObj [c] = {};
-            
-            if ( Array.isArray(mapObj [c] ['rel'] ) )
-            {
-                newMapObj [c] ['rel']  = JSON.parse( JSON.stringify( mapObj [c] ['rel'] .sort() ) );
-            }
-            
-            var otherIsAttrs = new Set ( Object.keys(mapObj [c]) ) ;
-            otherIsAttrs.delete ('rel');
-            otherIsAttrs = [...otherIsAttrs].sort();
-            for (attr of otherIsAttrs)
-            {
-                newMapObj [c] [attr] = JSON.parse( JSON.stringify( mapObj [c] [attr] ) );
-            }
-        }
-    }
-    return newMapObj;
-}
