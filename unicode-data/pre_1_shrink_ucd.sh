@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ ! -f "ucd.all.flat.xml" ]]; then
-     echo "Can't find ucd.all.flat.xml . Download it from https://www.unicode.org/Public/15.0.0/ucdxml/" >&2
+     echo "Can't find ucd.all.flat.xml . Download it from https://www.unicode.org/Public/xx.x.x/ucdxml/" >&2
      exit 1
 fi
 

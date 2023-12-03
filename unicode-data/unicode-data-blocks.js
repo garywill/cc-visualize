@@ -324,6 +324,7 @@ unicode_data.blocks =
 {"name":"Chess Symbols","first_cp":129536,"last_cp":129647},
 {"name":"Symbols and Pictographs Extended-A","first_cp":129648,"last_cp":129791},
 {"name":"Symbols for Legacy Computing","first_cp":129792,"last_cp":130047},
+{"name":"CJK Unified Ideographs Extension I","first_cp":191472,"last_cp":192095},
 {"name":"Tags","first_cp":917504,"last_cp":917631},
 {"name":"Variation Selectors Supplement","first_cp":917760,"last_cp":917999}]
 ;
