@@ -1,7 +1,7 @@
 var fs = require('fs');
 const { DOMParser, XMLSerializer } = require('@xmldom/xmldom')
 
-eval(fs.readFileSync('../pre_common/functions.js').toString());
+const cm = require('../pre_common/functions.js');
 
 // 共有<char> 149254 个
 
@@ -161,12 +161,12 @@ async function start()
             }
         }
         if ( blk.includes("CJK_Compat") && UIdeo == "Y" )
-            unicode_data.charsAreUnif.push( utf16hex2char(cp) );
+            unicode_data.charsAreUnif.push( cm.utf16hex2char(cp) );
         
         if (charNode.getAttribute("kHKGlyph"))
         {
             const num = parseInt(charNode.getAttribute("kHKGlyph"));
-            const c =  utf16hex2char(cp) ;
+            const c =  cm.utf16hex2char(cp) ;
             
             if ( ! edu_data.HK_numed [ num ] )
                 edu_data.HK_numed [ num ] = [ c ];
@@ -181,11 +181,11 @@ async function start()
             const kTGH = charNode.getAttribute("kTGH");
             var ind = parseInt ( kTGH.split(":")[1] );
             if (1 <= ind && ind <= 3500)
-                edu_data.CN_1c .push( utf16hex2char(cp) );
+                edu_data.CN_1c .push( cm.utf16hex2char(cp) );
             else if ( 3501 <= ind && ind <= 6500)
-                edu_data.CN_2c .push( utf16hex2char(cp) );
+                edu_data.CN_2c .push( cm.utf16hex2char(cp) );
             else if (6501 <= ind && ind <= 8105)
-                edu_data.CN_3c .push( utf16hex2char(cp) );
+                edu_data.CN_3c .push( cm.utf16hex2char(cp) );
         }
         
         const gc = charNode.getAttribute("gc");
@@ -218,10 +218,10 @@ async function start()
         const arr = edu_data.HK_numed [i];
         if ( arr.length > 1 ) 
         {
-            relTheseChars(edu_data.HK_map, arr);
+            cm.relTheseChars(edu_data.HK_map, arr);
         }
     }
-    edu_data.HK_map = sortMapObj(edu_data.HK_map);
+    edu_data.HK_map = cm.sortMapObj(edu_data.HK_map);
     fs.writeFileSync("unicode-data-as-edu-data-HK-rel.js" , ( "edu_data.HK_rel = \n" + JSON.stringify(edu_data.HK_map) + "\n;" )
         .replaceAll("},", "},\n")
     );
@@ -349,7 +349,7 @@ async function start()
     // 所有k___Variants转json
     for ( objI in unicode_data.unihan_variants_raw) 
     {
-        const left = utf16hex2char(objI);
+        const left = cm.utf16hex2char(objI);
         
         const objVal = unicode_data.unihan_variants_raw [objI];
         for ( kVarN in objVal )
@@ -361,7 +361,7 @@ async function start()
             var right_arr = [];
             for (s of right_arr_orig) 
             {
-                right_arr.push( utf16hex2char(s) );
+                right_arr.push( cm.utf16hex2char(s) );
             }
             
             unicode_data.unihan_variants [left] = {};
@@ -399,9 +399,9 @@ async function start()
     
     
     // 生成一个繁简map。
-    mapTnS(unicode_data.map, unicode_data.ST, "ST");
-    mapTnS(unicode_data.map, unicode_data.TS, "TS");
-    unicode_data.map = sortMapObj(unicode_data.map);
+    cm.mapTnS(unicode_data.map, unicode_data.ST, "ST");
+    cm.mapTnS(unicode_data.map, unicode_data.TS, "TS");
+    unicode_data.map = cm.sortMapObj(unicode_data.map);
 //     fs.writeFileSync("unicode-data-map.js" , ( "unicode_data.map = \n" + JSON.stringify(unicode_data.map) + "\n;" )
 //         .replaceAll("},", "},\n")
 //     );
@@ -414,16 +414,16 @@ async function start()
     {
         if ( unicode_data.unihan_variants [c] ["kZVariant"] )
         {
-            var oldRels1 = getAllRel( unicode_data.map2, c );
-            var oldRels2 = getAllRel( unicode_data.map2,  unicode_data.unihan_variants [c] ["kZVariant"] );
-            var oldRels = [ ... unionSet( (new Set(oldRels1)) , (new Set(oldRels2)) ) ] ;
+            var oldRels1 = cm.getAllRel( unicode_data.map2, c );
+            var oldRels2 = cm.getAllRel( unicode_data.map2,  unicode_data.unihan_variants [c] ["kZVariant"] );
+            var oldRels = [ ... cm.unionSet( (new Set(oldRels1)) , (new Set(oldRels2)) ) ] ;
             
             var newRels = oldRels;
             newRels.push(c);
             for ( cN of newRels )
             {
-                createKey( cN,  unicode_data.map2);
-                updateCharRel(unicode_data.map2, cN , newRels);
+                cm.createKey( cN,  unicode_data.map2);
+                cm.updateCharRel(unicode_data.map2, cN , newRels);
             }
         }
     }
@@ -432,13 +432,13 @@ async function start()
     {
         if ( unicode_data.unihan_variants [c] ["kCompatibilityVariant"] )
         {
-            var oldRels1 = getAllRel( unicode_data.map2, c );
-            var oldRels2 = getAllRel( unicode_data.map2,  unicode_data.unihan_variants [c] ["kCompatibilityVariant"] );
-            var oldRels = [ ... unionSet( (new Set(oldRels1)) , (new Set(oldRels2)) ) ] ;
+            var oldRels1 = cm.getAllRel( unicode_data.map2, c );
+            var oldRels2 = cm.getAllRel( unicode_data.map2,  unicode_data.unihan_variants [c] ["kCompatibilityVariant"] );
+            var oldRels = [ ... cm.unionSet( (new Set(oldRels1)) , (new Set(oldRels2)) ) ] ;
              
-            createKey( c,  unicode_data.map2);
+            cm.createKey( c,  unicode_data.map2);
             unicode_data.map2[c] ['isComp'] = true;
-            updateCharRel(unicode_data.map2, c , oldRels);
+            cm.updateCharRel(unicode_data.map2, c , oldRels);
         }
     }
     
@@ -446,26 +446,26 @@ async function start()
     {
         if ( unicode_data.unihan_variants [c] ["EqUIdeo"] )
         {
-            var oldRels1 = getAllRel( unicode_data.map2, c );
-            var oldRels2 = getAllRel( unicode_data.map2,  unicode_data.unihan_variants [c] ["EqUIdeo"] );
-            var oldRels = [ ... unionSet( (new Set(oldRels1)) , (new Set(oldRels2)) ) ] ;
+            var oldRels1 = cm.getAllRel( unicode_data.map2, c );
+            var oldRels2 = cm.getAllRel( unicode_data.map2,  unicode_data.unihan_variants [c] ["EqUIdeo"] );
+            var oldRels = [ ... cm.unionSet( (new Set(oldRels1)) , (new Set(oldRels2)) ) ] ;
              
-            createKey( c,  unicode_data.map2);
+            cm.createKey( c,  unicode_data.map2);
             unicode_data.map2[c] ['isRad'] = true;
-            updateCharRel(unicode_data.map2, c , oldRels);
+            cm.updateCharRel(unicode_data.map2, c , oldRels);
         }
         
     }
     for ( c of unicode_data.charsAreUnif )
     {
-        createKey(c, unicode_data.map2);
+        cm.createKey(c, unicode_data.map2);
         unicode_data.map2[c] ['isUnif'] = true;
         
     }
     
 
     
-    unicode_data.map2 = sortMapObj(unicode_data.map2);
+    unicode_data.map2 = cm.sortMapObj(unicode_data.map2);
     fs.writeFileSync("unicode-data-map2.js" , ( "unicode_data.map2 = \n" + JSON.stringify(unicode_data.map2) + "\n;" )
         .replaceAll("},", "},\n")
     );

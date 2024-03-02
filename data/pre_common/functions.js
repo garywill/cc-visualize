@@ -225,3 +225,18 @@ function createKey( key , mapObj)
     }
 }
  
+module.exports = {
+    utf16hex2char,
+    mapTnS,
+    getAllRel,
+    haveTSRelation,
+    addTSRelation,
+    relTheseChars,
+    updateCharRel,
+    sortMapObj,
+    combineMap,
+    combineCharObj,
+    unionSet,
+    createKey,
+    
+};

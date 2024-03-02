@@ -8,7 +8,7 @@ var summary_data = {
 };
 
 var fs = require('fs');
-eval(fs.readFileSync('../pre_common/functions.js').toString());
+const cm = require('../pre_common/functions.js');
 
 // file is included here:
 eval(fs.readFileSync('../unicode-data/unicode-data-map2.js').toString());
@@ -75,22 +75,22 @@ async function start()
     
     for (c in summary_data.map2 )
     {
-        summary_data.map2 [c] = combineCharObj(c, summary_data.map2, unicode_data.map2);
+        summary_data.map2 [c] = cm.combineCharObj(c, summary_data.map2, unicode_data.map2);
     }    
     for (c in unicode_data.map2 )
     {
-        summary_data.map2 [c] = combineCharObj(c, summary_data.map2, unicode_data.map2);
+        summary_data.map2 [c] = cm.combineCharObj(c, summary_data.map2, unicode_data.map2);
     }    
     
     
     for (c in summary_data.map2 )
     {
-        summary_data.map2 [c] = combineCharObj(c, summary_data.map2, opencc.map2);
+        summary_data.map2 [c] = cm.combineCharObj(c, summary_data.map2, opencc.map2);
     }
     
     for (c in opencc.map2 )
     {
-        summary_data.map2 [c] = combineCharObj(c, summary_data.map2, opencc.map2);
+        summary_data.map2 [c] = cm.combineCharObj(c, summary_data.map2, opencc.map2);
     }
     
     
@@ -111,7 +111,7 @@ async function start()
 //         }
 
     }
-    summary_data.map2 = combineMap ( summary_data.map2, edu_data.map2 );
+    summary_data.map2 = cm.combineMap ( summary_data.map2, edu_data.map2 );
 
     
     for (c in summary_data.map2)
@@ -130,8 +130,8 @@ async function start()
         
         if (cObj['isComp'])
         {
-            var rels = getAllRel( summary_data.map2, cObj['rel'] );
-            updateCharRel(summary_data.map2 , c , rels);
+            var rels = cm.getAllRel( summary_data.map2, cObj['rel'] );
+            cm.updateCharRel(summary_data.map2 , c , rels);
         }
     }
     
@@ -141,8 +141,8 @@ async function start()
         
         if (cObj['isRad'])
         {
-            var rels = getAllRel( summary_data.map2, cObj['rel'] );
-            updateCharRel(summary_data.map2 , c , rels);
+            var rels = cm.getAllRel( summary_data.map2, cObj['rel'] );
+            cm.updateCharRel(summary_data.map2 , c , rels);
         }
     }
 
@@ -152,8 +152,8 @@ async function start()
         
         if (cObj['isVari_TW'] && ( !cObj['isSimp'] && !cObj['isTrad'] ) )
         {
-            var rels = getAllRel( summary_data.map2, cObj['rel'] );
-            updateCharRel(summary_data.map2 , c , rels);
+            var rels = cm.getAllRel( summary_data.map2, cObj['rel'] );
+            cm.updateCharRel(summary_data.map2 , c , rels);
         }
     }
     
@@ -163,8 +163,8 @@ async function start()
         
         if (cObj['isVari_HK'] && ( !cObj['isSimp'] && !cObj['isTrad'] ) )
         {
-            var rels = getAllRel( summary_data.map2, cObj['rel'] );
-            updateCharRel(summary_data.map2 , c , rels);
+            var rels = cm.getAllRel( summary_data.map2, cObj['rel'] );
+            cm.updateCharRel(summary_data.map2 , c , rels);
         }
     }
     
@@ -174,8 +174,8 @@ async function start()
         
         if (cObj['isVari_JP'] && ( !cObj['isSimp'] && !cObj['isTrad'] ) )
         {
-            var rels = getAllRel( summary_data.map2, cObj['rel'] );
-            updateCharRel(summary_data.map2 , c , rels);
+            var rels = cm.getAllRel( summary_data.map2, cObj['rel'] );
+            cm.updateCharRel(summary_data.map2 , c , rels);
         }
     }
     
@@ -259,7 +259,7 @@ async function start()
     
     
     
-    summary_data.map2 = sortMapObj(summary_data.map2);
+    summary_data.map2 = cm.sortMapObj(summary_data.map2);
     fs.writeFileSync("summary-data-map2.js" , ( "summary_data.map2 = \n" + JSON.stringify(summary_data.map2) + "\n;" )
         .replaceAll("},", "},\n")
     );

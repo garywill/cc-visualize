@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-eval(fs.readFileSync('../pre_common/functions.js').toString());
+const cm = require('../pre_common/functions.js');
 
 const cns2uni_files = [
 // "MapingTables/Unicode/CNS2UNICODE_Unicode 15.txt", 
@@ -63,7 +63,7 @@ function cnsTxtFile2vars(cnsTxtFileName, cnsVar, charsVar)
         if ( ! c_uni )
             continue;
         
-        var c = utf16hex2char(c_uni);
+        var c = cm.utf16hex2char(c_uni);
         edu_tw [charsVar] .push (c);
     }
 }

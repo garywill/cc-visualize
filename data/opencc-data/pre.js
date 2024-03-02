@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-eval(fs.readFileSync('../pre_common/functions.js').toString());
+const cm = require('../pre_common/functions.js');
 
 var edu_data = {};
 eval(fs.readFileSync('../edu-data/edu-data-map2.js').toString());
@@ -97,9 +97,9 @@ async function init_opencc()
             .replaceAll("],", "],\n")
         );
         
-        mapTnS(map, STj, "ST");
-        mapTnS(map, TSj, "TS");
-        map = sortMapObj(map);
+        cm.mapTnS(map, STj, "ST");
+        cm.mapTnS(map, TSj, "TS");
+        map = cm.sortMapObj(map);
         opencc.map = map;
 //         fs.writeFileSync( "opencc-data-map.js", ( "opencc.map = \n" + JSON.stringify(map) + "\n;" )
 //             .replaceAll("},", "},\n")
@@ -111,7 +111,7 @@ async function init_opencc()
         checkVariants(HKVj, "HK");
         checkVariants(TWVj, "TW");
         checkVariants(JPVj, "JP");
-        map2 = sortMapObj(map2);
+        map2 = cm.sortMapObj(map2);
         opencc.map2 = map2;
         fs.writeFileSync( "opencc-data-map2.js", ( "opencc.map2 = \n" + JSON.stringify(map2) + "\n;" )
             .replaceAll("},", "},\n")
@@ -121,7 +121,7 @@ async function init_opencc()
         map3 = JSON.parse(JSON.stringify(map2));
         
         finishMap3();
-        map3 = sortMapObj(map3);
+        map3 = cm.sortMapObj(map3);
         opencc.map3 = map3;
         fs.writeFileSync( "opencc-data-map3.js", ( "opencc.map3 = \n" + JSON.stringify(map3) + "\n;" )
             .replaceAll("},", "},\n")
@@ -137,11 +137,11 @@ async function init_opencc()
         {
             var newSet = new Set(map3[char].rel);
             newSet.add(char);
-            newSet = new Set(getAllRel(map3, newSet));
+            newSet = new Set(cm.getAllRel(map3, newSet));
             
             for (write_char of newSet) 
             {
-                createKey(write_char, map3);
+                cm.createKey(write_char, map3);
                 
                 var write_newSet = new Set(newSet);
                 write_newSet.delete(write_char);
@@ -160,7 +160,7 @@ async function init_opencc()
         
         for ( left in obj )
         {
-            createKey( left, map2);
+            cm.createKey( left, map2);
             
             if ( ! map2 [left] ['isSimp'] && ! map2 [left] ['isTrad'] )
                 map2[left]['isChi'] = true;
@@ -199,7 +199,7 @@ async function init_opencc()
             
             for (char of candi)
             {
-                if ( haveTSRelation(map, char, left) )
+                if ( cm.haveTSRelation(map, char, left) )
                 {
                     //                 console.log(`正在处理${zone}变体关系，${char} 与 ${left} 已有繁简关系，故不判断为变体`);
                     candi_filtered.delete( char );
@@ -208,13 +208,13 @@ async function init_opencc()
             
             for( char of candi_filtered )
             {
-                createKey(char, map2);
+                cm.createKey(char, map2);
                 map2[char]['isVari_'+zone] = true;
             }
             
             var all_chars = [...candi_filtered];
             all_chars.push(left);
-            var allRel = getAllRel(map, all_chars);
+            var allRel = cm.getAllRel(map, all_chars);
             
             addVariantRel( [...candi_filtered], allRel );
         };  
@@ -233,7 +233,7 @@ async function init_opencc()
         var updatedRelSet = new Set(relToAddArr);
         
         variChars.forEach( function(char) {
-            createKey(char, map2);
+            cm.createKey(char, map2);
             map2[char]['rel'].forEach( function (relChar) {
                 updatedRelSet.add(relChar);
             });
@@ -268,7 +268,7 @@ async function init_opencc()
             json[left] = right_arr.sort();
         })
         
-        json = sortMapObj(json);
+        json = cm.sortMapObj(json);
         
         return json;
     }
