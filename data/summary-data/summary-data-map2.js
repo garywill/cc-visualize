@@ -8907,7 +8907,7 @@ summary_data.map2 =
 "礰":{"rel":["𰦦"],"isTrad":true},
 "礱":{"rel":["砻"],"isEdu":true,"isEdu_TW_B":true,"isTrad":true},
 "礲":{"rel":["𰦭"],"isTrad":true},
-"礴":{"rel":[],"isEdu":true,"isEdu_CN_2c":true,"isEdu_TW_B":true},
+"礴":{"rel":[],"isEdu":true,"isEdu_CN_2c":true},
 "礵":{"rel":[],"isEdu":true,"isEdu_CN_3c":true,"isEdu_TW_B":true},
 "礹":{"rel":["𰦾"],"isTrad":true},
 "示":{"rel":[],"isEdu":true,"isEdu_CN_1c":true,"isEdu_HK":true,"isEdu_TW_A":true},

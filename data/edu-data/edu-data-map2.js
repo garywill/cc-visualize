@@ -7310,7 +7310,7 @@ edu_data.map2 =
 "礬":{"rel":[],"isEdu_HK":true,"isEdu_TW_A":true},
 "礭":{"rel":[],"isEdu_TW_B":true},
 "礱":{"rel":[],"isEdu_TW_B":true},
-"礴":{"rel":[],"isEdu_CN_2c":true,"isEdu_TW_B":true},
+"礴":{"rel":[],"isEdu_CN_2c":true},
 "礵":{"rel":[],"isEdu_CN_3c":true,"isEdu_TW_B":true},
 "示":{"rel":[],"isEdu_CN_1c":true,"isEdu_HK":true,"isEdu_TW_A":true},
 "礼":{"rel":[],"isEdu_CN_1c":true},
