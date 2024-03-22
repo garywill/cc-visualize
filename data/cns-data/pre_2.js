@@ -19,13 +19,13 @@ var edu_tw = {
     edu_tw_500: [], 
 };
 
-for ( filepath of cns2uni_files )
+for (var filepath of cns2uni_files )
 {
     const full_filepath = "cns11643/" + filepath;
     const cns2uni_file_content = fs.readFileSync(full_filepath, 'utf8' );
     
     const cns2uni_lineS = cns2uni_file_content.split('\n');
-    for ( cns2uni_line of cns2uni_lineS )
+    for ( var  cns2uni_line of cns2uni_lineS )
     {
         if ( !cns2uni_line )
             continue;
@@ -53,7 +53,7 @@ fs.writeFileSync("cns-data-as-edu-data-TW-B.json", JSON.stringify( edu_tw.edu_tw
 function cnsTxtFile2vars(cnsTxtFileName, cnsVar, charsVar)
 {
     edu_tw [cnsVar] = fs.readFileSync(cnsTxtFileName, 'utf8').split("\n");
-    for ( c_cns of edu_tw [cnsVar] )
+    for ( var  c_cns of edu_tw [cnsVar] )
     {
         var c_uni = cns2uni_map [ c_cns ];
         if ( ! c_uni )

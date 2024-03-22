@@ -35,7 +35,7 @@ async function start()
 {
 
     // 用edu修正ucd的繁简标记
-    for (c in unicode_data.map2)
+    for ( var c in unicode_data.map2)
     {
         const uObj = unicode_data.map2[c];
         const sObj = edu_data.map2[c];
@@ -55,7 +55,7 @@ async function start()
         }
     } 
     
-    for (c in unicode_data.map2)
+    for ( var c in unicode_data.map2)
     {
         const uObj = unicode_data.map2[c];
         const sObj = edu_data.map2[c];
@@ -77,28 +77,28 @@ async function start()
     
     
     
-    for (c in summary_data.map2 )
+    for ( var c in summary_data.map2 )
     {
         summary_data.map2 [c] = cm.combineCharObj(c, summary_data.map2, unicode_data.map2);
     }    
-    for (c in unicode_data.map2 )
+    for ( var c in unicode_data.map2 )
     {
         summary_data.map2 [c] = cm.combineCharObj(c, summary_data.map2, unicode_data.map2);
     }    
     
     
-    for (c in summary_data.map2 )
+    for ( var c in summary_data.map2 )
     {
         summary_data.map2 [c] = cm.combineCharObj(c, summary_data.map2, opencc.map2);
     }
     
-    for (c in opencc.map2 )
+    for ( var c in opencc.map2 )
     {
         summary_data.map2 [c] = cm.combineCharObj(c, summary_data.map2, opencc.map2);
     }
     
     
-    for ( c in edu_data.map2)
+    for ( var  c in edu_data.map2)
     {
         edu_data.map2 [c] ['isEdu'] = true;
         
@@ -118,7 +118,7 @@ async function start()
     summary_data.map2 = cm.combineMap ( summary_data.map2, edu_data.map2 );
 
     
-    for (c in summary_data.map2)
+    for ( var c in summary_data.map2)
     {
         const cObj = summary_data.map2[c];
         
@@ -128,7 +128,7 @@ async function start()
     
     // cat summary-data-map.js |grep -o 'is.*'|uniq|sort|uniq
     
-    for (c in summary_data.map2)
+    for ( var c in summary_data.map2)
     {
         const cObj = summary_data.map2[c];
         
@@ -139,7 +139,7 @@ async function start()
         }
     }
     
-    for (c in summary_data.map2)
+    for ( var c in summary_data.map2)
     {
         const cObj = summary_data.map2[c];
         
@@ -150,7 +150,7 @@ async function start()
         }
     }
 
-    for (c in summary_data.map2)
+    for ( var c in summary_data.map2)
     {
         const cObj = summary_data.map2[c];
         
@@ -161,7 +161,7 @@ async function start()
         }
     }
     
-    for (c in summary_data.map2)
+    for ( var c in summary_data.map2)
     {
         const cObj = summary_data.map2[c];
         
@@ -172,7 +172,7 @@ async function start()
         }
     }
     
-    for (c in summary_data.map2)
+    for ( var c in summary_data.map2)
     {
         const cObj = summary_data.map2[c];
         
@@ -188,7 +188,7 @@ async function start()
 
 
     // 根据edu加繁简标记
-    for ( c of edu_data.CN_1c )
+    for ( var  c of edu_data.CN_1c )
     {
         const mapObj = summary_data.map2 [c];
 
@@ -199,7 +199,7 @@ async function start()
         }
     }
     
-    for ( c of edu_data.CN_2c )
+    for ( var  c of edu_data.CN_2c )
     {
         const mapObj = summary_data.map2 [c];
 
@@ -212,7 +212,7 @@ async function start()
 
     
     
-    for ( c of edu_data.HK )
+    for ( var  c of edu_data.HK )
     {
         const mapObj = summary_data.map2 [c];
         
@@ -224,7 +224,7 @@ async function start()
     }
     
 
-    for ( c of edu_data.TW_A )
+    for ( var  c of edu_data.TW_A )
     {
         const mapObj = summary_data.map2 [c];
         
@@ -239,7 +239,7 @@ async function start()
     
     
     
-    for (c in summary_data.map2)
+    for ( var c in summary_data.map2)
     {
         const cObj = summary_data.map2[c];
         

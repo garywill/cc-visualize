@@ -13,7 +13,7 @@ function utf16hex2char(hexStr) // 输入可以是 3F2F U+3AB2 1A7323<xxxx
 function mapTnS(mapObj, rawrelObj , ToS)
 {
     
-    for ( left in rawrelObj ) {
+    for ( var  left in rawrelObj ) {
         var right_arr = rawrelObj[left];
         
         
@@ -98,7 +98,7 @@ function addTSRelation(mapObj, simpChars, tradChars)
         set = unionSet(set1, set2);
         
         // 写入（更新）rel
-        for (char of set) 
+        for ( var char of set) 
         {
             updateCharRel(mapObj, char, set)
         }
@@ -110,7 +110,7 @@ function addTSRelation(mapObj, simpChars, tradChars)
 // 在某个mapObj中，给数组中的字互相关联起来，不加任何标记
 function relTheseChars(mapObj, charsArr)
 {
-    for ( c of charsArr )
+    for ( var  c of charsArr )
     {
         createKey( c,  mapObj);
         updateCharRel(mapObj, c , charsArr);
@@ -137,7 +137,7 @@ function sortMapObj(mapObj) {
     
     var newMapObj = {};
     const origI = Object.keys(mapObj).sort();
-    for ( c of origI )
+    for ( var  c of origI )
     {
         if ( Array.isArray(mapObj[c]) )
             newMapObj[c] = JSON.parse( JSON.stringify( mapObj[c] ) );
@@ -153,7 +153,7 @@ function sortMapObj(mapObj) {
             var otherIsAttrs = new Set ( Object.keys(mapObj [c]) ) ;
             otherIsAttrs.delete ('rel');
             otherIsAttrs = [...otherIsAttrs].sort();
-            for (attr of otherIsAttrs)
+            for ( var attr of otherIsAttrs)
             {
                 newMapObj [c] [attr] = JSON.parse( JSON.stringify( mapObj [c] [attr] ) );
             }
@@ -168,11 +168,11 @@ function combineMap(map_1, map_2)
 {
     var rmap = {};
     
-    for (c in map_1 )
+    for ( var c in map_1 )
     {
         rmap [c] = combineCharObj(c, map_1, map_2);
     }    
-    for (c in map_2 )
+    for ( var c in map_2 )
     {
         rmap [c] = combineCharObj(c, map_1, map_2);
     }    
@@ -193,11 +193,11 @@ function combineCharObj(c , fromMap1, fromMap2)
     delete map1obj['rel'];
     delete map2obj['rel'];
     
-    for (kn in map1obj) 
+    for ( var kn in map1obj) 
     {
         newCObj[kn] = map1obj[kn];
     }
-    for (kn in map2obj) 
+    for ( var kn in map2obj) 
     {
         newCObj[kn] = map2obj[kn];
     }
@@ -207,7 +207,7 @@ function combineCharObj(c , fromMap1, fromMap2)
 
 function unionSet(setA, setB) {
     let _union = new Set(setA);
-    for (let elem of setB) {
+    for ( var let elem of setB) {
         _union.add(elem);
     }
     return _union;

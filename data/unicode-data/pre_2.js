@@ -95,7 +95,7 @@ async function start()
     var xmlDocNore = domparser.parseFromString(ucd_nore_data_raw_string, "text/xml");
     var blockNodes = xmlDocNore.getElementsByTagName("ucd")[0].getElementsByTagName("blocks")[0].getElementsByTagName("block");
     var blocksInfoTxt = "";
-    for ( block of Array.from(blockNodes)) {
+    for ( var  block of Array.from(blockNodes)) {
         const name = block.getAttribute("name");
         const first_cp = Number( "0x" + block.getAttribute("first-cp") );
         const last_cp = Number( "0x" + block.getAttribute("last-cp") );
@@ -129,7 +129,7 @@ async function start()
     var charNodes = repertoireNode.getElementsByTagName("char");
     
     //所有k___Variants的raw内容转json
-    for (charNode of Array.from(charNodes) )
+    for ( var charNode of Array.from(charNodes) )
     {
         const blk = charNode.getAttribute("blk");
         const cp =  charNode.getAttribute("cp");
@@ -142,7 +142,7 @@ async function start()
         if (!cp || first_cp || last_cp)
             continue;
         
-        for (kVarN of kVarNames) 
+        for ( var kVarN of kVarNames) 
         {
             const kVarContent =  charNode.getAttribute(kVarN) ;
             if (kVarContent)
@@ -207,7 +207,7 @@ async function start()
 //         .replaceAll("],", "],\n")
 //     );    
 
-    for ( i in edu_data.HK_numed )
+    for ( var  i in edu_data.HK_numed )
     {
         const arr = edu_data.HK_numed [i];
         if ( arr.length > 1 ) 
@@ -309,7 +309,7 @@ async function start()
             return isCpRangePrio (  age_start, age_end );
         }
         function isCpRangePrio(range_start, range_end) {
-            for (prioBlkName of blks_prio)
+            for ( var prioBlkName of blks_prio)
             {
                 const prioBlk_start = unicode_data.blocks_dict[prioBlkName] [0];
                 const prioBlk_end = unicode_data.blocks_dict[prioBlkName] [1];
@@ -329,19 +329,19 @@ async function start()
 
     
     // 所有k___Variants转json
-    for ( objI in unicode_data.unihan_variants_raw) 
+    for ( var  objI in unicode_data.unihan_variants_raw) 
     {
         const left = cm.utf16hex2char(objI);
         
         const objVal = unicode_data.unihan_variants_raw [objI];
-        for ( kVarN in objVal )
+        for ( var  kVarN in objVal )
         {
             
             const right = objVal [kVarN];
             
             var right_arr_orig = right.split(' ');
             var right_arr = [];
-            for (s of right_arr_orig) 
+            for ( var s of right_arr_orig) 
             {
                 right_arr.push( cm.utf16hex2char(s) );
             }
@@ -356,7 +356,7 @@ async function start()
     );
     
     // 繁简互换数据转json
-    for ( c in unicode_data.unihan_variants )
+    for ( var  c in unicode_data.unihan_variants )
     {
         if ( unicode_data.unihan_variants [c] ["kSimplifiedVariant"] )
         {
@@ -392,7 +392,7 @@ async function start()
     
     // 把一些其他k___variant加进新map
     unicode_data.map2 = JSON.parse(JSON.stringify( unicode_data.map )) ;
-    for ( c in unicode_data.unihan_variants )
+    for ( var  c in unicode_data.unihan_variants )
     {
         if ( unicode_data.unihan_variants [c] ["kZVariant"] )
         {
@@ -402,7 +402,7 @@ async function start()
             
             var newRels = oldRels;
             newRels.push(c);
-            for ( cN of newRels )
+            for ( var  cN of newRels )
             {
                 cm.createKey( cN,  unicode_data.map2);
                 cm.updateCharRel(unicode_data.map2, cN , newRels);
@@ -410,7 +410,7 @@ async function start()
         }
     }
     
-    for ( c in unicode_data.unihan_variants )
+    for ( var  c in unicode_data.unihan_variants )
     {
         if ( unicode_data.unihan_variants [c] ["kCompatibilityVariant"] )
         {
@@ -424,7 +424,7 @@ async function start()
         }
     }
     
-    for ( c in unicode_data.unihan_variants )
+    for ( var  c in unicode_data.unihan_variants )
     {
         if ( unicode_data.unihan_variants [c] ["EqUIdeo"] )
         {
@@ -438,7 +438,7 @@ async function start()
         }
         
     }
-    for ( c of unicode_data.charsAreUnif )
+    for ( var  c of unicode_data.charsAreUnif )
     {
         cm.createKey(c, unicode_data.map2);
         unicode_data.map2[c] ['isUnif'] = true;

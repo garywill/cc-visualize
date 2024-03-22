@@ -129,13 +129,13 @@ async function init_opencc()
     function finishMap3() {
         var all_chars = Object.keys(map3);
         
-        for (char of all_chars)
+        for ( var char of all_chars)
         {
             var newSet = new Set(map3[char].rel);
             newSet.add(char);
             newSet = new Set(cm.getAllRel(map3, newSet));
             
-            for (write_char of newSet) 
+            for ( var write_char of newSet) 
             {
                 cm.createKey(write_char, map3);
                 
@@ -154,7 +154,7 @@ async function init_opencc()
     function checkVariants(obj , zone)
     {
         
-        for ( left in obj )
+        for ( var  left in obj )
         {
             cm.createKey( left, map2);
             
@@ -167,7 +167,7 @@ async function init_opencc()
             
             if (zone == "HK" || zone == "TW")
             {
-                for (c of right_arr)
+                for ( var c of right_arr)
                 {
                     if ( map2[c] && map2 [c]['isSimp'] && ! map2 [c]['isTrad'] )
                         map2 [c] ['isTrad'] = true;
@@ -177,7 +177,7 @@ async function init_opencc()
             var filter_right_arr = new Set(right_arr) ;
             if (zone == "JP" && Object.keys(edu_data.map2).includes(left)  )
             {
-                for (c of right_arr)
+                for ( var c of right_arr)
                 {
                     if (Object.keys(edu_data.map2).includes(c))
                         filter_right_arr.delete(c);
@@ -193,7 +193,7 @@ async function init_opencc()
             
             var candi_filtered = new Set(candi);
             
-            for (char of candi)
+            for ( var char of candi)
             {
                 if ( cm.haveTSRelation(map, char, left) )
                 {
