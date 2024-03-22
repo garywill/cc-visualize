@@ -26,11 +26,17 @@ let eCheckSt = { // 储存文章检查工作的状态。每次开始check都变�
     // 如果要统计准确，应该关优化，用完整模式
 };
 let eCheckStDefault = JSON.stringify(eCheckSt);  // 把Check的默认状态储存下来。 这是个常量
+function resetEssayCheckSt() {
+    eCheckSt = JSON.parse(eCheckStDefault);
+}
+
 
 function reset() {
     clearCharsInfoCache();
-    eCheckSt = JSON.parse(eCheckStDefault);
+    resetEssayCheckSt();
 }
+
+
 function startNewEssayCheck(essay)
 {
     eCheckSt.essayArr = {};
