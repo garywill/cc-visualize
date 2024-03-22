@@ -31,7 +31,7 @@ function reset() {
     charsCInfoCache = {};
     Check = JSON.parse(freshCheckJSON);
 }
-function startNewCheck(essay)
+function startNewEssayCheck(essay)
 {
     Check.essayArr = {};
     Check.essayLineCount = 0;

@@ -18,7 +18,7 @@
 // @if buildtarget = 'vccrlib'
 module.exports = {
     reset, 
-    startNewCheck, 
+    startNewEssayCheck, 
     getCInfo,  // 获取单个字的信息，但不包括关联字
     print_stati, 
 };

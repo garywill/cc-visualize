@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         result_cont.innerHTML = ""; 
     
         var essay = document.getElementById("input_essay").value;
-        startNewCheck(essay);
+        startNewEssayCheck(essay);
         print_stati();
         show_check_results(1);
     };
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         result_cont.innerHTML = ""; 
     
         var essay = document.getElementById("input_essay").value;
-        startNewCheck(essay);
+        startNewEssayCheck(essay);
         print_stati();
         show_check_results(2);
     };
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         result_cont.innerHTML = ""; 
         
         var essay = document.getElementById("input_essay").value;
-        startNewCheck(essay);
+        startNewEssayCheck(essay);
         print_stati();
         show_check_results(3);
     };

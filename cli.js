@@ -11,7 +11,7 @@ isLineCommented = function (line_string)
 function start() 
 {
     
-    vccrlib.startNewCheck("这是一段测试文本。這是一段測試，就幾句話怎樣？\n简体与繁体都打几个字上来");
+    vccrlib.startNewEssayCheck("这是一段测试文本。這是一段測試，就幾句話怎樣？\n简体与繁体都打几个字上来");
     vccrlib.print_stati();
     
 //     checkTextFile("TextFileName.txt");
@@ -23,7 +23,7 @@ start();
 
 function checkTextFile(fileName)
 {
-    vccrlib.startNewCheck ( fs.readFileSync(fileName).toString() );
+    vccrlib.startNewEssayCheck ( fs.readFileSync(fileName).toString() );
     console.log("```");
     console.log(`=== ${filename} =============`);
     vccrlib.print_stati();
