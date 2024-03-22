@@ -6,6 +6,7 @@
 // @include js/ucd.js 
 // @include js/unusual_conditions.js 
 // @include js/print_check.js 
+// @include js/getCharInfo.js 
 // @include js/checkessay.js 
 
 // @if buildtarget = 'webtool'

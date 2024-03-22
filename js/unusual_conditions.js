@@ -151,7 +151,10 @@ function getCharUnusuals(c, cInfo)
 
 //     return result;
 }
-function getIfShowCode(c, cInfo)  
+
+
+// @if buildtarget = 'webtool'
+function getIfShowCodeWeb(c, cInfo)  
 {
     const blks = [
         "General Punctuation",
@@ -175,6 +178,7 @@ function getIfShowCode(c, cInfo)
     if (!cInfo.age || !cInfo.blk)
         return true;
 }
+// @endif
 
 UnCond['is_jp'].func = function(c, mapObj, cInfo) {
     return ( mapObj !== undefined 
