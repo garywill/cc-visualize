@@ -1,11 +1,11 @@
-let charsCInfoCache = {}; // 静态，不因userchecks改变 
+let charsCInfoCache = {}; 
 
+function clearCharsInfoCache() {
+    charsCInfoCache = {};
+} 
 function getCInfo(c)
 {
-    if (Array.from(c).length > 1) {
-        console.warn("警告：输入的长度超过1。超出部都会被忽略");
-        c = Array.from(c)[0];
-    }
+    c = ensureCOne(c);
     
     if ( ! charsCInfoCache [c] )
     {
@@ -47,7 +47,7 @@ function getCInfo(c)
         } else {
             getCharUnusuals(c, cInfo);
             if (isWeb)
-                cInfo.showCode = getIfShowCodeWeb(c, cInfo);
+                cInfo.showCode = getIfShowCodeWeb(c, cInfo); // bool
             
             if (cInfo.unusuals ['is_Cc'] )
                 cInfo.showChar = '▫';
@@ -57,4 +57,45 @@ function getCInfo(c)
         charsCInfoCache [c] = cInfo;
     }
     return charsCInfoCache [c];
+}
+
+function getCRels(c)
+{
+    c = ensureCOne(c);
+    
+    let rels = mapInUse[c]['r'] ;
+    if (rels === undefined)
+        rels = [];
+
+    return rels;
+}
+function getCRelsAndItself(c) 
+{
+    c = ensureCOne(c);
+    
+    let rels = getCRels(c);
+    return [c].concat(rels);
+}
+
+function getCInfoAndRels(c)
+{
+    c = ensureCOne(c);
+    
+    let cInfo = JSON.parse( JSON.stringify ( getCInfo(c) ) );
+    
+    let rels = getCRels(c);
+    
+    return { ... cInfo, rels: rels};
+    
+} 
+
+
+
+function ensureCOne(c)
+{
+    if (Array.from(c).length > 1) {
+        console.warn("警告：输入的长度超过1。超出部都会被忽略");
+        c = Array.from(c)[0];
+    }
+    return c;
 }

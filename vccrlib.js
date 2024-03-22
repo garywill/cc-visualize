@@ -1,5 +1,5 @@
 /* vccrlib v0.3.0 (Visualize Chinese Charactors and Their Relations Library) is a JavaScript library for nodejs and web. */ 
-
+"use strict";
 
 // @include js/common.js 
 // @include js/init.js 
@@ -20,7 +20,14 @@
 module.exports = {
     reset, 
     startNewEssayCheck, 
+    
     getCInfo,  // 获取单个字的信息，但不包括关联字
+    getCRelsAndItself, 
+    getCRels, 
+    getCInfoAndRels, 
+    
     print_stati, 
+    
+    charsCInfoCache, 
 };
 // @endif

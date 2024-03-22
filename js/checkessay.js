@@ -28,7 +28,7 @@ let eCheckSt = { // 储存文章检查工作的状态。每次开始check都变�
 let eCheckStDefault = JSON.stringify(eCheckSt);  // 把Check的默认状态储存下来。 这是个常量
 
 function reset() {
-    charsCInfoCache = {};
+    clearCharsInfoCache();
     eCheckSt = JSON.parse(eCheckStDefault);
 }
 function startNewEssayCheck(essay)
