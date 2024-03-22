@@ -167,7 +167,7 @@ function getIfShowCode(c, cInfo)
     if ( blks.includes(cInfo.blk) )
         return true;
     
-    for (name of Object.keys ( (cInfo.unusuals ) ) )
+    for ( var name of Object.keys ( (cInfo.unusuals ) ) )
     {
         if ( conds.includes (name) )
             return true;

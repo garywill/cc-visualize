@@ -4,7 +4,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require("webpack");
 
-// const CopyPlugin = require("copy-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 
 
@@ -26,8 +26,17 @@ let config_common = {
                     options: { type: "js", }
                 },
             },
-        ],
-    } 
+    
+            {
+                test: /\.scss$/i,
+                use: ['style-loader', 'css-loader', 'sass-loader']
+            }, 
+            {
+                test: /\.css$/i,
+                use: ['style-loader', 'css-loader']
+            }, 
+        ]
+    },  
 };
 
 
@@ -35,52 +44,64 @@ let config_webtool = {
     target: 'web', 
     output: { path: path.resolve(__dirname, 'dist-webtool'), filename: '[name].bundle.js' },
     entry: {
-        'index' : [ './js_web/welcome.js'], 
+        'vccrlib_web' :[ './vccrlib.js'], 
     },
 };
 let config_vccrlib = {
     target: 'node', 
     output: { path: path.resolve(__dirname, 'dist-vccrlib'), filename: '[name].bundle.js' },
     entry: {
-        'vccrlib' :[ './vccrlib/vccrlib.js'], 
+        'vccrlib' :[ './vccrlib.js'], 
     },
 };
+
+
+
 
 
 config_webtool = _.cloneDeep({...config_common, ...config_webtool } ) ;
 config_vccrlib =  _.cloneDeep({...config_common, ...config_vccrlib });
 
+
+
+
 let plugin_gui_html =  new HtmlWebpackPlugin({
     template: 'index.html',
     filename: 'index.html',
-    chunks: ['index'],
+    chunks: ['vccrlib_web'],
     // minify: { collapseWhitespace: true },
     // meta: { viewport: 'width=device-width, initial-scale=1.0' },
     // attributes: { 'meta': 'viewport' },
     inject: 'head',
     chunksSortMode: 'auto',
     files: {
-        // css: ['src/style1.css', 'src/style2.css']
+        // css: ['./style.css']
     },
 });
-
-
-    // new CopyPlugin({
-    //     patterns: [
-    //         {
-    //             context: 'src/examples/', 
-    //             from: '**/*', 
-    //             to: 'examples/[path][name][ext]', 
-    //         }
-    //     ], 
-    // }), 
-
-
 config_webtool.plugins.push(_.cloneDeep(plugin_gui_html));
+
+// let webtool_copy_plugin = new CopyPlugin({
+//     patterns: [
+//         {
+//             context: '.', 
+//             from: './js_web/**', 
+//             to: '[path][name][ext]', 
+//         }, 
+//         {
+//             context: '.', 
+//             from: './style.css', 
+//             to: '[path][name][ext]', 
+//         }, 
+//         
+//     ], 
+// }); 
+// config_webtool.plugins.push(webtool_copy_plugin);
 
 
 config_webtool.plugins.push(new webpack.DefinePlugin({ buildtarget: JSON.stringify('webtool') }));
 config_vccrlib.plugins.push(new webpack.DefinePlugin({ buildtarget: JSON.stringify('vccrlib') }));
+
+
 
 
 let externals_vccrlib = {
@@ -99,14 +120,18 @@ config_vccrlib.externals = _.cloneDeep(externals_vccrlib);
 //     // },
 // };
 
+switch (process.env.buildtarget) {
+    case "vccrlib":
+        config = config_vccrlib; 
+        break;
+    case "webtool":
+        config = config_webtool;
+        break;
+}
 
+console.log(config);
 
-console.log(config_vccrlib);
-console.log(config_webtool);
+module.exports = config;
 
-module.exports = [
-    config_vccrlib,
-    config_webtool, 
-];;
-
+    
 

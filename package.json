@@ -15,6 +15,11 @@
     "preprocess": "^3.2.0",
     "webpack": "^5.90.3",
     "webpack-cli": "^5.1.4", 
-    "@xmldom/xmldom": "^0.8.2"
+    "@xmldom/xmldom": "^0.8.2", 
+    "copy-webpack-plugin": "^11.0.0", 
+    "css-loader": "^6.7.3",
+    "sass-loader": "^13.2.2",
+    "style-loader": "^3.3.2"
+
   }
 }

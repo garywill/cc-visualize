@@ -2,7 +2,7 @@
 function print_stati()
 {
     console.log(`已检查${Check.essayLineCount}行，共${Check.essayCharsCount}字符。忽略${Check.essayCmtLineCount}行`);
-    for ( name of Object.keys(Check.condCharsStati) )
+    for ( var  name of Object.keys(Check.condCharsStati) )
     {
         const condObj = UnCond [name];
         const condStatiObj = Check.condCharsStati [name];

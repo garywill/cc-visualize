@@ -38,7 +38,7 @@ function startNewCheck(essay)
     Check.essayCmtLineCount = 0 ;
     Check.essayCharsCount = 0;
     Check.linesCrrtStatus = {};
-    for (name of Object.keys(UnCond))
+    for (var name of Object.keys(UnCond))
     {
         Check.condCharsStati [name] = {
             charSet: new Set(),
@@ -65,8 +65,9 @@ function readUserCond()
     var userCond = [];
     if (isWeb)
     {
+        
         const checkboxes = Array.from( $$$("#form_UnCond .cb_UnCond") );
-        for (cb of checkboxes)
+        for (var cb of checkboxes)
         {
             const name = cb.getAttribute("name");
             if (cb.checked)
@@ -75,7 +76,7 @@ function readUserCond()
     }
     else if (isNode)
     {
-        for (name in UnCond)
+        for (var name in UnCond)
         {
             userCond.push( name );
         }
@@ -84,18 +85,18 @@ function readUserCond()
 }
 function genCrrtUnusualInfos()
 {
-    for (line_num of Object.keys(Check.essayArr) )
+    for (var line_num of Object.keys(Check.essayArr) )
     {
         const lineObj = Check.essayArr[line_num];
         Check.linesCrrtStatus [line_num] = "norm";
-        for (col_num of Object.keys(lineObj.charsObjs) )
+        for (var col_num of Object.keys(lineObj.charsObjs) )
         {
             const charObj = lineObj.charsObjs[col_num];
             const c = charObj.char;
             const cInfo = charObj.cInfo;
             const allCInfoUnNames = Object.keys( cInfo.unusuals ); // cInfo里unusuals已加进去的条件名（若关优化不会完整）
             
-            for ( name of allCInfoUnNames) 
+            for (var name of allCInfoUnNames) 
             {
                 Check.condCharsStati [name] .charSet.add(c);
                 Check.condCharsStati [name] .condCount ++;
@@ -106,7 +107,7 @@ function genCrrtUnusualInfos()
                 var isCrrtUnusual = false;
                 var warnTextS = [''];
                 
-                for ( name of allCInfoUnNames) 
+                for (var name of allCInfoUnNames) 
                 { 
                     if ( Check.userCond.includes(name) )  // 当前用户启用的这个条件
                     {

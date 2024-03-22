@@ -1,3 +1,5 @@
+import './style.css';
+
 document.addEventListener('DOMContentLoaded', async (event) => {
     document.getElementById("btn_checkessay").onclick = function() {
         const result_cont = document.getElementById("table_result");
@@ -55,7 +57,7 @@ ${display_mode <= 2 ? "您点选了让所有文本都显示" : ''}
             return;
     }
     
-    for (line_num of lineIndexes)
+    for ( var line_num of lineIndexes)
     {
         const lineObj = essay_arr[line_num]; 
         const charsObjs = lineObj.charsObjs;
@@ -88,7 +90,7 @@ ${display_mode <= 2 ? "您点选了让所有文本都显示" : ''}
         {
         
             const charIndexes = Object.keys( charsObjs );
-            for (col_num of charIndexes)
+            for ( var col_num of charIndexes)
             {
                 const charObj = charsObjs[col_num];
                 const essayChar = charObj.char;
@@ -147,7 +149,7 @@ ${display_mode <= 2 ? "您点选了让所有文本都显示" : ''}
                 var tips = [];
                 tips.push(`Line ${charObj.line_num} Col ${charObj.col_num}`);
                 
-                for ( unusual_name  of Object.keys(charObj.cInfo.unusuals) )
+                for ( var  unusual_name  of Object.keys(charObj.cInfo.unusuals) )
                 {
                     if ( charObj.cInfo.unusuals [unusual_name])
                     {
@@ -196,7 +198,7 @@ function genClassNamesAccordingCInfo(c, charHtmlNode)
 {
     const cInfo = getCInfo(c);
     
-    for (name of Object.keys(cInfo.unusuals) )
+    for ( var name of Object.keys(cInfo.unusuals) )
     {
         if ( cInfo.unusuals [name] == true )
             charHtmlNode.classList.add(  `UCcss_${name}` );
@@ -269,7 +271,7 @@ function getCharWebComplTip(c)
         {
             lines.push ( '\n关联字：' );
             
-            for (relChar of mapObj['rel'])
+            for ( var relChar of mapObj['rel'])
             {
                 lines.push ( getCharTipLine(relChar) );
             }

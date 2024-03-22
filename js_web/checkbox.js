@@ -2,7 +2,7 @@
 onDCL(function() {
     const form = $$("#form_UnCond");
     
-    for (name of Object.keys(UnCond))
+    for ( var name of Object.keys(UnCond))
     {
         const condObj = UnCond[name];
         

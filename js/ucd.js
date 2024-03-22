@@ -11,7 +11,7 @@ function getCpBlock(cp) //eg cp="4e00" // 输入可以是数字或字符串。�
     {
         cp_int = cp;
     }
-    for ( b of unicode_data.blocks)
+    for ( var  b of unicode_data.blocks)
     {
         var start =  b["first_cp"] ;
         var end =  b["last_cp"] ;
@@ -36,7 +36,7 @@ function getCpAge(cp) //eg cp="4e00" // 输入可以是数字或字符串。字�
     {
         cp_int = cp;
     }
-    for ( b of unicode_data.ages)
+    for ( var  b of unicode_data.ages)
     {
         var start =  b["start"] ;
         var end =  b["end"] ;
