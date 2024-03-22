@@ -3,13 +3,13 @@ var fs = require('fs');
 eval(fs.readFileSync('common.js').toString());
 eval(fs.readFileSync('init.js').toString());
 
-eval(fs.readFileSync("data/unicode-data/unicode-data-blocks.js").toString());
-eval(fs.readFileSync("data/unicode-data/unicode-data-ages.js").toString());
-eval(fs.readFileSync("data/unicode-data/unicode-data-Cc.js").toString());
-eval(fs.readFileSync("data/unicode-data/unicode-data-Mn.js").toString());
+unicode_data.blocks = require("./data/unicode-data/unicode-data-blocks.json");
+unicode_data.ages = require("./data/unicode-data/unicode-data-ages.json");
+unicode_data.Cc = require("./data/unicode-data/unicode-data-Cc.json");
+unicode_data.Mn = require("./data/unicode-data/unicode-data-Mn.json");
 eval(fs.readFileSync("ucd.js").toString());
 
-eval(fs.readFileSync("data/summary-data/summary-data-map2.js").toString());
+summary_data.map2 = require("./data/summary-data/summary-data-map2.json");
 
 eval(fs.readFileSync("unusual_conditions.js").toString());
 eval(fs.readFileSync("checkessay.js").toString());
