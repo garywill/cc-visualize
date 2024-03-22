@@ -49,10 +49,11 @@ let config_webtool = {
 };
 let config_vccrlib = {
     target: 'node', 
-    output: { path: path.resolve(__dirname, 'dist-vccrlib'), filename: '[name].bundle.js' },
-    entry: {
-        'vccrlib' :[ './vccrlib.js'], 
+    output: { 
+        path: path.resolve(__dirname, 'dist-vccrlib'), filename: 'vccrlib.js' , 
+        library: 'vccrlib', libraryTarget: 'umd', 
     },
+    entry:'./vccrlib.js',
 };
 
 
@@ -98,27 +99,53 @@ config_webtool.plugins.push(_.cloneDeep(plugin_gui_html));
 // config_webtool.plugins.push(webtool_copy_plugin);
 
 
+let vccrlib_copy_plugin = new CopyPlugin({
+    patterns: [
+        {
+            context: './data/unicode-data', 
+            from : 'unicode-data-blocks.json', 
+            to: '[path][name][ext]', 
+        }, 
+        {
+            context: './data/unicode-data', 
+            from : 'unicode-data-ages.json', 
+            to: '[path][name][ext]', 
+        }, 
+        {
+            context: './data/unicode-data', 
+            from : 'unicode-data-Cc.json', 
+            to: '[path][name][ext]', 
+        }, 
+        {
+            context: './data/unicode-data', 
+            from : 'unicode-data-Mn.json', 
+            to: '[path][name][ext]', 
+        }, 
+        {
+            context: './data/summary-data', 
+            from : 'summary-data-map2.json', 
+            to: '[path][name][ext]', 
+        }, 
+    ], 
+}); 
+config_vccrlib.plugins.push(vccrlib_copy_plugin);
+
+
+
 config_webtool.plugins.push(new webpack.DefinePlugin({ buildtarget: JSON.stringify('webtool') }));
 config_vccrlib.plugins.push(new webpack.DefinePlugin({ buildtarget: JSON.stringify('vccrlib') }));
 
 
 
-
 let externals_vccrlib = {
-    fs: 'require("fs")',
-    // path: 'require("path")',
-    // 你可以根据你的需求添加更多的内置模块
+    './data/unicode-data/unicode-data-blocks.json': "./unicode-data-blocks.json", 
+    './data/unicode-data/unicode-data-ages.json': "./unicode-data-ages.json", 
+    './data/unicode-data/unicode-data-Cc.json': "./unicode-data-Cc.json", 
+    './data/unicode-data/unicode-data-Mn.json': "./unicode-data-Mn.json", 
+    './data/summary-data/summary-data-map2.json': "./summary-data-map2.json", 
 };
 config_vccrlib.externals = _.cloneDeep(externals_vccrlib);
 
-// config = {
-//     // module: {
-//     //     rules: [
-//     //         { test: /\.scss$/i, use: ['style-loader', 'css-loader', 'sass-loader'] }, 
-//     //         { test: /\.css$/i, use: ['style-loader', 'css-loader'] }, 
-//     //     ]
-//     // },
-// };
 
 switch (process.env.buildtarget) {
     case "vccrlib":

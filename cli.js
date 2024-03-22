@@ -2,8 +2,7 @@ var fs = require('fs');
 
 
 
-const vccrlib = require('./vccrlib.js');
-
+const vccrlib = require('./dist-vccrlib/vccrlib.js');
 // 在这里定制修改用于判断文本文件中一行字符串是否应被忽略的条件
 isLineCommented = function (line_string)
 { return false; }
