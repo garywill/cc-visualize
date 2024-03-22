@@ -19,25 +19,3 @@ onDCL(function() {
 });
 
 
-function readUserCond() 
-{
-    var userCond = [];
-    if (isWeb)
-    {
-        const checkboxes = Array.from( $$$("#form_UnCond .cb_UnCond") );
-        for (cb of checkboxes)
-        {
-            const name = cb.getAttribute("name");
-            if (cb.checked)
-            userCond.push( name );
-        }
-    }
-    else if (isNode)
-    {
-        for (name in UnCond)
-        {
-            userCond.push( name );
-        }
-    }
-    return userCond;
-}
