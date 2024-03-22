@@ -1,12 +1,3 @@
-var isNode =
-    typeof process !== "undefined" &&
-    process.versions != null &&
-    process.versions.node != null;
-  
-var isWeb = !isNode;
 
-if (isNode)
-    console.warn("isNode");
-if (isWeb)
-    console.log("isWeb");
-
+let isNode = typeof process !== 'undefined' && process.versions != null && process.versions.node != null;
+let isWeb = typeof window !== 'undefined' && typeof window.document !== 'undefined' ;
