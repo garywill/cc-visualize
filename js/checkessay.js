@@ -25,11 +25,11 @@ let eCheckSt = { // 储存文章检查工作的状态。每次开始check都变�
     condCharsStati: {}, // 本次 essay文本 （不管userCond, 只管所有条件）下，每个条件的字符集+count
     // 如果要统计准确，应该关优化，用完整模式
 };
-let freshCheckJSON = JSON.stringify(eCheckSt);  // 把Check的默认状态储存下来。 这是个常量
+let eCheckStDefault = JSON.stringify(eCheckSt);  // 把Check的默认状态储存下来。 这是个常量
 
 function reset() {
     charsCInfoCache = {};
-    eCheckSt = JSON.parse(freshCheckJSON);
+    eCheckSt = JSON.parse(eCheckStDefault);
 }
 function startNewEssayCheck(essay)
 {
