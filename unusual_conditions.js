@@ -1,9 +1,9 @@
 
 
 
-var mapInUse = summary_data.map2;
 
-var UnCond = {  
+
+let UnCond = {  
     "is_rad": {
         full_desc: "属于笔划偏旁部首区（若作为句中完整的字，应该用对应的统一字符）",
         short_desc: "划",
@@ -74,47 +74,8 @@ var UnCond = {
     },
 };
 
-if (isWeb)
-onDCL(function() {
-    const form = $$("#form_UnCond");
-    
-    for (name of Object.keys(UnCond))
-    {
-        const condObj = UnCond[name];
-        
-        var span_cb = htmlStr2dom(`
-        <li title="${escapeHtml(name)}">
-            <input type="checkbox" class="cb_UnCond" name="${name}"  >[${escapeHtml(condObj['short_desc'])}] ${escapeHtml(condObj['full_desc'])}</input>
-        </li>
-        `);
-        span_cb.q$("input").checked = condObj.default_checked;
-       
-        form.appendChild(span_cb);
-    }
-    $$("#options_extcoll").open = true;
-});
-function readUserCond() 
-{
-    var userCond = [];
-    if (isWeb)
-    {
-        const checkboxes = Array.from( $$$("#form_UnCond .cb_UnCond") );
-        for (cb of checkboxes)
-        {
-            const name = cb.getAttribute("name");
-            if (cb.checked)
-            userCond.push( name );
-        }
-    }
-    else if (isNode)
-    {
-        for (name in UnCond)
-        {
-            userCond.push( name );
-        }
-    }
-    return userCond;
-}
+
+
 
 
 function getCharUnusuals(c, cInfo) 
@@ -190,7 +151,7 @@ function getCharUnusuals(c, cInfo)
 
 //     return result;
 }
-function getIfShowCode(c, cInfo) // webui only
+function getIfShowCode(c, cInfo)  
 {
     const blks = [
         "General Punctuation",
@@ -289,12 +250,12 @@ UnCond['cjk_is_rare'].func = function(c, mapObj, cInfo) {
         return true;
 
 };
-var surrBlks = [
+let surrBlks = [
     "High Surrogates",
     "High Private Use Surrogates",
     "Low Surrogates",
 ];
-var privBlks = [
+let privBlks = [
     "Private Use Area",
     "Supplementary Private Use Area-A",
     "Supplementary Private Use Area-B",
@@ -350,4 +311,4 @@ UnCond['is_other_chars'].func = function(c, mapObj, cInfo) {
         return true;
 };
 
-var we_ve_accepted_symbols = ['©', '®', '°', '±', '·', '÷', '≠', '℃', '≈'];
+let we_ve_accepted_symbols = ['©', '®', '°', '±', '·', '÷', '≠', '℃', '≈'];
