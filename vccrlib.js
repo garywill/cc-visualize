@@ -22,12 +22,13 @@ module.exports = {
     startNewEssayCheck, 
     
     getCInfo,  // 获取单个字的信息，但不包括关联字
-    getCRelsAndItself, 
     getCRels, 
+    getCRelsAndItself, 
     getCInfoAndRels, 
     
     print_stati, 
     
-    charsCInfoCache, 
+    clearCharsInfoCache, 
+    charsCInfoCache, //debug
 };
 // @endif
