@@ -1,4 +1,3 @@
-unicode_data.ages =
 [{"start":0,"end":501,"age":"1.1"},
 {"start":8192,"end":8238,"age":"1.1"},
 {"start":8239,"end":8239,"age":"3.0"},
@@ -1677,4 +1676,3 @@ unicode_data.ages =
 {"start":917505,"end":917505,"age":"3.1"},
 {"start":917536,"end":917631,"age":"3.1"},
 {"start":917760,"end":917999,"age":"4.0"}]
-;

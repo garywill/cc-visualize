@@ -1,4 +1,3 @@
-unicode_data.blocks =
 [{"name":"Basic Latin","first_cp":0,"last_cp":127},
 {"name":"Latin-1 Supplement","first_cp":128,"last_cp":255},
 {"name":"General Punctuation","first_cp":8192,"last_cp":8303},
@@ -327,4 +326,3 @@ unicode_data.blocks =
 {"name":"CJK Unified Ideographs Extension I","first_cp":191472,"last_cp":192095},
 {"name":"Tags","first_cp":917504,"last_cp":917631},
 {"name":"Variation Selectors Supplement","first_cp":917760,"last_cp":917999}]
-;

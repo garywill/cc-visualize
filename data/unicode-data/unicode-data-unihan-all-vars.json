@@ -1,4 +1,3 @@
-unicode_data.unihan_variants =
 {"㐀":{"kSemanticVariant":["丘"]},
 "㐅":{"kSemanticVariant":["五"]},
 "㐱":{"kSemanticVariant":["鬒"]},
@@ -16662,4 +16661,3 @@ unicode_data.unihan_variants =
 "𱌽":{"kTraditionalVariant":["齸"]},
 "𱽌":{"kZVariant":["𬻋"]},
 "𱽨":{"kZVariant":["𦰥"]}}
-;

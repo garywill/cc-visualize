@@ -119,9 +119,7 @@ async function start()
         
         blocksInfoTxt += `${block.getAttribute("first-cp")}\t${block.getAttribute("last-cp")}\t${block.getAttribute("name")}\n`;
     }
-    fs.writeFileSync("unicode-data-blocks.js",( "unicode_data.blocks =\n" + JSON.stringify( unicode_data.blocks) + "\n;")
-        .replaceAll("},", "},\n")
-    );
+    fs.writeFileSync("unicode-data-blocks.json",JSON.stringify( unicode_data.blocks) .replaceAll("},", "},\n") );
     fs.writeFileSync("blocksInfoTxt.txt", blocksInfoTxt);
     
     var xmlDoc = domparser.parseFromString(ucd_data_raw_string, "text/xml");
@@ -202,12 +200,8 @@ async function start()
     
 
     
-    fs.writeFileSync("unicode-data-Cc.js",( "unicode_data.Cc =\n" + JSON.stringify( unicode_data.Cc) + "\n;")
-        .replaceAll(",", ",\n")
-    );    
-    fs.writeFileSync("unicode-data-Mn.js",( "unicode_data.Mn =\n" + JSON.stringify( unicode_data.Mn) + "\n;")
-        .replaceAll(",", ",\n")
-    );    
+    fs.writeFileSync("unicode-data-Cc.json",JSON.stringify( unicode_data.Cc) .replaceAll(",", ",\n") );    
+    fs.writeFileSync("unicode-data-Mn.json",JSON.stringify( unicode_data.Mn) .replaceAll(",", ",\n") );    
     
 //     fs.writeFileSync("unicode-data-as-edu-data-HKnumed.json",  JSON.stringify(edu_data.HK_numed) 
 //         .replaceAll("],", "],\n")
@@ -222,22 +216,12 @@ async function start()
         }
     }
     edu_data.HK_map = cm.sortMapObj(edu_data.HK_map);
-    fs.writeFileSync("unicode-data-as-edu-data-HK-rel.js" , ( "edu_data.HK_rel = \n" + JSON.stringify(edu_data.HK_map) + "\n;" )
-        .replaceAll("},", "},\n")
-    );
-    fs.writeFileSync("unicode-data-as-edu-data-HK.js" , ( "edu_data.HK = \n" + JSON.stringify(edu_data.HK) + "\n;" )
-        .replaceAll(",", ",\n")
-    );
+    fs.writeFileSync("unicode-data-as-edu-data-HK-rel.json" , JSON.stringify(edu_data.HK_map) .replaceAll("},", "},\n") );
+    fs.writeFileSync("unicode-data-as-edu-data-HK.json" ,  JSON.stringify(edu_data.HK) .replaceAll(",", ",\n") );
     
-    fs.writeFileSync("unicode-data-as-edu-data-CN-1c.js" , ( "edu_data.CN_1c = \n" + JSON.stringify(edu_data.CN_1c) + "\n;" )
-        .replaceAll(",", ",\n")
-    );
-    fs.writeFileSync("unicode-data-as-edu-data-CN-2c.js" , ( "edu_data.CN_2c = \n" + JSON.stringify(edu_data.CN_2c) + "\n;" )
-        .replaceAll(",", ",\n")
-    );
-    fs.writeFileSync("unicode-data-as-edu-data-CN-3c.js" , ( "edu_data.CN_3c = \n" + JSON.stringify(edu_data.CN_3c) + "\n;" )
-        .replaceAll(",", ",\n")
-    );
+    fs.writeFileSync("unicode-data-as-edu-data-CN-1c.json" ,  JSON.stringify(edu_data.CN_1c) .replaceAll(",", ",\n") );
+    fs.writeFileSync("unicode-data-as-edu-data-CN-2c.json" ,  JSON.stringify(edu_data.CN_2c) .replaceAll(",", ",\n") );
+    fs.writeFileSync("unicode-data-as-edu-data-CN-3c.json" ,  JSON.stringify(edu_data.CN_3c) .replaceAll(",", ",\n") );
    
     var previous_age = undefined;
     var previous_cp = 0 ;
@@ -340,9 +324,7 @@ async function start()
                 return true;
         }
     });
-    fs.writeFileSync("unicode-data-ages.js",( "unicode_data.ages =\n" + JSON.stringify( unicode_data.ages) + "\n;")
-        .replaceAll("},", "},\n")
-    );    
+    fs.writeFileSync("unicode-data-ages.json", JSON.stringify( unicode_data.ages) .replaceAll("},", "},\n") );    
     
 
     
@@ -368,7 +350,7 @@ async function start()
             unicode_data.unihan_variants [left] [kVarN] = right_arr;
         }
     }
-    fs.writeFileSync("unicode-data-unihan-all-vars.js",( "unicode_data.unihan_variants =\n" + JSON.stringify( unicode_data.unihan_variants) + "\n;")
+    fs.writeFileSync("unicode-data-unihan-all-vars.json", JSON.stringify( unicode_data.unihan_variants)
         .replaceAll("},", "},\n")
         .replaceAll("],", "],\n")
     );
@@ -466,9 +448,7 @@ async function start()
 
     
     unicode_data.map2 = cm.sortMapObj(unicode_data.map2);
-    fs.writeFileSync("unicode-data-map2.js" , ( "unicode_data.map2 = \n" + JSON.stringify(unicode_data.map2) + "\n;" )
-        .replaceAll("},", "},\n")
-    );
+    fs.writeFileSync("unicode-data-map2.json" ,  JSON.stringify(unicode_data.map2) .replaceAll("},", "},\n") );
     
 }
 start();
