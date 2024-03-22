@@ -106,11 +106,11 @@ function getCharUnusuals(c, cInfo)
             // 简 繁 合  日
             if (mapObj !== undefined)
             {
-                if (mapObj ['isSimp'] && mapObj ['isTrad'])
+                if (mapObj ['S'] && mapObj ['T'])
                     unObj ['is_simp_n_trad'] = true;
-                else if (mapObj ['isSimp'] )
+                else if (mapObj ['S'] )
                     unObj ['is_simp'] = true;
-                else if (mapObj ['isTrad'] )
+                else if (mapObj ['T'] )
                     unObj ['is_trad'] = true;
                 else if ( UnCond['is_jp'].func (c, mapObj, cInfo) )
                     unObj ['is_jp'] = true;
@@ -179,9 +179,9 @@ function getIfShowCode(c, cInfo)
 UnCond['is_jp'].func = function(c, mapObj, cInfo) {
     return ( mapObj !== undefined 
         && mapObj ['isVari_JP'] 
-        && !mapObj ['isEdu']
-        && !mapObj ['isSimp']
-        && !mapObj ['isTrad']
+        && !mapObj ['E']
+        && !mapObj ['S']
+        && !mapObj ['T']
         && !mapObj ['isChi'] 
         && !mapObj ['isVari_TW']
         && !mapObj ['isVari_HK']
@@ -200,7 +200,7 @@ UnCond['is_comp'].func = function(c, mapObj, cInfo) {
     var blk = cInfo.blk;
     
 //     if ( blks.includes(blk) )
-    if ( mapObj !== undefined  && mapObj ['isComp']  )
+    if ( mapObj !== undefined  && mapObj ['Cp']  )
         return true;
         
     if ( blk && blk.includes("CJK Compatibility Ideographs") )

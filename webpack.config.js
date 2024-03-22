@@ -27,7 +27,12 @@ let config_common = {
                     options: { type: "js", }
                 },
             },
-    
+            {
+                test: /\bdata\/.*\.json$/, 
+                use: {
+                    loader: path.resolve(__dirname, 'data-json-replace.js'), 
+                },
+            },
             {
                 test: /\.scss$/i,
                 use: ['style-loader', 'css-loader', 'sass-loader']
@@ -99,33 +104,42 @@ config_webtool.plugins.push(_.cloneDeep(plugin_gui_html));
 // }); 
 // config_webtool.plugins.push(webtool_copy_plugin);
 
-
+const json_copy_replacer = function (content, path) {
+    let replacer = require('./data-json-replace.js');
+    let newContent = replacer(content.toString());
+    return Buffer.from(newContent);
+};
 let vccrlib_copy_plugin = new CopyPlugin({
     patterns: [
         {
             context: './data/unicode-data', 
             from : 'unicode-data-blocks.json', 
             to: '[path][name][ext]', 
+            transform: json_copy_replacer, 
         }, 
         {
             context: './data/unicode-data', 
             from : 'unicode-data-ages.json', 
             to: '[path][name][ext]', 
+            transform: json_copy_replacer, 
         }, 
         {
             context: './data/unicode-data', 
             from : 'unicode-data-Cc.json', 
             to: '[path][name][ext]', 
+            transform: json_copy_replacer, 
         }, 
         {
             context: './data/unicode-data', 
             from : 'unicode-data-Mn.json', 
             to: '[path][name][ext]', 
+            transform: json_copy_replacer, 
         }, 
         {
             context: './data/summary-data', 
             from : 'summary-data-map2.json', 
             to: '[path][name][ext]', 
+            transform: json_copy_replacer, 
         }, 
     ], 
 }); 

@@ -165,10 +165,10 @@ ${display_mode <= 2 ? "您点选了让所有文本都显示" : ''}
                 
                 genClassNamesAccordingCInfo(essayChar, div_origChar);
 
-                if (mapInUse[essayChar] && mapInUse[essayChar]['rel'].length > 0) //有关联字
+                if (mapInUse[essayChar] && mapInUse[essayChar]['r']?.length > 0) //有关联字
                 {
                     
-                    mapInUse[essayChar]['rel'].forEach( function(relChar) {
+                    mapInUse[essayChar]['r']?.forEach( function(relChar) {
                         
                         
                         var div_oneRelChar = document.createElement("div");
@@ -216,22 +216,22 @@ function getCharTipLine(c)
         
         if (mapObj)
         {
-            if (mapObj ['isEdu_CN_1c'])
+            if (mapObj ['EC1'])
                 cProp .push( "陆表一" );
-            if (mapObj ['isEdu_CN_2c'])
+            if (mapObj ['EC2'])
                 cProp .push( "陆表二" );
-            if (mapObj ['isEdu_CN_3c'])
+            if (mapObj ['EC3'])
                 cProp .push( "陆表三" );
-            if (mapObj ['isEdu_HK'])
+            if (mapObj ['EH'])
                 cProp .push( "港表" );
-            if (mapObj ['isEdu_TW_A'])
+            if (mapObj ['ETA'])
                 cProp .push( "台表甲" );
-            if (mapObj ['isEdu_TW_B'])
+            if (mapObj ['ETB'])
                 cProp .push( "台表乙" );
             
-            if (mapObj ['isTrad'])
+            if (mapObj ['T'])
                 cProp .push( '繁' );
-            if (mapObj ['isSimp'])
+            if (mapObj ['S'])
                 cProp .push( '简' );
             
             if (mapObj ['isChi'])
@@ -243,7 +243,7 @@ function getCharTipLine(c)
             if (mapObj ['isVari_JP'])
                 cProp .push( "日" );    
             
-            if (mapObj ['isComp'])
+            if (mapObj ['Cp'])
                 cProp .push( "兼" );
             if (mapObj ['isRad'])
                 cProp .push( "划" );
@@ -267,14 +267,16 @@ function getCharWebComplTip(c)
         var origCharTipLine = getCharTipLine(c);
         lines.push(origCharTipLine);
         
-        if (mapObj && mapObj['rel'].length > 0 )
+        if (mapObj && mapObj['r']?.length > 0 )
         {
             lines.push ( '\n关联字：' );
             
-            for ( var relChar of mapObj['rel'])
-            {
-                lines.push ( getCharTipLine(relChar) );
-            }
+            if (mapObj['r'] !== undefined ) {
+                for ( var relChar of mapObj['r'])
+                {
+                    lines.push ( getCharTipLine(relChar) );
+                }
+            } 
         }
         cInfo.webComplTip =  lines.join('\n');
     }
