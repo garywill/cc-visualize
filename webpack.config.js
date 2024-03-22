@@ -1,5 +1,6 @@
 "use strict";
 const _ = require('lodash');
+const fs = require('fs');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require("webpack");
@@ -12,7 +13,7 @@ let config = { };
 let config_common = {
     // stats: 'verbose', 
     mode: 'development', 
-    devtool: "source-map", 
+    // devtool: "source-map", 
     // devServer: { static: './dist-httpsc', hot: true, },    
     plugins: [
         // new webpack.DefinePlugin({ }), 
@@ -149,6 +150,7 @@ config_vccrlib.externals = _.cloneDeep(externals_vccrlib);
 
 switch (process.env.buildtarget) {
     case "vccrlib":
+        copy_package_json_to_vccrlib();
         config = config_vccrlib; 
         break;
     case "webtool":
@@ -160,5 +162,15 @@ console.log(config);
 
 module.exports = config;
 
+
+
+function copy_package_json_to_vccrlib() {
+    var read_str = fs.readFileSync(path.resolve(__dirname, 'package.json').toString() );
+    var read_obj = JSON.parse(read_str)
+    delete read_obj.devDependencies;
+    fs.writeFileSync(path.resolve(__dirname, 'dist-vccrlib/package.json'), 
+                     JSON.stringify(read_obj, null, 2)
+    );
     
+}
 
