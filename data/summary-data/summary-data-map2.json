@@ -1,4 +1,3 @@
-summary_data.map2 = 
 {"⺁":{"rel":["厂","廠"],"isRad":true},
 "⺂":{"rel":["乛"],"isRad":true},
 "⺃":{"rel":["乚"],"isRad":true},
@@ -22509,4 +22508,3 @@ summary_data.map2 =
 "𧻓":{"rel":["𧻓"],"isComp":true},
 "齃":{"rel":["齃"],"isComp":true},
 "龎":{"rel":["厐","龎"],"isComp":true}}
-;

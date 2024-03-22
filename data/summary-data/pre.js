@@ -11,17 +11,21 @@ var fs = require('fs');
 const cm = require('../pre_common/functions.js');
 
 // file is included here:
-eval(fs.readFileSync('../unicode-data/unicode-data-map2.js').toString());
+unicode_data.map2 = require('../unicode-data/unicode-data-map2.json');
 
-eval(fs.readFileSync('../edu-data/edu-data-CN-1c.js').toString());
-eval(fs.readFileSync('../edu-data/edu-data-CN-2c.js').toString());
-eval(fs.readFileSync('../edu-data/edu-data-CN-3c.js').toString());
-eval(fs.readFileSync('../edu-data/edu-data-HK.js').toString());
-eval(fs.readFileSync('../edu-data/edu-data-TW-A.js').toString());
-eval(fs.readFileSync('../edu-data/edu-data-TW-B.js').toString());
-eval(fs.readFileSync('../edu-data/edu-data-map2.js').toString());
+edu_data.CN_1c = require('../edu-data/edu-data-CN-1c.json');
+edu_data.CN_2c = require('../edu-data/edu-data-CN-2c.json');
+edu_data.CN_3c = require('../edu-data/edu-data-CN-3c.json');
 
-eval(fs.readFileSync('../opencc-data/opencc-data-map2.js').toString());
+edu_data.HK = require('../edu-data/edu-data-HK.json');
+edu_data.HK_rel = require('../edu-data/edu-data-HK-rel.json');
+
+edu_data.TW_A = require('../edu-data/edu-data-TW-A.json');
+edu_data.TW_B = require('../edu-data/edu-data-TW-B.json');
+
+edu_data.map2 = require('../edu-data/edu-data-map2.json');
+
+opencc.map2 = require('../opencc-data/opencc-data-map2.json');
 
 
 
@@ -260,9 +264,7 @@ async function start()
     
     
     summary_data.map2 = cm.sortMapObj(summary_data.map2);
-    fs.writeFileSync("summary-data-map2.js" , ( "summary_data.map2 = \n" + JSON.stringify(summary_data.map2) + "\n;" )
-        .replaceAll("},", "},\n")
-    );
+    fs.writeFileSync("summary-data-map2.json" ,  JSON.stringify(summary_data.map2) .replaceAll("},", "},\n") );
 }
 start();
 
