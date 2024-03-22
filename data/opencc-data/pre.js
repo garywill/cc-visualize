@@ -3,7 +3,7 @@ var fs = require('fs');
 const cm = require('../pre_common/functions.js');
 
 var edu_data = {};
-eval(fs.readFileSync('../edu-data/edu-data-map2.js').toString());
+edu_data.map2 = require('../edu-data/edu-data-map2.json');
 
 
 
@@ -63,35 +63,35 @@ async function init_opencc()
     async function afterLoadText() 
     {
         STj = txt2json(ST);
-        fs.writeFileSync( "opencc-data-ST.js", ( "opencc.ST = \n" + JSON.stringify(STj) + "\n;" )
+        fs.writeFileSync( "opencc-data-ST.json",  JSON.stringify(STj)
             .replaceAll("{", "{\n") 
             .replaceAll("}", "\n}")
             .replaceAll("],", "],\n")
         );
         
         TSj = txt2json(TS);
-        fs.writeFileSync( "opencc-data-TS.js", ( "opencc.TS = \n" + JSON.stringify(TSj) + "\n;" )
+        fs.writeFileSync( "opencc-data-TS.json",  JSON.stringify(TSj)
             .replaceAll("{", "{\n") 
             .replaceAll("}", "\n}")
             .replaceAll("],", "],\n")
         );
         
         HKVj = txt2json(HKV);
-        fs.writeFileSync( "opencc-data-HKV.js", ( "opencc.HKV = \n" + JSON.stringify(HKVj) + "\n;" )
+        fs.writeFileSync( "opencc-data-HKV.json",  JSON.stringify(HKVj)
             .replaceAll("{", "{\n") 
             .replaceAll("}", "\n}")
             .replaceAll("],", "],\n")
         );
         
         TWVj = txt2json(TWV);
-        fs.writeFileSync( "opencc-data-TWV.js", ( "opencc.TWV = \n" + JSON.stringify(TWVj) + "\n;" )
+        fs.writeFileSync( "opencc-data-TWV.json",  JSON.stringify(TWVj)
             .replaceAll("{", "{\n") 
             .replaceAll("}", "\n}")
             .replaceAll("],", "],\n")
         );
         
         JPVj = txt2json(JPV);
-        fs.writeFileSync( "opencc-data-JPV.js", ( "opencc.JPV = \n" + JSON.stringify(JPVj) + "\n;" )
+        fs.writeFileSync( "opencc-data-JPV.json",  JSON.stringify(JPVj)
             .replaceAll("{", "{\n") 
             .replaceAll("}", "\n}")
             .replaceAll("],", "],\n")
@@ -113,9 +113,7 @@ async function init_opencc()
         checkVariants(JPVj, "JP");
         map2 = cm.sortMapObj(map2);
         opencc.map2 = map2;
-        fs.writeFileSync( "opencc-data-map2.js", ( "opencc.map2 = \n" + JSON.stringify(map2) + "\n;" )
-            .replaceAll("},", "},\n")
-        );
+        fs.writeFileSync( "opencc-data-map2.json",  JSON.stringify(map2) .replaceAll("},", "},\n") );
         console.log("完成map2");
         
         map3 = JSON.parse(JSON.stringify(map2));
@@ -123,9 +121,7 @@ async function init_opencc()
         finishMap3();
         map3 = cm.sortMapObj(map3);
         opencc.map3 = map3;
-        fs.writeFileSync( "opencc-data-map3.js", ( "opencc.map3 = \n" + JSON.stringify(map3) + "\n;" )
-            .replaceAll("},", "},\n")
-        );
+        fs.writeFileSync( "opencc-data-map3.json",  JSON.stringify(map3) .replaceAll("},", "},\n") );
         console.log("完成map3");
     }
     

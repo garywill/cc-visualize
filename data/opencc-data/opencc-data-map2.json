@@ -1,4 +1,3 @@
-opencc.map2 = 
 {"㐷":{"rel":["傌"],"isSimp":true},
 "㐹":{"rel":["㑶"],"isSimp":true,"isTrad":true},
 "㐽":{"rel":["偑"],"isSimp":true},
@@ -8399,4 +8398,3 @@ opencc.map2 =
 "𰾄":{"rel":["鋂"],"isSimp":true},
 "𰾭":{"rel":["鑀"],"isSimp":true},
 "𱊜":{"rel":["𪈼"],"isSimp":true}}
-;
