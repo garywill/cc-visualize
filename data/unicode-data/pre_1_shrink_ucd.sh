@@ -28,3 +28,8 @@ grep  -E "(^\S)|(^ \S)|(^  ((k.*Variant=)|(kHKGlyph=)|(kTGH=)))"  /tmp/ucd.reper
 cp /tmp/ucd.repertoire.xml.3  /tmp/ucd.repertoire.xml
 
 cp /tmp/ucd.repertoire.xml /tmp/ucd.no-repertoire.xml  .
+
+echo ""
+echo "/tmp/ucd.repertoire.xml"
+echo "/tmp/ucd.no-repertoire.xml"
+echo "检查以上文件没问题后，复制到unicode-data/，再进行下一步"
