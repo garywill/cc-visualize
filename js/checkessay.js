@@ -13,7 +13,6 @@ let eCheckSt = { // 储存文章检查工作的状态。每次开始check都变�
     // 以line_num作下标
     
     essayLineCount: 0, //本次 essay文本+注释条件 下的
-    essayCmtLineCount: 0, //本次 essay文本+注释条件 下的
     essayCharsCount: 0, //本次 essay文本+注释条件 下的
     
     linesCrrtStatus: {}, //本次 条件 + essay文本 + 注释条件 下的
@@ -41,7 +40,6 @@ function startNewEssayCheck(essay)
 {
     eCheckSt.essayArr = {};
     eCheckSt.essayLineCount = 0;
-    eCheckSt.essayCmtLineCount = 0 ;
     eCheckSt.essayCharsCount = 0;
     eCheckSt.linesCrrtStatus = {};
     for (var name of Object.keys(UnCond))
