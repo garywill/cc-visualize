@@ -25,7 +25,7 @@ let Check = { // 每次开始check都变
     condCharsStati: {}, // 本次 essay文本 （不管userCond, 只管所有条件）下，每个条件的字符集+count
     // 如果要统计准确，应该关优化，用完整模式
 };
-let freshCheckJSON = JSON.stringify(Check);
+let freshCheckJSON = JSON.stringify(Check);  // 把Check的默认状态储存下来。 这是个常量
 
 function reset() {
     charsCInfoCache = {};
@@ -190,6 +190,11 @@ function genEssayArr(essay)
 
 function getCInfo(c)
 {
+    if (c.length > 1) {
+        console.warn("警告：输入的长度超过1。超出部都会被忽略");
+        c = c[0];
+    }
+    
     if ( ! charsCInfoCache [c] )
     {
         var dec; 
