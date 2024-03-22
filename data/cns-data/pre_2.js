@@ -42,12 +42,8 @@ cnsTxtFile2vars("次常用字國字標準字體表.cns.txt", 'edu_tw_B_cns', 'ed
 cnsTxtFile2vars("國中小教科書常用字.cns.txt", 'edu_tw_500_cns', 'edu_tw_500' );
 edu_tw.edu_tw_B = edu_tw.edu_tw_B .concat (edu_tw.edu_tw_500);
 
-fs.writeFileSync("cns-data-as-edu-data-TW-A.js",( "edu_data.TW_A =\n" + JSON.stringify( edu_tw.edu_tw_A) + "\n;")
-    .replaceAll(",", ",\n")
-);   
-fs.writeFileSync("cns-data-as-edu-data-TW-B.js",( "edu_data.TW_B =\n" + JSON.stringify( edu_tw.edu_tw_B) + "\n;")
-    .replaceAll(",", ",\n")
-);   
+fs.writeFileSync("cns-data-as-edu-data-TW-A.json", JSON.stringify( edu_tw.edu_tw_A) .replaceAll(",", ",\n") );   
+fs.writeFileSync("cns-data-as-edu-data-TW-B.json", JSON.stringify( edu_tw.edu_tw_B) .replaceAll(",", ",\n") );   
 // fs.writeFileSync("cns-data-as-edu-data-TW-500.js",( "edu_data.TW_500 =\n" + JSON.stringify( edu_tw.edu_tw_500) + "\n;")
 //     .replaceAll(",", ",\n")
 // );   
