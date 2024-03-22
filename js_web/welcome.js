@@ -1,5 +1,4 @@
 onDCL(function() {
-    window.addEventListener('data-init-finished', function(e) {
         
         var text2inspect = "";
         
@@ -15,7 +14,6 @@ onDCL(function() {
         show_check_results(1);
         reset();
         
-    });
 
 });
 

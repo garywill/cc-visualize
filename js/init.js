@@ -11,11 +11,5 @@ let summary_data = {
 };
 let mapInUse = summary_data.map2;
 
-// @if buildtarget = 'webtool'
-if (isWeb) {
-    var event = new CustomEvent('data-init-finished', { detail: { message: '数据初始化已完成!' } });
-    window.dispatchEvent(event);
-    
-}
-// @endif
+
 
