@@ -1,21 +1,8 @@
 var fs = require('fs');
 
-eval(fs.readFileSync('common.js').toString());
-eval(fs.readFileSync('init.js').toString());
 
-unicode_data.blocks = require("./data/unicode-data/unicode-data-blocks.json");
-unicode_data.ages = require("./data/unicode-data/unicode-data-ages.json");
-unicode_data.Cc = require("./data/unicode-data/unicode-data-Cc.json");
-unicode_data.Mn = require("./data/unicode-data/unicode-data-Mn.json");
-eval(fs.readFileSync("ucd.js").toString());
 
-summary_data.map2 = require("./data/summary-data/summary-data-map2.json");
-
-eval(fs.readFileSync("unusual_conditions.js").toString());
-eval(fs.readFileSync("checkessay.js").toString());
-
-eval(fs.readFileSync("print_check.js").toString());
-
+const vccrlib = require('./vccrlib.js');
 
 // 在这里定制修改用于判断文本文件中一行字符串是否应被忽略的条件
 isLineCommented = function (line_string)
@@ -24,8 +11,8 @@ isLineCommented = function (line_string)
 function start() 
 {
     
-    startNewCheck("这是一段测试文本。這是一段測試，就幾句話怎樣？\n简体与繁体都打几个字上来");
-    print_stati();
+    vccrlib.startNewCheck("这是一段测试文本。這是一段測試，就幾句話怎樣？\n简体与繁体都打几个字上来");
+    vccrlib.print_stati();
     
 //     checkTextFile("TextFileName.txt");
     
@@ -36,10 +23,10 @@ start();
 
 function checkTextFile(fileName)
 {
-    startNewCheck ( fs.readFileSync(fileName).toString() );
+    vccrlib.startNewCheck ( fs.readFileSync(fileName).toString() );
     console.log("```");
     console.log(`=== ${filename} =============`);
-    print_stati();
+    vccrlib.print_stati();
     console.log("================================");
     console.log("```");
 }

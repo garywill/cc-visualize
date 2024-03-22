@@ -1,10 +1,8 @@
 if (isNode) {
     module.exports = {
-        vccrlib: {
-            reset, 
-            startNewCheck, 
-            getCInfo, 
-            
-        }
+        reset, 
+        startNewCheck, 
+        getCInfo, 
+        print_stati, 
     };
 }
