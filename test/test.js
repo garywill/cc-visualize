@@ -3,10 +3,10 @@
  * 路径应由上级算
  */
 
-isLineCommented = function (line_string) {
-    if ( [ '#' , '[' , ';' , '.' , '-' , ' ' , '\t' ].includes( line_string[0] ) )
-        return true;
-}
+// isLineCommented = function (line_string) {
+//     if ( [ '#' , '[' , ';' , '.' , '-' , ' ' , '\t' ].includes( line_string[0] ) )
+//         return true;
+// }
 
 var table_files_list = fs.readFileSync("test/tablefiles.txt").toString() .split("\n");
 

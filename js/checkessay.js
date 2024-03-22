@@ -137,8 +137,6 @@ function genCrrtUnusualInfos()
     }
 } 
 
-var isLineCommented = function (line_string) 
-{ return false; }
 
 function genEssayArr(essay) 
 {
@@ -150,12 +148,6 @@ function genEssayArr(essay)
     {
         const line_num = iLine + 1;
         const line_string = lines_strs[iLine];
-        if ( isLineCommented(line_string) )
-        {
-            eCheckSt.linesCrrtStatus [line_num] = "cmt";
-            eCheckSt.essayCmtLineCount ++ ;
-            continue;
-        }
         
         eCheckSt.essayLineCount ++;
         

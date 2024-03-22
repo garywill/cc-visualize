@@ -4,9 +4,6 @@ var fs = require('fs');
 
 // 编译之后再运行这个文件
 const vccrlib = require('./dist-vccrlib/vccrlib.js');
-// 在这里定制修改用于判断文本文件中一行字符串是否应被忽略的条件
-isLineCommented = function (line_string)
-{ return false; }
 
 function start() 
 {
