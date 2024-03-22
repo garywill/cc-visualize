@@ -5,13 +5,16 @@ const cm = require('../pre_common/functions.js');
 var edu_data = {
     map2: {}, 
 };
-eval(fs.readFileSync('edu-data-CN-1c.js').toString());
-eval(fs.readFileSync('edu-data-CN-2c.js').toString());
-eval(fs.readFileSync('edu-data-CN-3c.js').toString());
-eval(fs.readFileSync('edu-data-HK.js').toString());
-eval(fs.readFileSync('edu-data-HK-rel.js').toString());
-eval(fs.readFileSync('edu-data-TW-A.js').toString());
-eval(fs.readFileSync('edu-data-TW-B.js').toString());
+edu_data.CN_1c = require('./edu-data-CN-1c.json');
+edu_data.CN_2c = require('./edu-data-CN-2c.json');
+edu_data.CN_3c = require('./edu-data-CN-3c.json');
+
+edu_data.HK = require('./edu-data-HK.json');
+edu_data.HK_rel = require('./edu-data-HK-rel.json');
+
+edu_data.TW_A = require('./edu-data-TW-A.json');
+edu_data.TW_B = require('./edu-data-TW-B.json');
+
 
 for (c of edu_data.HK)
 {
@@ -58,7 +61,5 @@ for (c of edu_data.TW_B)
 edu_data.map2 = cm.combineMap(edu_data.map2, edu_data.HK_rel)
 edu_data.map2 = cm.sortMapObj(edu_data.map2);
 
-fs.writeFileSync("edu-data-map2.js" , ( "edu_data.map2 = \n" + JSON.stringify(edu_data.map2) + "\n;" )
-    .replaceAll("},", "},\n")
-);
+fs.writeFileSync("edu-data-map2.json" ,  JSON.stringify(edu_data.map2) .replaceAll("},", "},\n") );
 
