@@ -1,7 +1,12 @@
 {
   "name": "vccrlib",
   "version": "0.3.0",
-  "description": "vccrlib (Visualize Chinese Charactors and Their Relations Library) is a JavaScript library for nodejs and web",
+  
+  "repository": "https://github.com/garywill/cc-visualize", 
+  "homepage": "https://github.com/garywill/cc-visualize", 
+  
+  "description": "vccrlib (Visualize Chinese Charactors Relations Library) is a JavaScript library for nodejs and web",
+  
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit"
   },
@@ -21,5 +26,6 @@
     "sass-loader": "^13.2.2",
     "style-loader": "^3.3.2"
 
-  }
+  },  
+  "keywords": ["chinese-characters", "character-variants", "unicode", "unihan", "ucd", "cjk", "chinese-conversion", "duplicate-unicode", "unicode-compatibility-characters", "opencc", "ideographs", "zero-width-space", "combining-unicode-characters", "non-printable", "zero-width-character", "invisible-characters", "anti-homograph-attack", "anti-punycode-attack", "anti-punycode-phishing", "中文", "汉字", "繁简转换", "Hanzi", "Kanji", "Hanja"]
 }

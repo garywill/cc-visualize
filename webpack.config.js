@@ -182,6 +182,7 @@ function copy_package_json_to_vccrlib() {
     var read_str = fs.readFileSync(path.resolve(__dirname, 'package.json').toString() );
     var read_obj = JSON.parse(read_str)
     delete read_obj.devDependencies;
+    read_obj["main"] = "vccrlib.js";
     fs.writeFileSync(path.resolve(__dirname, 'dist-vccrlib/package.json'), 
                      JSON.stringify(read_obj, null, 2)
     );
