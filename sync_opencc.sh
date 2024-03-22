@@ -42,14 +42,14 @@ done
 pushd .
 cd data/opencc-data
 node pre.js  || exit 1
-git add -u data/opencc-data-*.js
+git add -u data/opencc-data-*.json
 git commit -m "run opencc pre.js"
 popd
 
 pushd .
 cd data/summary-data
 node pre.js   || exit 1
-git add -u data/summary-data-*.js
+git add -u data/summary-data-*.json
 git commit -m "run summary pre.js"
 popd
 
