@@ -190,9 +190,9 @@ function genEssayArr(essay)
 
 function getCInfo(c)
 {
-    if (c.length > 1) {
+    if (Array.from(c).length > 1) {
         console.warn("警告：输入的长度超过1。超出部都会被忽略");
-        c = c[0];
+        c = Array.from(c)[0];
     }
     
     if ( ! charsCInfoCache [c] )
