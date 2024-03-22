@@ -1,11 +1,11 @@
  
 function print_stati()
 {
-    console.log(`已检查${Check.essayLineCount}行，共${Check.essayCharsCount}字符。忽略${Check.essayCmtLineCount}行`);
-    for ( var  name of Object.keys(Check.condCharsStati) )
+    console.log(`已检查${eCheckSt.essayLineCount}行，共${eCheckSt.essayCharsCount}字符。忽略${eCheckSt.essayCmtLineCount}行`);
+    for ( var  name of Object.keys(eCheckSt.condCharsStati) )
     {
         const condObj = UnCond [name];
-        const condStatiObj = Check.condCharsStati [name];
+        const condStatiObj = eCheckSt.condCharsStati [name];
         if ( condStatiObj.condCount > 0)
         console.log(`${condObj.short_desc}\t${condStatiObj.charSet.size}字符 ${condStatiObj.condCount}处\t${condObj.full_desc}`);
     }
@@ -19,7 +19,7 @@ function print_stati()
 function print_one_cond_charset(name)
 {
       const condObj = UnCond [name];
-        const condStatiObj = Check.condCharsStati [name];
+        const condStatiObj = eCheckSt.condCharsStati [name];
         
     if (condStatiObj .condCount == 0)
         return;

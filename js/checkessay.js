@@ -1,8 +1,8 @@
 
 let charsCInfoCache = {}; // 静态，不因userchecks改变
 
-let Check = { // 每次开始check都变
-    userCond: [], // 本次用户启用的条件。如果和上次一样，就不需要清除charsCrrtUnusualStatus
+let eCheckSt = { // 储存文章检查工作的状态。每次开始check都变。初始化它为以下描述的默认状态
+    userCond: [], // 本次用户启用的条件。如果和上次一样，就不需要清除 charsCrrtUnusualStatus
     charsCrrtUnusualStatusCache: {}, //本次条件下的每个字符（重复出现只存一次）的 isCrrtUnusual (bool) , warnText (eg. ⚠少⚠日), 
     
     
@@ -25,22 +25,22 @@ let Check = { // 每次开始check都变
     condCharsStati: {}, // 本次 essay文本 （不管userCond, 只管所有条件）下，每个条件的字符集+count
     // 如果要统计准确，应该关优化，用完整模式
 };
-let freshCheckJSON = JSON.stringify(Check);  // 把Check的默认状态储存下来。 这是个常量
+let freshCheckJSON = JSON.stringify(eCheckSt);  // 把Check的默认状态储存下来。 这是个常量
 
 function reset() {
     charsCInfoCache = {};
-    Check = JSON.parse(freshCheckJSON);
+    eCheckSt = JSON.parse(freshCheckJSON);
 }
 function startNewEssayCheck(essay)
 {
-    Check.essayArr = {};
-    Check.essayLineCount = 0;
-    Check.essayCmtLineCount = 0 ;
-    Check.essayCharsCount = 0;
-    Check.linesCrrtStatus = {};
+    eCheckSt.essayArr = {};
+    eCheckSt.essayLineCount = 0;
+    eCheckSt.essayCmtLineCount = 0 ;
+    eCheckSt.essayCharsCount = 0;
+    eCheckSt.linesCrrtStatus = {};
     for (var name of Object.keys(UnCond))
     {
-        Check.condCharsStati [name] = {
+        eCheckSt.condCharsStati [name] = {
             charSet: new Set(),
             condCount: 0, 
         }; 
@@ -48,13 +48,13 @@ function startNewEssayCheck(essay)
     //- -------
     
     var new_userCond = readUserCond();
-    if (new_userCond != Check.userCond)
+    if (new_userCond != eCheckSt.userCond)
     {
-        Check.charsCrrtUnusualStatusCache = {};
+        eCheckSt.charsCrrtUnusualStatusCache = {};
     }
-    Check.userCond = new_userCond; // 覆盖旧的
+    eCheckSt.userCond = new_userCond; // 覆盖旧的
     
-    genEssayArr(essay); // Check.essayArr
+    genEssayArr(essay); // eCheckSt.essayArr
     
     //---------- 
     genCrrtUnusualInfos();
@@ -85,10 +85,10 @@ function readUserCond()
 }
 function genCrrtUnusualInfos()
 {
-    for (var line_num of Object.keys(Check.essayArr) )
+    for (var line_num of Object.keys(eCheckSt.essayArr) )
     {
-        const lineObj = Check.essayArr[line_num];
-        Check.linesCrrtStatus [line_num] = "norm";
+        const lineObj = eCheckSt.essayArr[line_num];
+        eCheckSt.linesCrrtStatus [line_num] = "norm";
         for (var col_num of Object.keys(lineObj.charsObjs) )
         {
             const charObj = lineObj.charsObjs[col_num];
@@ -98,18 +98,18 @@ function genCrrtUnusualInfos()
             
             for (var name of allCInfoUnNames) 
             {
-                Check.condCharsStati [name] .charSet.add(c);
-                Check.condCharsStati [name] .condCount ++;
+                eCheckSt.condCharsStati [name] .charSet.add(c);
+                eCheckSt.condCharsStati [name] .condCount ++;
             } 
             
-            if ( ! Check.charsCrrtUnusualStatusCache [c] )
+            if ( ! eCheckSt.charsCrrtUnusualStatusCache [c] )
             {
                 var isCrrtUnusual = false;
                 var warnTextS = [''];
                 
                 for (var name of allCInfoUnNames) 
                 { 
-                    if ( Check.userCond.includes(name) )  // 当前用户启用的这个条件
+                    if ( eCheckSt.userCond.includes(name) )  // 当前用户启用的这个条件
                     {
                         isCrrtUnusual = true;
                         
@@ -124,14 +124,14 @@ function genCrrtUnusualInfos()
                         } 
                     }
                 } 
-                Check.charsCrrtUnusualStatusCache [c] = {
+                eCheckSt.charsCrrtUnusualStatusCache [c] = {
                     isCrrtUnusual: isCrrtUnusual,      
                 };
                 if (isCrrtUnusual)
-                    Check.charsCrrtUnusualStatusCache [c] .warnText = warnTextS.join('⚠');
+                    eCheckSt.charsCrrtUnusualStatusCache [c] .warnText = warnTextS.join('⚠');
             }
-            if ( Check.charsCrrtUnusualStatusCache [c] .isCrrtUnusual )
-                Check.linesCrrtStatus [line_num] = "hUnus";
+            if ( eCheckSt.charsCrrtUnusualStatusCache [c] .isCrrtUnusual )
+                eCheckSt.linesCrrtStatus [line_num] = "hUnus";
             
         }
     }
@@ -152,12 +152,12 @@ function genEssayArr(essay)
         const line_string = lines_strs[iLine];
         if ( isLineCommented(line_string) )
         {
-            Check.linesCrrtStatus [line_num] = "cmt";
-            Check.essayCmtLineCount ++ ;
+            eCheckSt.linesCrrtStatus [line_num] = "cmt";
+            eCheckSt.essayCmtLineCount ++ ;
             continue;
         }
         
-        Check.essayLineCount ++;
+        eCheckSt.essayLineCount ++;
         
         var result_lineObj = {
             line_num: line_num,
@@ -168,7 +168,7 @@ function genEssayArr(essay)
 
         for (var iChar = 0; iChar < line_chars.length ; iChar++)
         {
-            Check.essayCharsCount ++ ;
+            eCheckSt.essayCharsCount ++ ;
             
             const col_num = iChar + 1;
             const originalChar = line_chars[iChar];
@@ -183,7 +183,7 @@ function genEssayArr(essay)
             
             result_lineObj.charsObjs [col_num] = result_charObj ;
         }
-        Check.essayArr [line_num] = result_lineObj;
+        eCheckSt.essayArr [line_num] = result_lineObj;
     }
 }
 

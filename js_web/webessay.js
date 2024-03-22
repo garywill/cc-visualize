@@ -39,15 +39,15 @@ function show_check_results(display_mode = 1)
 {
     const result_cont = document.getElementById("table_result");
     
-    const essay_arr = Check.essayArr;
+    const essay_arr = eCheckSt.essayArr;
     const lineIndexes = Object.keys(essay_arr);
     
     if ( lineIndexes.length > 2000 )  // TODO 太多时只显示前一部分 或翻页
     {
-        var alert_text = `已完成字符状况检查。文本数量${lineIndexes.length}行，共${Check.essayCharsCount}字符，
+        var alert_text = `已完成字符状况检查。文本数量${lineIndexes.length}行，共${eCheckSt.essayCharsCount}字符，
 
 ${display_mode <= 2 ? "您点选了让所有文本都显示" : ''}
-您勾选了${Check.userCond.length}个显示条件（勾选越多则显示负担越大）
+您勾选了${eCheckSt.userCond.length}个显示条件（勾选越多则显示负担越大）
 要在web上显示结果可能会卡住浏览器
 
 确定要继续显示吗？
@@ -76,7 +76,7 @@ ${display_mode <= 2 ? "您点选了让所有文本都显示" : ''}
         var tr = faketable.q$("tr");
         var p = tr.q$(".p_result");
         
-        if (display_mode > 1 && Check.linesCrrtStatus [line_num] == "norm" || Check.linesCrrtStatus == "cmt")
+        if (display_mode > 1 && eCheckSt.linesCrrtStatus [line_num] == "norm" || eCheckSt.linesCrrtStatus == "cmt")
         {
             if (display_mode == 2)
             {
@@ -139,11 +139,11 @@ ${display_mode <= 2 ? "您点选了让所有文本都显示" : ''}
                 var unusual_span = div_essayChar.q$(".span_unusualWarn");
                 
                 
-                if (Check.charsCrrtUnusualStatusCache [essayChar] .isCrrtUnusual )
+                if (eCheckSt.charsCrrtUnusualStatusCache [essayChar] .isCrrtUnusual )
                 {
                     div_essayChar.classList.add("div_essayChar_unusual");
                     unusual_span.style.display = "";
-                    unusual_span.textContent = Check.charsCrrtUnusualStatusCache [essayChar].warnText;
+                    unusual_span.textContent = eCheckSt.charsCrrtUnusualStatusCache [essayChar].warnText;
                 }
                 
                 var tips = [];
@@ -153,7 +153,7 @@ ${display_mode <= 2 ? "您点选了让所有文本都显示" : ''}
                 {
                     if ( charObj.cInfo.unusuals [unusual_name])
                     {
-                        var warn = Check.userCond.includes(unusual_name) ? '⚠' : '';
+                        var warn = eCheckSt.userCond.includes(unusual_name) ? '⚠' : '';
                         var line = `${warn}${UnCond [unusual_name] .full_desc} [${UnCond [unusual_name] .short_desc}]` ;
                         
                         tips.push( line );
