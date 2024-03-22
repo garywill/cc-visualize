@@ -31,9 +31,9 @@ function replaceThem(str)
     str = str.replace(/\bisTrad\b/g, 'T');
     str = str.replace(/\bisComp\b/g, 'Cp');
     
-    str = str.replace(/true/g, '1');
+    str = str.replace(/\btrue\b/g, '1');
     
-    str = str.replace(/rel/g, 'r');
+    str = str.replace(/\brel\b/g, 'r');
     str = str.replace(/"r":\[\]\,/g, '');
     
     return str;
