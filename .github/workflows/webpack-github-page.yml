@@ -39,18 +39,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         
-      - name: use node
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.node-version }}
-          cache: 'npm'
-          
-          
       - name: Switch branch
         run: |
           git fetch origin main
           git checkout main
           
+      - run: pwd
+      - run: ls 
+          
+          
+      - name: use node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.node-version }}
+          cache: 'npm'
           
       - run: pwd
       - run: ls 
